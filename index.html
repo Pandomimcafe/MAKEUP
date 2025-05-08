@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sen Zaten Güzelsin Ama...</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+      color: #880e4f;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    #iltifat {
+      font-size: 24px;
+      margin: 30px 0;
+      font-weight: bold;
+    }
+    button {
+      background: #880e4f;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: default;
+    }
+    .footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sen Zaten Güzelsin Ama... 💋</h1>
+  <p id="iltifat">💋 Makyaj sadece detay… Asıl parlayan sensin ✨</p>
+  <button onclick="yeniIltifat()" id="buton">Bir iltifat daha</button>
+  <div class="footer">Daha fazlası burada: 💄 Pandomim Make-Up</div>
+
+  <script>
+    const iltifatlar = [
+      "Gülüşünle odadaki ışığı değiştiriyorsun.",
+      "Zarafetin bir sanat eseri gibi.",
+      "Gözlerinle dünyayı renklendiriyorsun.",
+      "Sen güzelliğin tanımı gibisin.",
+      "Bugün değil, her gün ışıltılısın.",
+      "Tarzın, özgüveninle tamamlanıyor.",
+      "Sesin bile huzur veriyor.",
+      "Bir bakışın bile yeter.",
+      "Doğallığınla etkiliyorsun.",
+      "İçindeki enerji ışığını yayıyor."
+    ];
+
+    let sayac = 0;
+
+    function yeniIltifat() {
+      sayac++;
+      if (sayac > 2) {
+        document.getElementById("iltifat").textContent = "Daha fazlası seni burada bekliyor 💄";
+        document.getElementById("buton").disabled = true;
+        return;
+      }
+      const rastgele = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
+      document.getElementById("iltifat").textContent = rastgele;
+    }
+  </script>
+</body>
+</html>

@@ -230,8 +230,10 @@
 
     function getFal() {
       const today = new Date().toDateString();
-      if (localStorage.getItem("falTarihi") === today) {
-        document.getElementById("result").innerText = "Bugünlük fal hakkını kullandın. Yarın tekrar gel! ❤️";
+      const kayitliFal = localStorage.getItem("falMesaji");
+
+      if (localStorage.getItem("falTarihi") === today && kayitliFal) {
+        document.getElementById("result").innerText = kayitliFal;
         document.getElementById("result").style.display = "block";
         return;
       }
@@ -254,6 +256,8 @@
         document.getElementById("crystal").style.display = "none";
         document.getElementById("loadingText").style.display = "none";
         document.getElementById("result").innerText = randomFal;
+        localStorage.setItem("falTarihi", today);
+        localStorage.setItem("falMesaji", randomFal);
         document.getElementById("result").style.display = "block";
         localStorage.setItem("falTarihi", today);
       }, 3000);

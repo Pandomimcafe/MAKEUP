@@ -1,19 +1,142 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Güzellik Sayfası</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Günlük Falın</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    .question {
+      margin: 20px auto;
+      max-width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question h3 {
+      margin-bottom: 10px;
+    }
+    .question label {
+      display: block;
+      margin: 8px 0;
+    }
+    #result {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      animation: fadeIn 2s ease-in;
+    }
+    #crystal {
+      display: none;
+      margin: 30px auto;
+      max-width: 150px;
+    }
+    #loadingText {
+      display: none;
+      font-style: italic;
+      color: #444;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff9800;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <p id="iltifat">Bugün çok güzelsin 💖</p>
-    <button id="iltifatBtn" onclick="yeniIltifat()">MORAL ŞART 💋</button>
+  <h1>Bugünkü Falını Seç</h1>
+
+  <div class="question" id="q1">
+    <h3>1. Bugün kendini nasıl hissediyorsun?</h3>
+    <label><input type="radio" name="q1" value="harika"> Harika</label>
+    <label><input type="radio" name="q1" value="yorgun"> Biraz yorgun</label>
+    <label><input type="radio" name="q1" value="karmasik"> Kafam karışık</label>
+    <label><input type="radio" name="q1" value="duygusal"> Duygusal</label>
   </div>
 
-  <img src="logo.png" alt="Pandomim Cafe Logo" class="footer-logo">
-  <script src="script.js"></script>
+  <div class="question" id="q2">
+    <h3>2. Aklında en çok ne var?</h3>
+    <label><input type="radio" name="q2" value="ask"> Aşk hayatım</label>
+    <label><input type="radio" name="q2" value="kariyer"> İş / kariyer</label>
+    <label><input type="radio" name="q2" value="para"> Para meseleleri</label>
+    <label><input type="radio" name="q2" value="kendim"> Kendimle ilgili şeyler</label>
+  </div>
+
+  <div class="question" id="q3">
+    <h3>3. En çok neyi diliyorsun?</h3>
+    <label><input type="radio" name="q3" value="iliskiler"> Mutlu bir ilişki</label>
+    <label><input type="radio" name="q3" value="haber"> Güzel haberler</label>
+    <label><input type="radio" name="q3" value="his"> Kendimi iyi hissetmek</label>
+    <label><input type="radio" name="q3" value="surpriz"> Sürpriz bir gelişme</label>
+  </div>
+
+  <button onclick="getFal()" id="falButton">Falımı Göster</button>
+
+  <img id="crystal" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWIwNnd0bmQxOTc1djR0N2s0cmgxa3BmcTByNWFrd3FwbXZlYTFzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/hsz3YcVnpKxAc/giphy.gif" alt="Kristal Küre">
+  <p id="loadingText">Evren senin için fısıldıyor...</p>
+
+  <div id="result"></div>
+
+  <script>
+    const falMesajlari = [
+      "Bugün içindeki huzursuzluk seni biraz yorabilir ama unutmamalısın, bu sessizlik fırtına öncesi değil, güneşin doğuşuna hazırlık. Kalbinde taşıdığın dilek, görünmeyen iplerle gerçekliğe bağlanıyor. Bir mesaj, bir tesadüf, belki de bir bakış her şeyi başlatabilir. Bugün umut etmeye devam et, çünkü evren kulak verdi. Gözlerini açık tut, güzellik sana doğru geliyor.",
+      "Seni özleyen biri var, ama adım atmak için doğru zamanı kolluyor. Belki sen de fark ettin, bazı bakışlar uzun sürüyor. Kalbinin kıyısında bir sıcaklık hissediyorsan, bu boşuna değil. Bu hafta senin için aşk kapısını hafif aralayabilir. Cesur ol, hislerini bastırma. Hayat kısa, kalp dürüst olmalı.",
+      "Geçmişte yaşadığın hayal kırıklıkları seni güçlü kıldı ama duvarların çok kalınlaştı. Bugün bir parça kırılabilir o duvar, çünkü biri içeri girmek istiyor. Yeni bir tanışma, yeni bir teklif ya da yeni bir fikir sana çok iyi gelecek. Gözlerini dört aç, çünkü evren seni gülümsetmeye kararlı. Belki de bu gün, güzel başlangıçların ilk günü."
+    ];
+
+    function getFal() {
+      const today = new Date().toDateString();
+      if (localStorage.getItem("falTarihi") === today) {
+        document.getElementById("result").innerText = "Bugünlük fal hakkını kullandın. Yarın tekrar gel! ❤️";
+        document.getElementById("result").style.display = "block";
+        return;
+      }
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        alert("Lütfen tüm soruları cevapla.");
+        return;
+      }
+
+      document.getElementById("falButton").style.display = "none";
+      document.getElementById("crystal").style.display = "block";
+      document.getElementById("loadingText").style.display = "block";
+
+      setTimeout(() => {
+        const randomFal = falMesajlari[Math.floor(Math.random() * falMesajlari.length)];
+        document.getElementById("crystal").style.display = "none";
+        document.getElementById("loadingText").style.display = "none";
+        document.getElementById("result").innerText = randomFal;
+        document.getElementById("result").style.display = "block";
+        localStorage.setItem("falTarihi", today);
+      }, 3000);
+    }
+  </script>
 </body>
 </html>

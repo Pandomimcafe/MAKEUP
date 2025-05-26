@@ -12,7 +12,7 @@
       padding: 20px;
       text-align: center;
     }
-    .question {
+    .question, .compliment-box {
       margin: 20px auto;
       max-width: 400px;
       background: white;
@@ -20,14 +20,14 @@
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .question h3 {
+    .question h3, .compliment-box h3 {
       margin-bottom: 10px;
     }
     .question label {
       display: block;
       margin: 8px 0;
     }
-    #result {
+    #result, #complimentDisplay {
       margin-top: 30px;
       background: #fff;
       padding: 20px;
@@ -47,7 +47,7 @@
       color: #444;
     }
     button {
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 10px 20px;
       border: none;
       background-color: #ff9800;
@@ -67,7 +67,13 @@
   </style>
 </head>
 <body>
-  <h1>Bugünkü Falını Seç</h1>
+  <h1>Bugünkü Falını ve İltifatını Al</h1>
+
+  <div class="compliment-box">
+    <h3>İltifatını Seç ✨</h3>
+    <button onclick="showCompliment()" id="complimentBtn">Bir iltifat daha 💌</button>
+    <div id="complimentDisplay"></div>
+  </div>
 
   <div class="question" id="q1">
     <h3>1. Bugün kendini nasıl hissediyorsun?</h3>
@@ -106,6 +112,121 @@
       "Seni özleyen biri var, ama adım atmak için doğru zamanı kolluyor. Belki sen de fark ettin, bazı bakışlar uzun sürüyor. Kalbinin kıyısında bir sıcaklık hissediyorsan, bu boşuna değil. Bu hafta senin için aşk kapısını hafif aralayabilir. Cesur ol, hislerini bastırma. Hayat kısa, kalp dürüst olmalı.",
       "Geçmişte yaşadığın hayal kırıklıkları seni güçlü kıldı ama duvarların çok kalınlaştı. Bugün bir parça kırılabilir o duvar, çünkü biri içeri girmek istiyor. Yeni bir tanışma, yeni bir teklif ya da yeni bir fikir sana çok iyi gelecek. Gözlerini dört aç, çünkü evren seni gülümsetmeye kararlı. Belki de bu gün, güzel başlangıçların ilk günü."
     ];
+
+    const iltifatlar = [
+  "Gülüşün yağmurlu bir günü güneşe çevirir.",
+  "Sen konuşunca sanki her şey susuyor.",
+  "İçindeki güzellik dışına taşmış resmen.",
+  "Seninle konuşmak kalbime iyi geliyor.",
+  "Bakışların kitapların en güzel cümlesi gibi.",
+  "Senin varlığın bile bir başkasının günü güzelleştiriyor.",
+  "Gözlerin yıldızlar kadar parlıyor.",
+  "Bir tebessümünle dünya durur sanki.",
+  "Senin enerjinle etraf aydınlanıyor.",
+  "Hayat seninle daha renkli.",
+  "Sen güldüğünde çiçekler kıskanır.",
+  "İsmin bile kulağa şiir gibi geliyor.",
+  "Gözlerinde saklı bir bahar var.",
+  "Senin yanında zaman geçmek bilmiyor, çünkü çok güzelsin.",
+  "Sen fark edilmeden bile fark edilenlerdensin.",
+  "Bir bakışınla kalpleri ısıtıyorsun.",
+  "Konuşurken sanki notalar dökülüyor dilinden.",
+  "Sen etrafındakilere huzur veriyorsun.",
+  "Her halinle hayranlık uyandırıyorsun.",
+  "Sen gülümsedikçe dünya güzelleşiyor.",
+  "Senin olduğun yerde karanlık barınamaz.",
+  "Sen içten gelen bir neşeyle ışıldıyorsun.",
+  "Sen hayatın nazik dokunuşusun.",
+  "Bir yürüyüşün bile şiirsel.",
+  "Seninle aynı ortamda olmak bile iyi hissettiriyor.",
+  "Senin sözlerin ilaç gibi geliyor.",
+  "Sesin huzur veriyor.",
+  "Sen gerçek bir incisin.",
+  "Zarafetinle göz kamaştırıyorsun.",
+  "Senin gibi birini tanımak şans.",
+  "Senin dostluğun paha biçilemez.",
+  "Sen güzelliği sadece dış görünüşte değil, kalbinde de taşıyorsun.",
+  "Gözlerinle gülümsüyorsun.",
+  "Senin samimiyetin iç ısıtıyor.",
+  "Seninle geçirilen vakit çok değerli.",
+  "Sen hayal gibi bir insansın.",
+  "Senin gücün ilham veriyor.",
+  "Sen umut gibi bir şeysin.",
+  "Senin varlığın güç veriyor.",
+  "Seninle konuşmak terapi gibi.",
+  "Senin nezaketin herkese örnek olmalı.",
+  "Senin ışığın içinden geliyor.",
+  "Sen özelsin, bunu unutma.",
+  "Senin gibi birini tanımak mucize gibi.",
+  "Senin sıcaklığın kalpleri yumuşatıyor.",
+  "Sen doğallığınla büyülüyorsun.",
+  "Seninle geçen anılar unutulmaz.",
+  "Sen varsan umut vardır.",
+  "Sen kalbinle güzelsin.",
+  "Seninle dünya biraz daha güzel.",
+  "Sen konuşunca sanki zaman yavaşlıyor.",
+  "Senin bakışlarında huzur gizli.",
+  "Senin dostluğun en kıymetli hediye.",
+  "Sen kalabalıklar içinde fark edilensin.",
+  "Sen mutluluğun tanımısın.",
+  "Senin tebessümün sabah güneşi gibi.",
+  "Senin gibi biri bir tane daha yok.",
+  "Sen ilham veren bir ışıksın.",
+  "Seninle her şey daha kolay.",
+  "Senin varlığın güzellik demek.",
+  "Sen güven veriyorsun.",
+  "Seninle konuşmak iyi hissettiriyor.",
+  "Sen pozitif enerjinin kaynağısın.",
+  "Sen sevginin ta kendisisin.",
+  "Senin kalbin çok güzel.",
+  "Senin duruşun bile asil.",
+  "Sen her ortamda fark yaratırsın.",
+  "Sen gülümsemeyle doğmuşsun.",
+  "Senin tarzın apayrı.",
+  "Senin gözlerinde umut var.",
+  "Sen güzelliğini içinde taşıyorsun.",
+  "Senin gülen yüzün tüm kötü enerjileri siler.",
+  "Senin sesin huzur veriyor.",
+  "Senin kahkahan moral kaynağı.",
+  "Seninle geçirilen zaman anlam kazanıyor.",
+  "Senin zarafetin dillere destan.",
+  "Sen mutluluğu bulaştırıyorsun.",
+  "Sen ışığınla yol açıyorsun.",
+  "Sen iyiliğin vücut bulmuş halisin.",
+  "Sen umut saçıyorsun.",
+  "Seninle tanışmak hayatı güzelleştiriyor.",
+  "Sen kendinle barışık olmanın en güzel örneğisin.",
+  "Sen içten bir sevginin yansımasısın.",
+  "Seninle tanışmak bir ayrıcalık.",
+  "Senin varlığınla çevrendekiler şanslı.",
+  "Senin gözlerin mutluluğun penceresi gibi.",
+  "Senin gülüşün karamsarlığı unutturuyor.",
+  "Sen etrafa neşe yayıyorsun.",
+  "Seninle geçen zaman, en güzel hediyedir.",
+  "Sen sevilmeye layıksın.",
+  "Senin duruluğun şiir gibi.",
+  "Sen içini dışına yansıtan nadir insanlardansın.",
+  "Seninle olmak, insanın içini ısıtıyor.",
+  "Sen iyiliğin tanımı gibisin.",
+  "Senin gülüşünde umut var.",
+  "Seninle bir an bile çok değerli.",
+  "Senin dostluğun gerçek bir armağan.",
+  "Sen iyi ki varsın."
+];
+
+    let iltifatHakki = 3;
+
+    function showCompliment() {
+      if (iltifatHakki <= 0) {
+        document.getElementById("complimentDisplay").innerText = "Bugünlük bu kadar 💖 Yarın tekrar gel!";
+        document.getElementById("complimentDisplay").style.display = "block";
+        return;
+      }
+      const rastgele = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
+      document.getElementById("complimentDisplay").innerText = rastgele;
+      document.getElementById("complimentDisplay").style.display = "block";
+      iltifatHakki--;
+    }
 
     function getFal() {
       const today = new Date().toDateString();

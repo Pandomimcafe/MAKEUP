@@ -106,6 +106,10 @@
 
   <div id="result"></div>
 
+  
+    <button onclick="paylasInstagram()" style="margin-top: 10px;">Instagram'da Paylaş</button>
+  </div>
+
   <script>
     const falMesajlari = [
       "Bugün içindeki huzursuzluk seni biraz yorabilir ama unutmamalısın, bu sessizlik fırtına öncesi değil, güneşin doğuşuna hazırlık. Kalbinde taşıdığın dilek, görünmeyen iplerle gerçekliğe bağlanıyor. Bir mesaj, bir tesadüf, belki de bir bakış her şeyi başlatabilir. Bugün umut etmeye devam et, çünkü evren kulak verdi. Gözlerini açık tut, güzellik sana doğru geliyor.",
@@ -235,6 +239,7 @@
       if (localStorage.getItem("falTarihi") === today && kayitliFal) {
         document.getElementById("result").innerText = kayitliFal;
         document.getElementById("result").style.display = "block";
+        document.getElementById("rituel").style.display = "block";
         return;
       }
 
@@ -261,6 +266,22 @@
         document.getElementById("result").style.display = "block";
       }, 3000);
     }
-  </script>
-</body>
+  
+
+    function paylasInstagram() {
+  html2canvas(document.body).then(canvas => {
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = "falim.png";
+    link.href = image;
+    link.click();
+    alert("Ekran görüntüsü indirildi. Şimdi Instagram'a geçip @pandomimcafe'yi etiketleyerek paylaşabilirsin! ✨");
+    window.open("https://www.instagram.com/", "_blank");
+  });
+}`;
+      window.open(instagramURL, '_blank');
+    }
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </html>

@@ -1,285 +1,125 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Günlük Falın</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fal Sistemi</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #fceabb, #f8b500);
-      color: #333;
-      padding: 20px;
+      font-family: sans-serif;
+      background: linear-gradient(to right, #ffe3e3, #ffd6a5);
+      padding: 30px;
       text-align: center;
     }
-    .question, .compliment-box {
-      margin: 20px auto;
+    .question {
+      margin: 15px auto;
       max-width: 400px;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .question h3, .compliment-box h3 {
-      margin-bottom: 10px;
-    }
-    .question label {
-      display: block;
-      margin: 8px 0;
-    }
-    #result, #complimentDisplay {
+    #result {
+      display: none;
       margin-top: 30px;
-      background: #fff;
+      background: white;
       padding: 20px;
-      border-radius: 12px;
-      display: none;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-      animation: fadeIn 2s ease-in;
-    }
-    #crystal {
-      display: none;
-      margin: 30px auto;
-      max-width: 150px;
-    }
-    #loadingText {
-      display: none;
-      font-style: italic;
-      color: #444;
+      border-radius: 10px;
+      white-space: pre-line;
     }
     button {
       margin-top: 15px;
       padding: 10px 20px;
-      border: none;
-      background-color: #ff9800;
-      color: white;
       font-size: 16px;
+      background-color: #ff7f50;
+      color: white;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>Bugünkü Falını ve İltifatını Al</h1>
-
-  <div class="compliment-box">
-    <h3>İltifatını Seç ✨</h3>
-    <button onclick="showCompliment()" id="complimentBtn">Bir iltifat daha 💌</button>
-    <div id="complimentDisplay"></div>
-  </div>
-
-  <div class="question" id="q1">
+  <h1>Günlük Falını Seç</h1>
+  <div class="question">
     <h3>1. Bugün kendini nasıl hissediyorsun?</h3>
-    <label><input type="radio" name="q1" value="harika"> Harika</label>
-    <label><input type="radio" name="q1" value="yorgun"> Biraz yorgun</label>
-    <label><input type="radio" name="q1" value="karmasik"> Kafam karışık</label>
-    <label><input type="radio" name="q1" value="duygusal"> Duygusal</label>
+    <label><input type="radio" name="q1" value="harika"> Harika</label><br>
+    <label><input type="radio" name="q1" value="yorgun"> Yorgun</label><br>
+    <label><input type="radio" name="q1" value="duygusal"> Duygusal</label><br>
+    <label><input type="radio" name="q1" value="karmasik"> Karışık</label>
   </div>
-
-  <div class="question" id="q2">
+  <div class="question">
     <h3>2. Aklında en çok ne var?</h3>
-    <label><input type="radio" name="q2" value="ask"> Aşk hayatım</label>
-    <label><input type="radio" name="q2" value="kariyer"> İş / kariyer</label>
-    <label><input type="radio" name="q2" value="para"> Para meseleleri</label>
-    <label><input type="radio" name="q2" value="kendim"> Kendimle ilgili şeyler</label>
+    <label><input type="radio" name="q2" value="ask"> Aşk</label><br>
+    <label><input type="radio" name="q2" value="kariyer"> Kariyer</label><br>
+    <label><input type="radio" name="q2" value="para"> Para</label><br>
+    <label><input type="radio" name="q2" value="kendim"> Kendim</label>
   </div>
-
-  <div class="question" id="q3">
+  <div class="question">
     <h3>3. En çok neyi diliyorsun?</h3>
-    <label><input type="radio" name="q3" value="iliskiler"> Mutlu bir ilişki</label>
-    <label><input type="radio" name="q3" value="haber"> Güzel haberler</label>
-    <label><input type="radio" name="q3" value="his"> Kendimi iyi hissetmek</label>
-    <label><input type="radio" name="q3" value="surpriz"> Sürpriz bir gelişme</label>
+    <label><input type="radio" name="q3" value="iliskiler"> İlişki</label><br>
+    <label><input type="radio" name="q3" value="haber"> Güzel Haber</label><br>
+    <label><input type="radio" name="q3" value="his"> Kendimi İyi Hissetmek</label><br>
+    <label><input type="radio" name="q3" value="surpriz"> Sürpriz</label>
   </div>
-
-  <button onclick="getFal()" id="falButton">Falımı Göster</button>
-
-  <img id="crystal" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWIwNnd0bmQxOTc1djR0N2s0cmgxa3BmcTByNWFrd3FwbXZlYTFzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/hsz3YcVnpKxAc/giphy.gif" alt="Kristal Küre">
-  <p id="loadingText">Evren senin için fısıldıyor...</p>
+  <button onclick="getFal()">Falımı Göster</button>
 
   <div id="result"></div>
 
-  
-    <button onclick="paylasInstagram()" style="margin-top: 10px;">Instagram'da Paylaş</button>
-  </div>
-
   <script>
-    const falMesajlari = [
-      "Bugün içindeki huzursuzluk seni biraz yorabilir ama unutmamalısın, bu sessizlik fırtına öncesi değil, güneşin doğuşuna hazırlık. Kalbinde taşıdığın dilek, görünmeyen iplerle gerçekliğe bağlanıyor. Bir mesaj, bir tesadüf, belki de bir bakış her şeyi başlatabilir. Bugün umut etmeye devam et, çünkü evren kulak verdi. Gözlerini açık tut, güzellik sana doğru geliyor.",
-      "Seni özleyen biri var, ama adım atmak için doğru zamanı kolluyor. Belki sen de fark ettin, bazı bakışlar uzun sürüyor. Kalbinin kıyısında bir sıcaklık hissediyorsan, bu boşuna değil. Bu hafta senin için aşk kapısını hafif aralayabilir. Cesur ol, hislerini bastırma. Hayat kısa, kalp dürüst olmalı.",
-      "Geçmişte yaşadığın hayal kırıklıkları seni güçlü kıldı ama duvarların çok kalınlaştı. Bugün bir parça kırılabilir o duvar, çünkü biri içeri girmek istiyor. Yeni bir tanışma, yeni bir teklif ya da yeni bir fikir sana çok iyi gelecek. Gözlerini dört aç, çünkü evren seni gülümsetmeye kararlı. Belki de bu gün, güzel başlangıçların ilk günü."
-    ];
-
-    const iltifatlar = [
-  "Gülüşün yağmurlu bir günü güneşe çevirir.",
-  "Sen konuşunca sanki her şey susuyor.",
-  "İçindeki güzellik dışına taşmış resmen.",
-  "Seninle konuşmak kalbime iyi geliyor.",
-  "Bakışların kitapların en güzel cümlesi gibi.",
-  "Senin varlığın bile bir başkasının günü güzelleştiriyor.",
-  "Gözlerin yıldızlar kadar parlıyor.",
-  "Bir tebessümünle dünya durur sanki.",
-  "Senin enerjinle etraf aydınlanıyor.",
-  "Hayat seninle daha renkli.",
-  "Sen güldüğünde çiçekler kıskanır.",
-  "İsmin bile kulağa şiir gibi geliyor.",
-  "Gözlerinde saklı bir bahar var.",
-  "Senin yanında zaman geçmek bilmiyor, çünkü çok güzelsin.",
-  "Sen fark edilmeden bile fark edilenlerdensin.",
-  "Bir bakışınla kalpleri ısıtıyorsun.",
-  "Konuşurken sanki notalar dökülüyor dilinden.",
-  "Sen etrafındakilere huzur veriyorsun.",
-  "Her halinle hayranlık uyandırıyorsun.",
-  "Sen gülümsedikçe dünya güzelleşiyor.",
-  "Senin olduğun yerde karanlık barınamaz.",
-  "Sen içten gelen bir neşeyle ışıldıyorsun.",
-  "Sen hayatın nazik dokunuşusun.",
-  "Bir yürüyüşün bile şiirsel.",
-  "Seninle aynı ortamda olmak bile iyi hissettiriyor.",
-  "Senin sözlerin ilaç gibi geliyor.",
-  "Sesin huzur veriyor.",
-  "Sen gerçek bir incisin.",
-  "Zarafetinle göz kamaştırıyorsun.",
-  "Senin gibi birini tanımak şans.",
-  "Senin dostluğun paha biçilemez.",
-  "Sen güzelliği sadece dış görünüşte değil, kalbinde de taşıyorsun.",
-  "Gözlerinle gülümsüyorsun.",
-  "Senin samimiyetin iç ısıtıyor.",
-  "Seninle geçirilen vakit çok değerli.",
-  "Sen hayal gibi bir insansın.",
-  "Senin gücün ilham veriyor.",
-  "Sen umut gibi bir şeysin.",
-  "Senin varlığın güç veriyor.",
-  "Seninle konuşmak terapi gibi.",
-  "Senin nezaketin herkese örnek olmalı.",
-  "Senin ışığın içinden geliyor.",
-  "Sen özelsin, bunu unutma.",
-  "Senin gibi birini tanımak mucize gibi.",
-  "Senin sıcaklığın kalpleri yumuşatıyor.",
-  "Sen doğallığınla büyülüyorsun.",
-  "Seninle geçen anılar unutulmaz.",
-  "Sen varsan umut vardır.",
-  "Sen kalbinle güzelsin.",
-  "Seninle dünya biraz daha güzel.",
-  "Sen konuşunca sanki zaman yavaşlıyor.",
-  "Senin bakışlarında huzur gizli.",
-  "Senin dostluğun en kıymetli hediye.",
-  "Sen kalabalıklar içinde fark edilensin.",
-  "Sen mutluluğun tanımısın.",
-  "Senin tebessümün sabah güneşi gibi.",
-  "Senin gibi biri bir tane daha yok.",
-  "Sen ilham veren bir ışıksın.",
-  "Seninle her şey daha kolay.",
-  "Senin varlığın güzellik demek.",
-  "Sen güven veriyorsun.",
-  "Seninle konuşmak iyi hissettiriyor.",
-  "Sen pozitif enerjinin kaynağısın.",
-  "Sen sevginin ta kendisisin.",
-  "Senin kalbin çok güzel.",
-  "Senin duruşun bile asil.",
-  "Sen her ortamda fark yaratırsın.",
-  "Sen gülümsemeyle doğmuşsun.",
-  "Senin tarzın apayrı.",
-  "Senin gözlerinde umut var.",
-  "Sen güzelliğini içinde taşıyorsun.",
-  "Senin gülen yüzün tüm kötü enerjileri siler.",
-  "Senin sesin huzur veriyor.",
-  "Senin kahkahan moral kaynağı.",
-  "Seninle geçirilen zaman anlam kazanıyor.",
-  "Senin zarafetin dillere destan.",
-  "Sen mutluluğu bulaştırıyorsun.",
-  "Sen ışığınla yol açıyorsun.",
-  "Sen iyiliğin vücut bulmuş halisin.",
-  "Sen umut saçıyorsun.",
-  "Seninle tanışmak hayatı güzelleştiriyor.",
-  "Sen kendinle barışık olmanın en güzel örneğisin.",
-  "Sen içten bir sevginin yansımasısın.",
-  "Seninle tanışmak bir ayrıcalık.",
-  "Senin varlığınla çevrendekiler şanslı.",
-  "Senin gözlerin mutluluğun penceresi gibi.",
-  "Senin gülüşün karamsarlığı unutturuyor.",
-  "Sen etrafa neşe yayıyorsun.",
-  "Seninle geçen zaman, en güzel hediyedir.",
-  "Sen sevilmeye layıksın.",
-  "Senin duruluğun şiir gibi.",
-  "Sen içini dışına yansıtan nadir insanlardansın.",
-  "Seninle olmak, insanın içini ısıtıyor.",
-  "Sen iyiliğin tanımı gibisin.",
-  "Senin gülüşünde umut var.",
-  "Seninle bir an bile çok değerli.",
-  "Senin dostluğun gerçek bir armağan.",
-  "Sen iyi ki varsın."
-];
-
-    let iltifatHakki = 3;
-
-    function showCompliment() {
-      if (iltifatHakki <= 0) {
-        document.getElementById("complimentDisplay").innerText = "Bugünlük bu kadar 💖 Yarın tekrar gel!";
-        document.getElementById("complimentDisplay").style.display = "block";
-        return;
-      }
-      const rastgele = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
-      document.getElementById("complimentDisplay").innerText = rastgele;
-      document.getElementById("complimentDisplay").style.display = "block";
-      iltifatHakki--;
-    }
-
     function getFal() {
-      const today = new Date().toDateString();
-      const kayitliFal = localStorage.getItem("falMesaji");
-
-      if (localStorage.getItem("falTarihi") === today && kayitliFal) {
-        document.getElementById("result").innerText = kayitliFal;
-        document.getElementById("result").style.display = "block";
-        document.getElementById("rituel").style.display = "block";
-        return;
-      }
-
       const q1 = document.querySelector('input[name="q1"]:checked');
       const q2 = document.querySelector('input[name="q2"]:checked');
       const q3 = document.querySelector('input[name="q3"]:checked');
 
       if (!q1 || !q2 || !q3) {
-        alert("Lütfen tüm soruları cevapla.");
+        alert("Lütfen tüm soruları yanıtla.");
         return;
       }
 
-      document.getElementById("falButton").style.display = "none";
-      document.getElementById("crystal").style.display = "block";
-      document.getElementById("loadingText").style.display = "block";
+      const combinationKey = `${q1.value}_${q2.value}_${q3.value}`;
+      let randomFal = "Bugün sana huzur getirecek bir haber var, kalbinin kıyısında.";
 
-      setTimeout(() => {
-        const randomFal = falMesajlari[Math.floor(Math.random() * falMesajlari.length)];
-        document.getElementById("crystal").style.display = "none";
-        document.getElementById("loadingText").style.display = "none";
-        document.getElementById("result").innerText = randomFal;
-        localStorage.setItem("falTarihi", today);
-        localStorage.setItem("falMesaji", randomFal);
-        document.getElementById("result").style.display = "block";
-      }, 3000);
+      if (combinationKey.includes("ask")) {
+        randomFal = "Aşk hayatında güzel gelişmeler kapıda! Kalbinin sesini dinle.";
+      } else if (combinationKey.includes("kariyer")) {
+        randomFal = "İş hayatında yeni fırsatlar seni bekliyor, cesur ol!";
+      } else if (combinationKey.includes("para")) {
+        randomFal = "Bugün finansal anlamda bir rahatlama yaşayabilirsin.";
+      } else if (combinationKey.includes("kendim")) {
+        randomFal = "Bugün kendinle barışık olmak için harika bir gün. Ruhunu dinle.";
+      }
+
+      let muzik = "🎵 Şarkı: 'Yalnızlık Senfonisi' - Sezen Aksu";
+      let soz = "💬 Söz: 'En karanlık an, şafaktan hemen öncedir.'";
+      let video = "📺 Video: https://www.youtube.com/watch?v=LUvn9-5gVYg";
+
+      if (combinationKey.includes("kariyer")) {
+        muzik = "🎵 Şarkı: 'Çalışmam Gerek' - Ozbi";
+        soz = "💬 Söz: 'Hayallerin peşinden koş, çünkü onlar seni yarınına taşır.'";
+        video = "📺 Video: https://www.youtube.com/watch?v=p2RYDwLkBz8";
+      } else if (combinationKey.includes("ask")) {
+        muzik = "🎵 Şarkı: 'Belki de Aşk Lazım' - Sıla";
+        soz = "💬 Söz: 'Aşk bazen bir gülümsemede gizlidir.'";
+        video = "📺 Video: https://www.youtube.com/watch?v=7gSFEo8dx4k";
+      } else if (combinationKey.includes("para")) {
+        muzik = "🎵 Şarkı: 'DERDO' - Ezhel";
+        soz = "💬 Söz: 'Zaman nakittir, ama huzur her şeydir.'";
+        video = "📺 Video: https://www.youtube.com/watch?v=eT9V6z_nGJw";
+      } else if (combinationKey.includes("kendim") && combinationKey.includes("his")) {
+        muzik = "🎵 Şarkı: 'Kendime Sardım' - Melike Şahin";
+        soz = "💬 Söz: 'Kendine en güzelini sen vermelisin.'";
+        video = "📺 Video: https://www.youtube.com/watch?v=ZDUZeErXRhM";
+      } else if (combinationKey.includes("kendim")) {
+        muzik = "🎵 Şarkı: 'Ruhumda Sızı' - Ceylan Ertem";
+        soz = "💬 Söz: 'Yalnızlık öğretir ama sevgi iyileştirir.'";
+        video = "📺 Video: https://www.youtube.com/watch?v=sx3U-Mn_TPE";
+      }
+
+      const fullResult = `${randomFal}\n\n${muzik}\n${soz}\n${video}`;
+      document.getElementById("result").innerText = fullResult;
+      document.getElementById("result").style.display = "block";
     }
-  
-
-    function paylasInstagram() {
-  html2canvas(document.body).then(canvas => {
-    const image = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = "falim.png";
-    link.href = image;
-    link.click();
-    alert("Ekran görüntüsü indirildi. Şimdi Instagram'a geçip @pandomimcafe'yi etiketleyerek paylaşabilirsin! ✨");
-    window.open("https://www.instagram.com/", "_blank");
-  });
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+  </script>
 </body>
 </html>

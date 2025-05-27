@@ -40,7 +40,13 @@
   </style>
 </head>
 <body>
-  <h1>Günlük Falını Seç</h1>
+  <div style="margin-bottom: 30px;">
+    <h2>✨ Pandomim Cafe'desin!</h2>
+    <p>Ne yapmak istersin?</p>
+    <a href="#fal" style="margin: 10px; padding: 10px 20px; background-color: #ff7f50; color: white; border-radius: 8px; text-decoration: none;">🔮 Günlük Fal Al</a>
+    <button onclick="alert('🎁 Çarkı çevirmek için lütfen mekânda bir ürün siparişi verdiğini görevliye göster ve QR kodunu okut. Sürprizler seni bekliyor!')" style="margin: 10px; padding: 10px 20px; background-color: #8e44ad; color: white; border-radius: 8px; border: none; cursor: pointer;">🎡 Ödül Çarkını Çevir</button>
+  </div>
+  <h1 id="fal">Günlük Falını Seç</h1>
   <div class="question">
     <h3>1. Bugün kendini nasıl hissediyorsun?</h3>
     <label><input type="radio" name="q1" value="harika"> Harika</label><br>
@@ -65,9 +71,23 @@
   <button onclick="getFal()">Falımı Göster</button>
 
   <div id="result"></div>
+  <p id="etiketUyarisi" style="margin-top: 20px; font-style: italic; color: #555; display: none;">
+    ✨ Falını beğendiysen, ekran görüntüsünü al ve Instagram hikayende <strong>@pandomimcafe</strong>'yi etiketleyerek paylaşmayı unutma!
+  </p>
 
   <script>
     function getFal() {
+      const today = new Date().toDateString();
+      const storedDate = localStorage.getItem("falTarihi");
+      const storedFal = localStorage.getItem("falMetni");
+
+      if (storedDate === today && storedFal) {
+        document.getElementById("result").innerText = "🔒 Bugünlük fal hakkın doldu!\nYarın tekrar gel ve kahvenin sana fısıldadıklarını dinle.";
+        document.getElementById("result").style.display = "block";
+        document.getElementById("etiketUyarisi").style.display = "none";
+        return;
+      }
+
       const q1 = document.querySelector('input[name="q1"]:checked');
       const q2 = document.querySelector('input[name="q2"]:checked');
       const q3 = document.querySelector('input[name="q3"]:checked');
@@ -81,44 +101,21 @@
       let randomFal = "Bugün sana huzur getirecek bir haber var, kalbinin kıyısında.";
 
       if (combinationKey.includes("ask")) {
-        randomFal = "Aşk hayatında güzel gelişmeler kapıda! Kalbinin sesini dinle.";
+        randomFal = "Kalbinde taşıdığın duygular bugün bir karşılık bulabilir. Aşk hayatında beklenmedik gelişmeler yaşanabilir; belki bir mesaj, belki bir bakış... Sen yeter ki kalbini açık tut.";
       } else if (combinationKey.includes("kariyer")) {
-        randomFal = "İş hayatında yeni fırsatlar seni bekliyor, cesur ol!";
+        randomFal = "İş hayatında gösterdiğin sabır yakında karşılık bulacak. Yeni bir teklif, beklenmedik bir fırsat ya da biri seni takdir edecek. Bugün dikkatli ol, detaylar sana gülümseyebilir.";
       } else if (combinationKey.includes("para")) {
-        randomFal = "Bugün finansal anlamda bir rahatlama yaşayabilirsin.";
+        randomFal = "Maddi konuların seni yorduğunu biliyorum, ama bu dönemde ufak da olsa bir rahatlama görünüyor. Belki bir borç kapanacak, belki bir ek kazanç gelecek. Evren seni destekliyor.";
       } else if (combinationKey.includes("kendim")) {
-        randomFal = "Bugün kendinle barışık olmak için harika bir gün. Ruhunu dinle.";
+        randomFal = "Bugün kendini dinleme ve değer verme günü. İçindeki sesi bastırma, çünkü o sana en çok gereken rehber. Kendine şefkat gösterdiğinde, evren de sana aynıyla karşılık verir.";
       }
 
-      let muzik = "🎵 Şarkı: 'Yalnızlık Senfonisi' - Sezen Aksu";
-      let soz = "💬 Söz: 'En karanlık an, şafaktan hemen öncedir.'";
-      let video = "📺 Video: https://www.youtube.com/watch?v=LUvn9-5gVYg";
-
-      if (combinationKey.includes("kariyer")) {
-        muzik = "🎵 Şarkı: 'Çalışmam Gerek' - Ozbi";
-        soz = "💬 Söz: 'Hayallerin peşinden koş, çünkü onlar seni yarınına taşır.'";
-        video = "📺 Video: https://www.youtube.com/watch?v=p2RYDwLkBz8";
-      } else if (combinationKey.includes("ask")) {
-        muzik = "🎵 Şarkı: 'Belki de Aşk Lazım' - Sıla";
-        soz = "💬 Söz: 'Aşk bazen bir gülümsemede gizlidir.'";
-        video = "📺 Video: https://www.youtube.com/watch?v=7gSFEo8dx4k";
-      } else if (combinationKey.includes("para")) {
-        muzik = "🎵 Şarkı: 'DERDO' - Ezhel";
-        soz = "💬 Söz: 'Zaman nakittir, ama huzur her şeydir.'";
-        video = "📺 Video: https://www.youtube.com/watch?v=eT9V6z_nGJw";
-      } else if (combinationKey.includes("kendim") && combinationKey.includes("his")) {
-        muzik = "🎵 Şarkı: 'Kendime Sardım' - Melike Şahin";
-        soz = "💬 Söz: 'Kendine en güzelini sen vermelisin.'";
-        video = "📺 Video: https://www.youtube.com/watch?v=ZDUZeErXRhM";
-      } else if (combinationKey.includes("kendim")) {
-        muzik = "🎵 Şarkı: 'Ruhumda Sızı' - Ceylan Ertem";
-        soz = "💬 Söz: 'Yalnızlık öğretir ama sevgi iyileştirir.'";
-        video = "📺 Video: https://www.youtube.com/watch?v=sx3U-Mn_TPE";
-      }
-
-      const fullResult = `${randomFal}\n\n${muzik}\n${soz}\n${video}`;
+      const fullResult = `${randomFal}`;
+      localStorage.setItem("falTarihi", today);
+      localStorage.setItem("falMetni", fullResult);
       document.getElementById("result").innerText = fullResult;
       document.getElementById("result").style.display = "block";
+      document.getElementById("etiketUyarisi").style.display = "block";
     }
   </script>
 </body>

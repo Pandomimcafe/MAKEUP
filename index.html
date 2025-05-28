@@ -38,10 +38,25 @@
       border-radius: 8px;
       cursor: pointer;
     }
+    .globe {
+      display: none;
+      margin: 20px auto;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 8px solid #a18cd1;
+      border-top: 8px solid #fbc2eb;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <h2>📲 Pandomim Dünyasına Hoş Geldin!</h2>
+
   <div class="question" id="ilkSoru">
     <h3>Pandomim Cafe'yi biliyor musun?</h3>
     <label><input type="radio" name="q4" value="duymadim" /> Hayır</label><br/>
@@ -65,6 +80,7 @@
     <button onclick="getFal()">Falımı Göster</button>
   </div>
 
+  <div class="globe" id="globe"></div>
   <div id="result"></div>
 
   <div class="parola-bolumu" id="parolaBolumu">
@@ -96,16 +112,22 @@
       const q1 = document.querySelector('input[name="q1"]:checked');
       const q2 = document.querySelector('input[name="q2"]:checked');
       const q3 = document.querySelector('input[name="q3"]:checked');
-
       if (!q1 || !q2 || !q3) {
         alert("Tüm soruları yanıtla.");
         return;
       }
 
+      const anahtar = `${q1.value}_${q2.value}_${q3.value}`;
+      const globe = document.getElementById("globe");
+      const result = document.getElementById("result");
+
+      document.getElementById("falBolumu").style.display = "none";
+      result.style.display = "none";
+      globe.style.display = "block";
+
       try {
         const res = await fetch("https://pandomimcafe.github.io/fallar.json");
         const data = await res.json();
-        const anahtar = `${q1.value}_${q2.value}_${q3.value}`;
         const olasiFallar = data[anahtar];
 
         let fal;
@@ -115,12 +137,15 @@
           fal = "Bugün kalbinin sesi sana rehberlik edecek.";
         }
 
-        document.getElementById("falBolumu").style.display = "none";
-        document.getElementById("result").innerText = fal;
-        document.getElementById("result").style.display = "block";
-        document.getElementById("parolaBolumu").style.display = "block";
+        setTimeout(() => {
+          globe.style.display = "none";
+          result.innerText = fal;
+          result.style.display = "block";
+          document.getElementById("parolaBolumu").style.display = "block";
+        }, 2000);
       } catch (e) {
-        alert("⚠️ Fal verisi alınamadı.");
+        alert("Fal verisi alınamadı.");
+        globe.style.display = "none";
       }
     }
 

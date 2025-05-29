@@ -6,7 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pandomim Dünyası</title>
   <style>
-    body {
+ <!-- Küre (Animasyon) -->
+<div id="animationSphere" style="display:none; margin: 30px auto;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Crystal_ball.gif" width="150" alt="Küre Animasyonu">
+</div>
+
+<!-- Makeup Parolası Bölümü -->
+<div class="parola-bolumu" id="makeupParolaBolumu" style="display:none;">
+  <h3>💄 Makeup Odası Parolası</h3>
+  <input type="text" id="makeupParolaInput" placeholder="Makeup parolasını gir" />
+  <button onclick="kontrolEtMakeupParola()">Gönder</button>
+  <p id="makeupParolaSonucu"></p>
+</div>
+   body {
       font-family: sans-serif;
       background: linear-gradient(to right, #ffe3e3, #ffd6a5);
       padding: 30px;

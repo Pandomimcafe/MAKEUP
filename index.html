@@ -96,7 +96,70 @@
   </div>
 
   <script>
-    document.getElementById("ilkSoru").style.display = "block";
+   async function kontrolEtMakeupParola() {
+  const parola = document.getElementById("makeupParolaInput").value.trim().toLowerCase();
+  const sonuc = document.getElementById("makeupParolaSonucu");
+
+  try {
+    const res = await fetch("https://pandomimcafe.github.io/makeup-parola.json");
+    const data = await res.json();
+    const gecerli = data.parola.toLowerCase();
+    const havuz = data.iltifatlar;
+
+    if (parola === gecerli) {
+      const rastgele = havuz[Math.floor(Math.random() * havuz.length)];
+      sonuc.innerText = `💖 ${rastgele}`;
+      sonuc.style.color = "purple";
+    } else {
+      sonuc.innerText = "❌ Parola yanlış.";
+      sonuc.style.color = "red";
+    }
+  } catch (e) {
+    sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
+    sonuc.style.color = "orange";
+  }
+}
+
+// Fal gösterilmeden önce küre animasyonu göster
+async function getFal() {
+  const q1 = document.querySelector('input[name="q1"]:checked');
+  const q2 = document.querySelector('input[name="q2"]:checked');
+  const q3 = document.querySelector('input[name="q3"]:checked');
+
+  if (!q1 || !q2 || !q3) {
+    alert("Tüm soruları yanıtla.");
+    return;
+  }
+
+  // Küre animasyonu başlasın
+  document.getElementById("falBolumu").style.display = "none";
+  document.getElementById("animationSphere").style.display = "block";
+
+  // 3 saniye sonra falı göster
+  setTimeout(async () => {
+    document.getElementById("animationSphere").style.display = "none";
+
+    try {
+      const res = await fetch("https://pandomimcafe.github.io/fallar.json");
+      const data = await res.json();
+      const anahtar = `${q1.value}_${q2.value}_${q3.value}`;
+      const olasiFallar = data[anahtar];
+
+      let fal = "Bugün kalbinin sesi sana rehberlik edecek.";
+      if (olasiFallar && olasiFallar.length > 0) {
+        fal = olasiFallar[Math.floor(Math.random() * olasiFallar.length)];
+      }
+
+      document.getElementById("result").innerText = fal;
+      document.getElementById("result").style.display = "block";
+      document.getElementById("parolaBolumu").style.display = "block";
+      document.getElementById("makeupParolaBolumu").style.display = "block";
+    } catch (e) {
+      alert("Fal verisi alınamadı.");
+    }
+  }, 3000);
+}
+ document.getElementById("ilkSoru").style.display = "block";
 
     function degerlendir() {
       const q4 = document.querySelector('input[name="q4"]:checked');

@@ -10,8 +10,8 @@
     header { background:#ff7f50; color:#fff; text-align:center; padding:20px; border-radius:12px 12px 0 0; }
     header h1 { margin:0; font-size:1.8rem; }
     header p { margin:8px 0 0; font-size:1rem; }
-    .step { display:none; }
-    .step.active { display:block; }
+    .welcome-btn { display:block; width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin:12px 0; }
+    .welcome-btn:hover { opacity:0.9; }
     .field { margin:16px 0; }
     label { display:block; margin-bottom:8px; font-weight:bold; }
     input[type="radio"] { margin-right:8px; }
@@ -19,154 +19,112 @@
     button { display:block; width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin:12px 0; }
     button:hover { opacity:0.9; }
     .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
-    .crystal { width:150px; height:150px; margin:20px auto; border-radius:50%; background: radial-gradient(circle at 30% 30%, #eef, #445); animation: glow 2s infinite alternate; }
-    @keyframes glow { from { box-shadow:0 0 10px rgba(255,255,255,0.5); } to { box-shadow:0 0 30px rgba(255,255,255,1); }}
     .footer-note { text-align:center; margin-top:40px; font-size:0.9rem; color:#333; }
   </style>
+<script>
+    const cooldownKeys = {
+      story: "lastUseStory",
+      makeup: "lastUseMakeup"
+    };
+    const cooldownTime = 3600000; // 1 saat
+
+    function isCooldownOver(key) {
+      const last = localStorage.getItem(key);
+      if (!last) return true;
+      return Date.now() - parseInt(last) > cooldownTime;
+    }
+
+    function setCooldown(key) {
+      localStorage.setItem(key, Date.now().toString());
+    }
+
+    function getRemainingTime(key) {
+      const last = localStorage.getItem(key);
+      if (!last) return 0;
+      const diff = cooldownTime - (Date.now() - parseInt(last));
+      return diff > 0 ? diff : 0;
+    }
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes} dk ${seconds} sn`;
+    }
+  </script>
 </head>
 <body>
   <div class="container">
-    <div id="step0" class="step active">
-      <header>
-        <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
-        <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
-      </header>
-      <button data-choice="no" class="welcome-btn">1. Pandomim Cafe’yi bilmiyorum</button>
-      <button data-choice="heard" class="welcome-btn">2. Duydum ama bakmaya gitmedim</button>
-      <button data-choice="yes" class="welcome-btn">3. Gittim tabii ki fal bakmaya geldim :)</button>
-    </div>
+    <header>
+      <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
+      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+    </header>
 
-    <div id="step1" class="step">
-      <div class="field">
-        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
-        <label><input type="radio" name="q0" value="harika">Harika</label>
-        <label><input type="radio" name="q0" value="yorgun">Yorgun</label>
-        <label><input type="radio" name="q0" value="duygusal">Duygusal</label>
-        <label><input type="radio" name="q0" value="karmasik">Karmaşık</label>
-      </div>
-      <div class="field">
-        <label>2. Odaklandığınız konu?</label>
-        <label><input type="radio" name="q1" value="ask">Aşk</label>
-        <label><input type="radio" name="q1" value="kariyer">Kariyer</label>
-        <label><input type="radio" name="q1" value="para">Para</label>
-        <label><input type="radio" name="q1" value="kendim">Kendim</label>
-      </div>
-      <div class="field">
-        <label>3. Size ne umut veriyor?</label>
-        <label><input type="radio" name="q2" value="iliskiler">İlişkiler</label>
-        <label><input type="radio" name="q2" value="haber">Haber</label>
-        <label><input type="radio" name="q2" value="his">His</label>
-        <label><input type="radio" name="q2" value="surpriz">Sürpriz</label>
-      </div>
-      <div class="crystal" id="crystalBall" style="display:none"></div>
-      <button id="btnShowFal">Falımı Göster</button>
-      <p class="message" id="falResult"></p>
-    </div>
+    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">1. Pandomim Cafe’yi bilmiyorum</button>
+    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">2. Duydum ama bakmaya gitmedim</button>
+    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/MAKEUP/'">3. Biliyorum, fal bakmaya geldim :)</button>
 
-    <div id="step2" class="step">
-      <div class="field">
-        <input type="text" id="storyPassword" placeholder="Günün Parolası" />
-        <button id="btnStory">Gönder</button>
-        <p class="message" id="storyMsg"></p>
-      </div>
-      <div class="field">
-        <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
-        <button id="btnMakeup">Gönder</button>
-        <p class="message" id="makeupMsg"></p>
-      </div>
+    <div class="field">
+      <input type="text" id="storyPassword" placeholder="Günün Parolası" />
+      <button onclick="checkPassword('story')">Gönder</button>
+      <p class="message" id="storyMsg"></p>
     </div>
-
+    <div class="field">
+      <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
+      <button onclick="checkPassword('makeup')">Gönder</button>
+      <p class="message" id="makeupMsg"></p>
+    </div>
     <div class="footer-note">💌 Bu uygulamamızı beğendiysen Instagram'da paylaşarak destek olabilirsin: <strong>@pandomimcafe</strong></div>
   </div>
 
-  <audio id="falSound" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" preload="auto"></audio>
-
   <script>
-    const storyComplimentPool = [...];
-    const makeupComplimentPool = [...];
+    const storyComplimentPool = [
+      "Senin varlığın, gökyüzüne yazılmış bir şiir gibi. İç güzelliğin çevrene huzur yayıyor. Bugün seni gören herkes biraz daha mutlu olacak.",
+      "Zekân, nezaketin ve özgün tarzın bir araya gelince ortaya gerçek bir sanat eseri çıkıyor. Sen, bulunduğun ortama anlam katan nadir insanlardansın.",
+      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor.",
+      "Duruşun, konuşmandaki zarafet ve gözlerindeki parıltı seni sıradanlıktan çıkarıyor. Hayat senin gibi insanlara teşekkür borçlu.",
+      "Bugün aynaya baktığında gördüğün kişiyi kutla. Çünkü sen sadece güzel değil, aynı zamanda çok değerlisin."
+    ];
+
+    const makeupComplimentPool = [
+      "Tenin kadar zarif bir ruhun var. Gözlerinle değil kalbinle etkiliyorsun insanları.",
+      "Güzelliğin sadece dış görünüşünde değil, iç dünyanda da saklı. İçten bir gülümsemen, tüm günün rengini değiştirebilir.",
+      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun.",
+      "Bakışlarında hem zarafet hem de derinlik var. Sen sadece görünüşünle değil, varlığınla da iz bırakıyorsun.",
+      "İçindeki güç ve dışındaki ışıltı harika bir uyum yakalamış. İnsan seni tanıdıkça daha çok hayran kalıyor."
+    ];
+
     const dogruStoryParola = "umut2025";
     const dogruMakeupParola = "pandomim";
 
-    const moodPool = {
-      harika: ["Bugün enerjin ışık saçıyor..."],
-      yorgun: ["Yorgun hissetsen de içindeki güç seni ileri taşıyacak..."],
-      duygusal: ["Kalbinin sesini dinlediğin bir gün olabilir..."],
-      karmasik: ["Her şey çok üst üste geliyor olabilir ama bu geçici..."]
-    };
-    const topicPool = {
-      ask: ["Aşk konularında yeni bir başlangıç seni bekliyor..."],
-      kariyer: ["Kariyerinle ilgili güzel haberler yakın..."],
-      para: ["Maddi konularda şanslı bir döneme giriyorsun..."],
-      kendim: ["Kendine dönmek sana iyi gelecek..."]
-    };
-    const hopePool = {
-      iliskiler: ["Yeni bağlantılar hayatına renk katacak..."],
-      haber: ["Beklediğin haber yakında geliyor..."],
-      his: ["İç sesin seni doğru yöne götürecek..."],
-      surpriz: ["Hiç beklemediğin biri seni mutlu edebilir..."]
-    };
-
-    function getUniqueRandomItems(arr, count) {
-      const copy = [...arr];
-      const result = [];
-      for (let i = 0; i < count && copy.length > 0; i++) {
-        const index = Math.floor(Math.random() * copy.length);
-        result.push(copy.splice(index, 1)[0]);
+    function checkPassword(type) {
+      const input = document.getElementById(type + 'Password').value.trim().toLowerCase();
+      const output = document.getElementById(type + 'Msg');
+      const key = cooldownKeys[type];
+      if (!isCooldownOver(key)) {
+        output.innerText = `⏳ İltifat hakkınız doldu. Lütfen ${formatTime(getRemainingTime(key))} sonra tekrar deneyin.`;
+        return;
       }
-      return result;
-    }
-
-    document.querySelectorAll('.welcome-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const choice = btn.getAttribute('data-choice');
-        if (choice === 'yes') {
-          document.getElementById('step0').classList.remove('active');
-          document.getElementById('step1').classList.add('active');
-        } else {
-          window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
+      output.innerText = '';
+      const correctPassword = type === 'story' ? dogruStoryParola : dogruMakeupParola;
+      const compliments = type === 'story' ? storyComplimentPool : makeupComplimentPool;
+      if (input === correctPassword) {
+        const selected = [];
+        const pool = [...compliments];
+        for (let i = 0; i < 3 && pool.length; i++) {
+          const idx = Math.floor(Math.random() * pool.length);
+          selected.push(pool.splice(idx, 1)[0]);
         }
-      });
-    });
+        output.innerText = selected.join("
 
-    document.getElementById('btnShowFal').addEventListener('click', () => {
-      const a0 = document.querySelector('input[name=q0]:checked');
-      const a1 = document.querySelector('input[name=q1]:checked');
-      const a2 = document.querySelector('input[name=q2]:checked');
-      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
-      const crystal = document.getElementById('crystalBall');
-      crystal.style.display = 'block';
-      document.getElementById('falSound').play();
-      document.getElementById('falResult').textContent = '';
-      setTimeout(() => {
-        const part1 = moodPool[a0.value][0];
-        const part2 = topicPool[a1.value][0];
-        const part3 = hopePool[a2.value][0];
-        document.getElementById('falResult').textContent = `${part1} ${part2} ${part3}`;
-        crystal.style.display = 'none';
-      }, 3000);
-    });
-
-    document.getElementById('btnStory').addEventListener('click', () => {
-      const input = document.getElementById('storyPassword').value.trim().toLowerCase();
-      const output = document.getElementById('storyMsg');
-      if (input === dogruStoryParola) {
-        const compliments = getUniqueRandomItems(storyComplimentPool, 3);
-        output.innerText = compliments.join('\n\n') + '\n❤️🌟';
+") + (type === 'story' ? "
+❤️🌟" : "
+💄💖");
+        setCooldown(key);
       } else {
         output.innerText = 'Parola yanlış.';
       }
-    });
-
-    document.getElementById('btnMakeup').addEventListener('click', () => {
-      const input = document.getElementById('makeupPassword').value.trim().toLowerCase();
-      const output = document.getElementById('makeupMsg');
-      if (input === dogruMakeupParola) {
-        const compliments = getUniqueRandomItems(makeupComplimentPool, 3);
-        output.innerText = compliments.join('\n\n') + '\n💄💖';
-      } else {
-        output.innerText = 'Parola yanlış.';
-      }
-    });
+    }
   </script>
 </body>
 </html>

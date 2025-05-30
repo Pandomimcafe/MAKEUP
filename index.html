@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,66 +11,153 @@
       padding: 30px;
       text-align: center;
     }
-    .parola-bolumu {
-      margin: 30px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .question, .fal-bolumu, .parola-bolumu, .makeup-parola-bolumu, #result {
+      display: none;
+      margin: 20px auto;
       max-width: 500px;
-    }
-    input[type="text"] {
-      padding: 10px;
-      width: 70%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     button {
+      margin-top: 15px;
       padding: 10px 20px;
+      font-size: 16px;
       background-color: #ff7f50;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
     }
-    .sonuc {
-      margin-top: 10px;
-      font-weight: bold;
+    #falKure {
+      display: none;
+      margin: 20px auto;
+      width: 200px;
+    }
+    #falKure img {
+      width: 100%;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
     }
   </style>
 </head>
 <body>
-  <h2>🎭 Pandomim Dünyasına Hoş Geldin!</h2>
-  <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+  <h2>📲 Pandomim Dünyasına Hoş Geldin!</h2>
 
-  <div class="parola-bolumu">
-    <h3>🧠 Gününü güzelleştir!<br><small>Instagram story’deki parolayı gir:</small></h3>
-    <input type="text" id="storyParola" placeholder="Günün parolası" />
-    <button onclick="kontrolEtStoryParola()">Parolayı Göster</button>
-    <p id="storySonucu" class="sonuc"></p>
+  <div class="question" id="ilkSoru">
+    <h3>Pandomim Cafe'yi biliyor musun?</h3>
+    <label><input type="radio" name="q4" value="duymadim" /> Hayır</label><br/>
+    <label><input type="radio" name="q4" value="duydum" /> Duymuştum ama gitmedim</label><br/>
+    <label><input type="radio" name="q4" value="gittim" /> Gittim tabii ki fal bakmaya geldim :)</label><br/>
+    <button onclick="degerlendir()">Devam Et</button>
   </div>
 
-  <div class="parola-bolumu">
-    <h3>🔒 Make-up Odası Parolası</h3>
-    <input type="text" id="makeupParola" placeholder="Make-up parolası" />
-    <button onclick="kontrolEtMakeupParola()">Güzelliğini Onayla</button>
-    <p id="makeupSonucu" class="sonuc"></p>
+  <div class="fal-bolumu" id="falBolumu">
+    <h3>Bugün kendini nasıl hissediyorsun?</h3>
+    <label><input type="radio" name="q1" value="iyi" /> Harika</label><br/>
+    <label><input type="radio" name="q1" value="yorgun" /> Yorgun</label><br/>
+
+    <h3>Aklında en çok ne var?</h3>
+    <label><input type="radio" name="q2" value="ask" /> Aşk</label><br/>
+    <label><input type="radio" name="q2" value="kariyer" /> Kariyer</label><br/>
+
+    <h3>En çok neyi diliyorsun?</h3>
+    <label><input type="radio" name="q3" value="surpriz" /> Sürpriz</label><br/>
+    <label><input type="radio" name="q3" value="huzur" /> Huzur</label><br/>
+    <button onclick="getFal()">Falımı Göster</button>
+  </div>
+
+  <div id="falKure">
+    <img src="https://pandomimcafe.github.io/falkure.gif" alt="Küre Dönüyor">
+  </div>
+
+  <div id="result"></div>
+
+  <div class="parola-bolumu" id="parolaBolumu">
+    <h3>🧠 Gününü güzelleştirecek özel iltifatı görmek ister misin?</h3>
+    <input type="text" id="parolaInput" placeholder="Story'deki parolayı gir" />
+    <button onclick="kontrolEtParola()">Gönder</button>
+    <p id="parolaSonucu"></p>
+  </div>
+
+  <div class="makeup-parola-bolumu" id="makeupParolaBolumu">
+    <h3>💄 Makeup Odası Parolası</h3>
+    <input type="text" id="makeupInput" placeholder="Odada yazan parolayı gir" />
+    <button onclick="kontrolEtMakeup()">Gönder</button>
+    <p id="makeupSonucu"></p>
   </div>
 
   <script>
-    async function kontrolEtStoryParola() {
-      const parola = document.getElementById("storyParola").value.trim().toLowerCase();
-      const sonuc = document.getElementById("storySonucu");
+    document.getElementById("ilkSoru").style.display = "block";
 
+    function degerlendir() {
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      if (!q4) {
+        alert("Lütfen bir seçenek seç.");
+        return;
+      }
+      if (q4.value === "gittim") {
+        document.getElementById("ilkSoru").style.display = "none";
+        document.getElementById("falBolumu").style.display = "block";
+      } else {
+        alert("🎁 Hediye çarkına yönlendiriliyorsun!");
+        if (!localStorage.getItem("cakir_kullanildi")) {
+          localStorage.setItem("cakir_kullanildi", new Date().toDateString());
+          window.location.href = "https://pandomimcafe.github.io/PANDOM-MCAFE/";
+        } else {
+          alert("Bugün çarkı zaten kullandın, yarın tekrar gel :)");
+        }
+      }
+    }
+
+    async function getFal() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        alert("Tüm soruları yanıtla.");
+        return;
+      }
+
+      document.getElementById("falBolumu").style.display = "none";
+      document.getElementById("falKure").style.display = "block";
+
+      setTimeout(async () => {
+        try {
+          const res = await fetch("https://pandomimcafe.github.io/fallar.json");
+          const data = await res.json();
+          const anahtar = `${q1.value}_${q2.value}_${q3.value}`;
+          const olasiFallar = data[anahtar];
+          let fal = "Bugün kalbinin sesi sana rehberlik edecek.";
+          if (olasiFallar && olasiFallar.length > 0) {
+            fal = olasiFallar[Math.floor(Math.random() * olasiFallar.length)];
+          }
+          document.getElementById("falKure").style.display = "none";
+          document.getElementById("result").innerText = fal;
+          document.getElementById("result").style.display = "block";
+          document.getElementById("parolaBolumu").style.display = "block";
+          document.getElementById("makeupParolaBolumu").style.display = "block";
+        } catch (e) {
+          alert("Fal verisi alınamadı.");
+        }
+      }, 3000); // 3 saniye küre dönsün
+    }
+
+    async function kontrolEtParola() {
+      const parola = document.getElementById("parolaInput").value.trim().toLowerCase();
+      const sonuc = document.getElementById("parolaSonucu");
       try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/parola.json");
+        const res = await fetch("https://pandomimcafe.github.io/parola.json");
         const data = await res.json();
         const gecerli = data.parola.toLowerCase();
         if (parola === gecerli) {
-          const iltifatlar = data.iltifatlar;
-          const secilen = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
-          sonuc.innerText = "💖 " + secilen;
+          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
+          sonuc.innerText = "💌 " + rastgele;
           sonuc.style.color = "green";
         } else {
           sonuc.innerText = "❌ Parola yanlış.";
@@ -83,19 +169,17 @@
       }
     }
 
-    async function kontrolEtMakeupParola() {
-      const parola = document.getElementById("makeupParola").value.trim().toLowerCase();
+    async function kontrolEtMakeup() {
+      const parola = document.getElementById("makeupInput").value.trim().toLowerCase();
       const sonuc = document.getElementById("makeupSonucu");
-
       try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/makeup_parola.json");
+        const res = await fetch("https://pandomimcafe.github.io/makeupparola.json");
         const data = await res.json();
         const gecerli = data.parola.toLowerCase();
         if (parola === gecerli) {
-          const iltifatlar = data.iltifatlar;
-          const secilen = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
-          sonuc.innerText = "💘 " + secilen;
-          sonuc.style.color = "green";
+          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
+          sonuc.innerText = "💄 " + rastgele;
+          sonuc.style.color = "purple";
         } else {
           sonuc.innerText = "❌ Parola yanlış.";
           sonuc.style.color = "red";

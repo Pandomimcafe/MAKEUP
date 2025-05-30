@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pandomim Cafe - Deneyim</title>
   <style>
-    /* Temel stil ayarları */
     body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; }
     .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); padding:20px; margin-top:20px; }
     header { background:#ff7f50; color:#fff; text-align:center; padding:20px; border-radius:12px 12px 0 0; }
     header h1 { margin:0; font-size:1.8rem; }
+    header p { margin:8px 0 0; font-size:1rem; }
     .step { display:none; }
     .step.active { display:block; }
     .field { margin:16px 0; }
     label { display:block; margin-bottom:8px; font-weight:bold; }
-    input[type="radio"], input[type="text"] { display:block; width:100%; padding:12px; margin-bottom:8px; border:2px solid #ddd; border-radius:8px; }
-    button { width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin-top:8px; }
+    input[type="radio"] { margin-right:8px; }
+    input[type="text"] { display:block; width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; margin-bottom:12px; }
+    button { display:block; width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin:12px 0; }
     button:hover { opacity:0.9; }
     .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
     .crystal { width:150px; height:150px; margin:20px auto; border-radius:50%; background:radial-gradient(circle at 30% 30%, #eef, #445); animation: glow 2s infinite alternate; }
@@ -26,7 +27,10 @@
   <div class="container">
     <!-- Step 0: Karşılama -->
     <div id="step0" class="step active">
-      <header><h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1><p>Seçiminizi yapın:</p></header>
+      <header>
+        <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
+        <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+      </header>
       <button data-choice="no" class="welcome-btn">1. Pandomim Cafe’yi bilmiyorum</button>
       <button data-choice="heard" class="welcome-btn">2. Duydum ama bakmaya gitmedim</button>
       <button data-choice="yes" class="welcome-btn">3. Biliyorum, fal bakmaya geldim :)</button>
@@ -36,31 +40,31 @@
     <div id="step1" class="step">
       <div class="field">
         <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
-        <label><input type="radio" name="q0" value="harika"> Harika</label>
-        <label><input type="radio" name="q0" value="yorgun"> Yorgun</label>
-        <label><input type="radio" name="q0" value="duygusal"> Duygusal</label>
-        <label><input type="radio" name="q0" value="karmasik"> Karmaşık</label>
+        <label><input type="radio" name="q0" value="harika">Harika</label>
+        <label><input type="radio" name="q0" value="yorgun">Yorgun</label>
+        <label><input type="radio" name="q0" value="duygusal">Duygusal</label>
+        <label><input type="radio" name="q0" value="karmasik">Karmaşık</label>
       </div>
       <div class="field">
         <label>2. Odaklandığınız konu?</label>
-        <label><input type="radio" name="q1" value="ask"> Aşk</label>
-        <label><input type="radio" name="q1" value="kariyer"> Kariyer</label>
-        <label><input type="radio" name="q1" value="para"> Para</label>
-        <label><input type="radio" name="q1" value="kendim"> Kendim</label>
+        <label><input type="radio" name="q1" value="ask">Aşk</label>
+        <label><input type="radio" name="q1" value="kariyer">Kariyer</label>
+        <label><input type="radio" name="q1" value="para">Para</label>
+        <label><input type="radio" name="q1" value="kendim">Kendim</label>
       </div>
       <div class="field">
         <label>3. Size ne umut veriyor?</label>
-        <label><input type="radio" name="q2" value="iliskiler"> İlişkiler</label>
-        <label><input type="radio" name="q2" value="haber"> Haber</label>
-        <label><input type="radio" name="q2" value="his"> His</label>
-        <label><input type="radio" name="q2" value="surpriz"> Sürpriz</label>
+        <label><input type="radio" name="q2" value="iliskiler">İlişkiler</label>
+        <label><input type="radio" name="q2" value="haber">Haber</label>
+        <label><input type="radio" name="q2" value="his">His</label>
+        <label><input type="radio" name="q2" value="surpriz">Sürpriz</label>
       </div>
       <button id="btnShowFal">Falımı Göster</button>
     </div>
 
     <!-- Step 2: Fal Sonucu -->
     <div id="step2" class="step">
-      <p class="message" id="falResult">---</p>
+      <p class="message" id="falResult"></p>
       <button id="btnNext">Devam Et</button>
     </div>
 
@@ -82,9 +86,30 @@
   </div>
 
   <script>
-    // Havuzlar
-    const storyComplimentPool = [/* ... */];
-    const makeupComplimentPool = [/* ... */];
+    // Ses efekti için audio elementi
+    // Audio element loading from CDN
+document.head.insertAdjacentHTML('beforeend', `<audio id="crystalAudio" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" preload="auto"></audio>`);
+const crystalAudio = document.getElementById('crystalAudio');
+
+    function playCrystalSound() {
+      crystalAudio.currentTime = 0;
+      crystalAudio.play();
+    }
+
+    function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function step(n) {
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step'+n).classList.add('active');
+      // Step 3'e geçildiğinde küre efektini tetikle
+      if (n === 3) playCrystalSound();
+    }
+
+    // Havuz tanımları
+    const moodPool = {/* inline moodPool here */};
+    const topicPool = {/* inline topicPool here */};
+    const hopePool = {/* inline hopePool here */};
+    const storyComplimentPool = [/* inline storyComplimentPool */];
+    const makeupComplimentPool = [/* inline makeupComplimentPool */];
     const dogruStoryParola = "umut2025";
     const dogruMakeupParola = "pandomim";
 
@@ -94,25 +119,26 @@
       document.getElementById('step'+n).classList.add('active');
     }
 
-    // Karşılama
+    // Başlangıç
     document.querySelectorAll('.welcome-btn').forEach(btn => btn.addEventListener('click', () => {
       btn.dataset.choice === 'yes' ? step(1) : window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
     }));
 
-    // Fal gösterme
+    // Fal oluşturma
     document.getElementById('btnShowFal').addEventListener('click', () => {
       const a0 = document.querySelector('input[name=q0]:checked');
       const a1 = document.querySelector('input[name=q1]:checked');
       const a2 = document.querySelector('input[name=q2]:checked');
-      if(!a0||!a1||!a2) return alert('Lütfen tüm soruları işaretleyin.');
-      // Dinamik havuz mantığı burada devam eder
-      document.getElementById('falResult').textContent = 'Fal metni burada.';
+      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
+      const part1 = randomFrom(moodPool[a0.value]);
+      const part2 = randomFrom(topicPool[a1.value]);
+      const part3 = randomFrom(hopePool[a2.value]);
+      document.getElementById('falResult').textContent = part1 + ' ' + part2 + ' ' + part3;
       step(2);
     });
 
+    // Parola adımları
     document.getElementById('btnNext').addEventListener('click', () => step(3));
-
-    // Parola kontrolleri
     document.getElementById('btnStory').addEventListener('click', () => {
       const p = document.getElementById('storyPassword').value.trim().toLowerCase();
       document.getElementById('storyMsg').innerText =

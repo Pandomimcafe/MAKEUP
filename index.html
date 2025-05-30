@@ -21,12 +21,82 @@
     .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
     .footer-note { text-align:center; margin-top:40px; font-size:0.9rem; color:#333; }
   </style>
-<script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
+      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+    </header>
+
+    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">1. Pandomim Cafe’yi bilmiyorum</button>
+    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">2. Duydum ama bakmaya gitmedim</button>
+    <button class="welcome-btn" onclick="document.getElementById('falStep').style.display='block'">3. Biliyorum, fal bakmaya geldim :)</button>
+
+    <div id="falStep" style="display:none">
+      <div class="field">
+        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
+        <label><input type="radio" name="q0" value="harika">Harika</label>
+        <label><input type="radio" name="q0" value="yorgun">Yorgun</label>
+        <label><input type="radio" name="q0" value="duygusal">Duygusal</label>
+        <label><input type="radio" name="q0" value="karmasik">Karmaşık</label>
+      </div>
+      <div class="field">
+        <label>2. Odaklandığınız konu?</label>
+        <label><input type="radio" name="q1" value="ask">Aşk</label>
+        <label><input type="radio" name="q1" value="kariyer">Kariyer</label>
+        <label><input type="radio" name="q1" value="para">Para</label>
+        <label><input type="radio" name="q1" value="kendim">Kendim</label>
+      </div>
+      <div class="field">
+        <label>3. Size ne umut veriyor?</label>
+        <label><input type="radio" name="q2" value="iliskiler">İlişkiler</label>
+        <label><input type="radio" name="q2" value="haber">Haber</label>
+        <label><input type="radio" name="q2" value="his">His</label>
+        <label><input type="radio" name="q2" value="surpriz">Sürpriz</label>
+      </div>
+      <button onclick="showFal()">Falımı Göster</button>
+      <p class="message" id="falMsg"></p>
+    </div>
+
+    <div class="field">
+      <input type="text" id="storyPassword" placeholder="Günün Parolası" />
+      <button id="btnStory">Gönder</button>
+      <p class="message" id="storyMsg"></p>
+    </div>
+    <div class="field">
+      <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
+      <button id="btnMakeup">Gönder</button>
+      <p class="message" id="makeupMsg"></p>
+    </div>
+    <div class="footer-note">💌 Bu uygulamamızı beğendiysen Instagram'da paylaşarak destek olabilirsin: <strong>@pandomimcafe</strong></div>
+  </div>
+
+  <script>
     const cooldownKeys = {
       story: "lastUseStory",
       makeup: "lastUseMakeup"
     };
-    const cooldownTime = 3600000; // 1 saat
+    const cooldownTime = 3600000;
+
+    const moodPool = {
+      harika: ["Bugün senin için yıldızlar bile sıraya girmiş gibi. Enerjin etrafa yayılıyor."],
+      yorgun: ["Yorgunluğun geçici, içindeki ışık ise kalıcı. Dinlenmeye zaman ayır."],
+      duygusal: ["Kalbinin sesi bugün biraz daha güçlü. Hislerine güven."],
+      karmasik: ["Zihnindeki karmaşa, yakında berraklaşacak. Biraz sabır yeter."]
+    };
+    const topicPool = {
+      ask: ["Aşk konusunda beklenmedik bir gelişme seni şaşırtabilir."],
+      kariyer: ["Kariyer yolunda yeni bir fırsat kapını çalmak üzere."],
+      para: ["Maddi konularda şans senden yana olacak."],
+      kendim: ["Kendine zaman ayırmak, sana tahmin ettiğinden daha iyi gelecek."]
+    };
+    const hopePool = {
+      iliskiler: ["Yakın ilişkilerden alacağın destek seni mutlu edecek."],
+      haber: ["Beklediğin güzel bir haber kapıda."],
+      his: ["İç sesin seni doğru yöne yönlendirecek."],
+      surpriz: ["Hiç beklemediğin birinden gelen sürpriz moralini yükseltecek."]
+    };
 
     function isCooldownOver(key) {
       const last = localStorage.getItem(key);
@@ -51,47 +121,37 @@
       const seconds = totalSeconds % 60;
       return `${minutes} dk ${seconds} sn`;
     }
-  </script>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
-      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
-    </header>
 
-    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">1. Pandomim Cafe’yi bilmiyorum</button>
-    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">2. Duydum ama bakmaya gitmedim</button>
-    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/MAKEUP/'">3. Biliyorum, fal bakmaya geldim :)</button>
+    function showFal() {
+      const a0 = document.querySelector('input[name=q0]:checked');
+      const a1 = document.querySelector('input[name=q1]:checked');
+      const a2 = document.querySelector('input[name=q2]:checked');
+      const msg = document.getElementById('falMsg');
+      if (!a0 || !a1 || !a2) return alert("Lütfen tüm soruları yanıtlayın.");
 
-    <div class="field">
-      <input type="text" id="storyPassword" placeholder="Günün Parolası" />
-      <button onclick="checkPassword('story')">Gönder</button>
-      <p class="message" id="storyMsg"></p>
-    </div>
-    <div class="field">
-      <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
-      <button onclick="checkPassword('makeup')">Gönder</button>
-      <p class="message" id="makeupMsg"></p>
-    </div>
-    <div class="footer-note">💌 Bu uygulamamızı beğendiysen Instagram'da paylaşarak destek olabilirsin: <strong>@pandomimcafe</strong></div>
-  </div>
+      const key = "lastUseFal";
+      if (!isCooldownOver(key)) {
+        msg.innerText = `⏳ Fal hakkınız doldu. Lütfen ${formatTime(getRemainingTime(key))} sonra tekrar deneyin.`;
+        return;
+      }
 
-  <script>
+      const p1 = moodPool[a0.value][0];
+      const p2 = topicPool[a1.value][0];
+      const p3 = hopePool[a2.value][0];
+      msg.innerText = `${p1}\n\n${p2}\n\n${p3} \n✨`;
+      setCooldown(key);
+    }
+
     const storyComplimentPool = [
       "Senin varlığın, gökyüzüne yazılmış bir şiir gibi. İç güzelliğin çevrene huzur yayıyor. Bugün seni gören herkes biraz daha mutlu olacak.",
       "Zekân, nezaketin ve özgün tarzın bir araya gelince ortaya gerçek bir sanat eseri çıkıyor. Sen, bulunduğun ortama anlam katan nadir insanlardansın.",
-      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor.",
-      "Duruşun, konuşmandaki zarafet ve gözlerindeki parıltı seni sıradanlıktan çıkarıyor. Hayat senin gibi insanlara teşekkür borçlu.",
-      "Bugün aynaya baktığında gördüğün kişiyi kutla. Çünkü sen sadece güzel değil, aynı zamanda çok değerlisin."
+      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor."
     ];
 
     const makeupComplimentPool = [
       "Tenin kadar zarif bir ruhun var. Gözlerinle değil kalbinle etkiliyorsun insanları.",
       "Güzelliğin sadece dış görünüşünde değil, iç dünyanda da saklı. İçten bir gülümsemen, tüm günün rengini değiştirebilir.",
-      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun.",
-      "Bakışlarında hem zarafet hem de derinlik var. Sen sadece görünüşünle değil, varlığınla da iz bırakıyorsun.",
-      "İçindeki güç ve dışındaki ışıltı harika bir uyum yakalamış. İnsan seni tanıdıkça daha çok hayran kalıyor."
+      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun."
     ];
 
     const dogruStoryParola = "umut2025";
@@ -115,16 +175,17 @@
           const idx = Math.floor(Math.random() * pool.length);
           selected.push(pool.splice(idx, 1)[0]);
         }
-        output.innerText = selected.join("
-
-") + (type === 'story' ? "
-❤️🌟" : "
-💄💖");
+        output.innerText = selected.join("\n\n") + (type === 'story' ? "\n❤️🌟" : "\n💄💖");
         setCooldown(key);
       } else {
         output.innerText = 'Parola yanlış.';
       }
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("btnStory").addEventListener("click", () => checkPassword('story'));
+      document.getElementById("btnMakeup").addEventListener("click", () => checkPassword('makeup'));
+    });
   </script>
 </body>
 </html>

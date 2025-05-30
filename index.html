@@ -38,28 +38,36 @@
 </head>
 <body>
   <div class="container">
-    <header><h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1><p>Seçiminizi yapın:</p></header>
+    <header>
+      <h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1>
+      <p>Seçiminizi yapın:</p>
+    </header>
+
     <!-- Step 0: Welcome -->
     <div id="step0" class="step active">
       <button data-choice="no" class="welcome-btn">1. Pandomim Cafe’yi bilmiyorum</button>
       <button data-choice="heard" class="welcome-btn">2. Duydum ama bakmaya gitmedim</button>
       <button data-choice="yes" class="welcome-btn">3. Biliyorum, fal bakmaya geldim :)</button>
     </div>
+
     <!-- Step 1: Questions -->
     <div id="step1" class="step">
-      <div class="field"><label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
+      <div class="field">
+        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
         <label><input type="radio" name="q0" value="harika"> Harika</label>
         <label><input type="radio" name="q0" value="yorgun"> Yorgun</label>
         <label><input type="radio" name="q0" value="duygusal"> Duygusal</label>
         <label><input type="radio" name="q0" value="karmasik"> Karmaşık</label>
       </div>
-      <div class="field"><label>2. Odaklandığınız konu hangisi?</label>
+      <div class="field">
+        <label>2. Odaklandığınız konu hangisi?</label>
         <label><input type="radio" name="q1" value="ask"> Aşk</label>
         <label><input type="radio" name="q1" value="kariyer"> Kariyer</label>
         <label><input type="radio" name="q1" value="para"> Para</label>
         <label><input type="radio" name="q1" value="kendim"> Kendim</label>
       </div>
-      <div class="field"><label>3. Size ne umut veriyor?</label>
+      <div class="field">
+        <label>3. Size ne umut veriyor?</label>
         <label><input type="radio" name="q2" value="iliskiler"> İlişkiler</label>
         <label><input type="radio" name="q2" value="haber"> Haber</label>
         <label><input type="radio" name="q2" value="his"> His</label>
@@ -67,79 +75,81 @@
       </div>
       <button id="btnShowFal">Falımı Göster</button>
     </div>
-    <!-- Step 2: Fal Sonucu -->
+
+    <!-- Step 2: Result -->
     <div id="step2" class="step">
       <p class="message" id="falResult"></p>
       <button id="btnNext">Devam Et</button>
     </div>
-    <!-- Step 3: Parolalar, Animasyon ve İltifat -->
+
+    <!-- Step 3: Parola & Animasyon -->
     <div id="step3" class="step">
       <div class="crystal"></div>
-      <div class="field"><input type="text" id="storyPwd" placeholder="Instagram Story Parolası"></div>
-      <button id="btnStory">Gönder</button>
-      <p class="message" id="storyMsg"></p>
-      <div class="field"><input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası"></div>
-      <button id="btnBeauty">Gönder</button>
-      <p class="message" id="beautyMsg"></p>
-      <!-- İltifattan sonra tatlı emojiler ve paylaşım çağrısı -->
-      <div id="afterBeauty" style="display:none; text-align:center; margin-top:16px;">
-        <p style="font-size:1.5rem;">😘 😘 😘</p>
-        <p style="font-size:1rem;">Bu deneyimden memnun kaldıysanız bizi Instagram’da paylaşın!</p>
+      <div class="field">
+        <input type="text" id="storyPwd" placeholder="Instagram Story Parolası" />
+        <button id="btnStory">Gönder</button>
+        <p class="message" id="storyMsg"></p>
+      </div>
+      <div class="field">
+        <input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası" />
+        <button id="btnBeauty">Gönder</button>
+        <p class="message" id="beautyMsg"></p>
       </div>
     </div>
-      <div class="field"><input type="text" id="storyPwd" placeholder="Instagram Story Parolası"></div>
-      <button id="btnStory">Gönder</button>
-      <p class="message" id="storyMsg"></p>
-      <div class="field"><input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası"></div>
-      <button id="btnBeauty">Gönder</button>
-      <p class="message" id="beautyMsg"></p>
-      <div id="afterBeauty" style="display:none; text-align:center; margin-top:16px;">
-        <p style="font-size:1.2rem;">😘 😘 😘</p>
-        <p style="font-size:1rem;">Bu deneyimden memnun kaldıysanız bizi Instagram’da paylaşın!</p>
-        <button id="btnToRealWheel" style="margin-top:12px;">Çarkı Çevir</button>
-      </div>
-      <button id="btnToRealWheel" style="display:none; margin-top:20px;">Çarkı Çevir</button>
-    </div>
+
   </div>
+
   <script>
     const config = JSON.parse(document.getElementById('configData').textContent);
     let fallMap = {};
     fetch('fallar.json').then(r=>r.json()).then(j=>fallMap=j).catch(_=>{});
 
-    document.querySelectorAll('.welcome-btn').forEach(btn=> btn.addEventListener('click', ()=>{
-      if(btn.dataset.choice !== 'yes') window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/';
-      else step(1);
+    // Step navigation
+    function step(n) {
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step'+n).classList.add('active');
+    }
+
+    // Welcome
+    document.querySelectorAll('.welcome-btn').forEach(btn => btn.addEventListener('click', () => {
+      if (btn.dataset.choice !== 'yes') {
+        window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
+      } else {
+        step(1);
+      }
     }));
 
-    document.getElementById('btnShowFal').addEventListener('click', ()=>{
-      const a0=document.querySelector('input[name=q0]:checked'), a1=document.querySelector('input[name=q1]:checked'), a2=document.querySelector('input[name=q2]:checked');
-      if(!a0||!a1||!a2) return alert('Lütfen tüm soruları işaretleyin.');
-      const fal=fallMap[`${a0.value}_${a1.value}_${a2.value}`] || 'Üzgünüm, şu an fal bulunamadı.';
+    // Show fal
+    document.getElementById('btnShowFal').addEventListener('click', () => {
+      const a0 = document.querySelector('input[name=q0]:checked');
+      const a1 = document.querySelector('input[name=q1]:checked');
+      const a2 = document.querySelector('input[name=q2]:checked');
+      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
+      const key = `${a0.value}_${a1.value}_${a2.value}`;
+      const fal = fallMap[key] || 'Üzgünüm, şu an fal bulunamadı.';
       document.getElementById('falResult').textContent = fal;
       step(2);
     });
 
-    document.getElementById('btnNext').addEventListener('click', ()=> step(3));
+    // Move to parolalar
+    document.getElementById('btnNext').addEventListener('click', () => step(3));
 
-    document.getElementById('btnStory').addEventListener('click', ()=>{
-      const p=document.getElementById('storyPwd').value.trim().toLowerCase(), msg=document.getElementById('storyMsg'); msg.textContent='';
-      if(!config.storyValid.includes(p)) msg.textContent='Parola yanlış.';
+    // Story password
+    document.getElementById('btnStory').addEventListener('click', () => {
+      const p = document.getElementById('storyPwd').value.trim().toLowerCase();
+      const msg = document.getElementById('storyMsg'); msg.textContent = '';
+      if (!config.storyValid.includes(p)) msg.textContent = 'Parola yanlış.';
       else msg.textContent = config.storyPool[Math.floor(Math.random()*config.storyPool.length)];
     });
 
-    document.getElementById('btnBeauty').addEventListener('click', ()=>{
-      const p=document.getElementById('beautyPwd').value.trim().toLowerCase(), msg=document.getElementById('beautyMsg'); msg.textContent='';
-      if(!config.beautyValid.includes(p)) msg.textContent='Parola yanlış.';
-      else {
-        msg.textContent = config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)];
-        // İltifattan sonra çark butonunu göster
-        document.getElementById('btnToRealWheel').style.display = 'block';
-      }
+    // Beauty password
+    document.getElementById('btnBeauty').addEventListener('click', () => {
+      const p = document.getElementById('beautyPwd').value.trim().toLowerCase();
+      const msg = document.getElementById('beautyMsg'); msg.textContent = '';
+      if (!config.beautyValid.includes(p)) msg.textContent = 'Parola yanlış.';
+      else msg.textContent = config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)];
     });
 
-    document.getElementById('btnToRealWheel').addEventListener('click', ()=> window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/');
-
-    function step(n){ document.querySelectorAll('.step').forEach(el=>el.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
   </script>
 </body>
 </html>

@@ -2,149 +2,22 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=https://pandomimcafe.github.io/PANDOM-MCAFE/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pandomim Cafe - Birleşik Deneyim</title>
+  <title>Pandomim Cafe</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; }
-    .container { max-width:600px; margin:40px auto; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); overflow:hidden; padding-bottom:20px; }
-    header { text-align:center; padding:40px 20px 20px; }
-    header h1 { font-size:2rem; margin:0; }
-    header p { font-size:1.1rem; color:#555; margin:8px 0 0; }
-    .step { display:none; padding:0 20px; }
-    .step.active { display:block; }
-    button { background:#ff7f50; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-size:1rem; margin-top:10px; }
-    button:hover { opacity:0.9; }
-
-    /* Spin Wheel */
-    #wheel { width:280px; height:280px; margin:20px auto; background: conic-gradient(
-        #f44336 0 36deg, #4caf50 36deg 72deg, #2196f3 72deg 108deg, #ffeb3b 108deg 144deg,
-        #00bcd4 144deg 180deg, #9c27b0 180deg 216deg, #ff9800 216deg 252deg, #607d8b 252deg 288deg,
-        #8bc34a 288deg 324deg, #e91e63 324deg 360deg);
-      border-radius:50%; position:relative; transition:transform 4s cubic-bezier(0.33,1,0.68,1); }
-    #pointer { width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:32px solid #333; position:absolute; top:-32px; left:calc(50% - 16px);}    
-
-    /* Muazzam crystal ball illustration */
-    .illustration { text-align:center; margin:20px auto; }
-    .illustration img {
-      width:240px;
-      opacity:0;
-      animation: fadeIn 1s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      to { opacity:1; }
-    }
-
-    /* Inputs & messages */
-    .field { margin:16px 0; }
-    .field input { width:100%; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:1rem; }
-    .message { text-align:center; margin-top:12px; font-size:1rem; }
-    .error { color:#e53935; }
-
+    /* Fallback in case redirect fails */
+    body { display:flex; justify-content:center; align-items:center; height:100vh; margin:0; font-family: Arial, sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); }
+    .message { background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align:center; }
+    a.button { display:inline-block; margin-top:16px; padding:12px 24px; background:#ff7f50; color:#fff; border-radius:8px; text-decoration:none; }
+    a.button:hover { opacity:0.9; }
   </style>
-  <!-- Kolay güncelleme için JSON config -->
-  <script type="application/json" id="configData">
-  {
-    "valid1": ["umut2025"],
-    "pool1": [
-      "Gülüşünüz, bir güneş ışığı kadar sıcacık.",
-      "Bugün her adımınızda mutluluk saklı.",
-      "Kalbinizin sesini dinleyin, size rehberlik edecek."
-    ],
-    "valid2": ["ışıltı","şaheser"],
-    "pool2": [
-      "Elleriniz sanata dokunuyor.",
-      "Siyah ojeli zarafetiniz göz kamaştırıyor.",
-      "Güzelliğiniz, kendinize duyduğunuz saygının eseri."
-    ]
-  }
-  </script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1>
-      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
-    </header>
-
-    <!-- Step 1: Tanıma -->
-    <div id="step1" class="step active">
-      <p style="text-align:center; font-weight:bold;">Pandomim Cafe’yi biliyor musun?</p>
-      <div class="field"><label><input type="radio" name="know" value="no"> Gitmedim</label></div>
-      <div class="field"><label><input type="radio" name="know" value="heard"> Duydum ama gitmedim</label></div>
-      <div class="field"><label><input type="radio" name="know" value="yes"> Gittim tabii ki fal bakmaya geldim :)</label></div>
-      <button id="btnStep1">Devam Et</button>
-    </div>
-
-    <!-- Step 2: Çark -->
-    <div id="step2" class="step">
-      <p style="text-align:center; font-weight:bold;">Hediye çarkını çevir ve şansını dene!</p>
-      <div id="wheel"><div id="pointer"></div></div>
-      <button id="btnSpin">Çevir</button>
-      <p id="spinResult" class="message"></p>
-    </div>
-
-    <!-- Step 3: Crystal Ball -->
-    <div id="step3" class="step">
-      <p style="text-align:center; font-weight:bold;">Gününüzü güzelleştirecek özel iltifatı görmek ister misiniz?</p>
-      <div class="illustration">
-        <!-- Replace 'muazzam.png' with your actual illustration file -->
-        <img src="muazzam.png" alt="Crystal ball and hands illustration">
-      </div>
-      <div class="field"><input type="text" id="parola1" placeholder="Günün parolası"></div>
-      <button id="btnParola1">Gönder</button>
-      <p id="msg1" class="message"></p>
-      <div class="field"><input type="text" id="parola2" placeholder="Makeup odası parolası"></div>
-      <button id="btnParola2">Gönder</button>
-      <p id="msg2" class="message"></p>
-    </div>
+  <div class="message">
+    <h1>Yönlendiriliyorsunuz...</h1>
+    <p>Hediyeni kazanmak için çark sayfasına gidiliyor.</p>
+    <a href="https://pandomimcafe.github.io/PANDOM-MCAFE/" class="button">Çarkı Aç</a>
   </div>
-
-  <script>
-    const config = JSON.parse(document.getElementById('configData').textContent);
-
-    // Adım geçişleri
-    document.getElementById('btnStep1').onclick = () => {
-      const sel = document.querySelector('input[name=know]:checked');
-      if (!sel) return alert('Lütfen bir seçenek işaretleyin.');
-      document.getElementById('step1').classList.remove('active');
-      document.getElementById(sel.value === 'yes' ? 'step3' : 'step2').classList.add('active');
-    };
-
-    // Çark dönüşü
-    document.getElementById('btnSpin').onclick = () => {
-      const angle = Math.floor(Math.random() * 360) + 720;
-      const wheel = document.getElementById('wheel');
-      wheel.style.transform = `rotate(${angle}deg)`;
-      setTimeout(() => {
-        const segment = Math.floor((angle % 360) / 36);
-        document.getElementById('spinResult').textContent = ['2 bira alana 1 cips','Nargile','Sürpriz görev','Sürpriz görev','Ücretsiz kahve','%10 indirim','%20 indirim','Ücretsiz tatlı','%5 indirim','Ücretsiz çay'][segment];
-        document.getElementById('step2').classList.remove('active');
-        document.getElementById('step3').classList.add('active');
-      }, 4000);
-    };
-
-    // Parola 1 kontrolü
-    document.getElementById('btnParola1').onclick = () => {
-      const p = document.getElementById('parola1').value.trim().toLowerCase();
-      const msg1 = document.getElementById('msg1'); msg1.textContent = '';
-      if (!config.valid1.includes(p)) {
-        return msg1.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
-      }
-      // İltifat
-      setTimeout(() => {
-        msg1.textContent = config.pool1[Math.floor(Math.random() * config.pool1.length)];
-      }, 500);
-    };
-
-    // Parola 2 kontrolü
-    document.getElementById('btnParola2').onclick = () => {
-      const p = document.getElementById('parola2').value.trim().toLowerCase();
-      const msg2 = document.getElementById('msg2'); msg2.textContent = '';
-      if (!config.valid2.includes(p)) {
-        return msg2.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
-      }
-      msg2.textContent = config.pool2[Math.floor(Math.random() * config.pool2.length)];
-    };
-  </script>
 </body>
 </html>

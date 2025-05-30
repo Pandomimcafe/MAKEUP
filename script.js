@@ -1,26 +1,22 @@
+async function kontrolEtMakeupParola() {
+  const parola = document.getElementById("makeupParolaInput").value.trim().toLowerCase();
+  const sonuc = document.getElementById("makeupSonucu");
 
-const iltifatlar = ["Güzelliğin bu sayfaya fazla geldi!", "Gülüşün kahveye bile gerek bırakmıyor.", "Bugün ışığın her yeri aydınlatıyor ✨", "Kendine yakışanı yapmışsın, yine çok güzelsin.", "Zarafet sende vücut bulmuş.", "Aynaya bakmayı unutma, sanat eserisin!", "Bugün, bu şehir biraz daha güzel… çünkü sen varsın.", "Stilin olay yaratıyor 🔥", "Sen yürürken rüzgar bile durup izliyor.", "Güzelliğini anlatmaya kelimeler yetmez."];
-
-const butonIsimleri = [
-  "MORAL ŞART 💋",
-  "RUHUMU OKŞA 💞",
-  "BENİ ŞAŞIRT 🤯",
-  "ŞIMART BENİ 😍",
-  "GÜZELLİK GELSİN ✨"
-];
-
-let sayac = 0;
-const btn = document.getElementById("iltifatBtn");
-const iltifatYazi = document.getElementById("iltifat");
-
-function yeniIltifat() {
-  sayac++;
-  if (sayac <= 3) {
-    const random = Math.floor(Math.random() * iltifatlar.length);
-    iltifatYazi.innerText = iltifatlar[random];
-    btn.innerText = butonIsimleri[(sayac - 1) % butonIsimleri.length];
-  } else {
-    iltifatYazi.innerText = "Bugünlük bu kadar ama yarın yeniden gününüzü güzelleştirmek için bekleriz ❤️❤️";
-    btn.style.display = "none";
+  try {
+    const res = await fetch("makeup_parola.json");
+    const data = await res.json();
+    const gecerli = data.parola.toLowerCase();
+    if (parola === gecerli) {
+      const iltifatlar = data.iltifatlar;
+      const random = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
+      sonuc.innerText = "💗 " + random;
+      sonuc.style.color = "green";
+    } else {
+      sonuc.innerText = "❌ Parola yanlış.";
+      sonuc.style.color = "red";
+    }
+  } catch (e) {
+    sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
+    sonuc.style.color = "orange";
   }
 }

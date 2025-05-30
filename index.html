@@ -31,7 +31,7 @@
 
     <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">1. Pandomim Cafe’yi bilmiyorum</button>
     <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">2. Duydum ama bakmaya gitmedim</button>
-    <button class="welcome-btn" onclick="document.getElementById('falStep').style.display='block'">3. Biliyorum, fal bakmaya geldim :)</button>
+    <button class="welcome-btn" id="btnFal">3. Biliyorum, fal bakmaya geldim :)</button>
 
     <div id="falStep" style="display:none">
       <div class="field">
@@ -61,12 +61,12 @@
 
     <div class="field">
       <input type="text" id="storyPassword" placeholder="Günün Parolası" />
-      <button id="btnStory">Gönder</button>
+      <button id="btnStory" type="button">Gönder</button>
       <p class="message" id="storyMsg"></p>
     </div>
     <div class="field">
       <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
-      <button id="btnMakeup">Gönder</button>
+      <button id="btnMakeup" type="button">Gönder</button>
       <p class="message" id="makeupMsg"></p>
     </div>
     <div class="footer-note">💌 Bu uygulamamızı beğendiysen Instagram'da paylaşarak destek olabilirsin: <strong>@pandomimcafe</strong></div>
@@ -183,6 +183,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("btnFal").addEventListener("click", () => {
+    document.getElementById("falStep").style.display = "block";
+  });
       document.getElementById("btnStory").addEventListener("click", () => checkPassword('story'));
       document.getElementById("btnMakeup").addEventListener("click", () => checkPassword('makeup'));
     });

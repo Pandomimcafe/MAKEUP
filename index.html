@@ -3,48 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pandomim Cafe - Fal Deneyimi</title>
+  <title>Pandomim Cafe - Deneyim</title>
   <style>
     body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; }
-    .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); overflow:hidden; padding:20px; margin-top:20px; }
-    header { background:#ff7f50; color:#fff; text-align:center; padding:24px; }
+    .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); padding:20px; margin-top:20px; }
+    header { background:#ff7f50; color:#fff; text-align:center; padding:20px; border-radius:12px 12px 0 0; }
     header h1 { margin:0; font-size:1.8rem; }
-    .notice { background:#ffeb3b; color:#333; padding:12px; border-radius:8px; margin-bottom:16px; font-weight:bold; text-align:center; }
     .step { display:none; }
     .step.active { display:block; }
     .field { margin:16px 0; }
     label { display:block; margin-bottom:8px; font-weight:bold; }
-    input[type="radio"] { margin-right:8px; }
-    button { width:100%; background:#ff7f50; color:#fff; border:none; padding:14px; border-radius:8px; font-size:1rem; cursor:pointer; margin-top:12px; }
+    input[type="radio"], input[type="text"] { margin-right:8px; }
+    input[type="text"] { width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; }
+    button { width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; }
     button:hover { opacity:0.9; }
-    .message { text-align:left; margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
+    .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
+    .crystal { width:150px; height:150px; margin:20px auto; border-radius:50%; background:radial-gradient(circle at 30% 30%, #eef, #445); animation: glow 2s infinite alternate; }
+    @keyframes glow { from { box-shadow:0 0 10px rgba(255,255,255,0.5); } to { box-shadow:0 0 30px rgba(255,255,255,1); }}
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="notice">
-      ⚠️ Bu sayfayı gerçek tarayıcınızda <br>
-      https://pandomimcafe.github.io/MAKEUP/ adresinden açarak test edin.
+    <header><h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1><p>Seçiminizi yapın:</p></header>
+    <!-- Step 0: Welcome -->
+    <div id="step0" class="step active">
+      <button data-choice="no" class="welcome-btn">1. Pandomim Cafe’yi bilmiyorum</button>
+      <button data-choice="heard" class="welcome-btn">2. Duydum ama bakmaya gitmedim</button>
+      <button data-choice="yes" class="welcome-btn">3. Biliyorum, fal bakmaya geldim :)</button>
     </div>
-    <header><h1>🔮 Pandomim Cafe Fal Deneyimi</h1></header>
-    <!-- Step 1: Sorular -->
-    <div id="step1" class="step active">
-      <div class="field">
-        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
+    <!-- Step 1: Questions -->
+    <div id="step1" class="step">
+      <div class="field"><label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
         <label><input type="radio" name="q0" value="harika"> Harika</label>
         <label><input type="radio" name="q0" value="yorgun"> Yorgun</label>
         <label><input type="radio" name="q0" value="duygusal"> Duygusal</label>
         <label><input type="radio" name="q0" value="karmasik"> Karmaşık</label>
       </div>
-      <div class="field">
-        <label>2. Odaklandığınız konu hangisi?</label>
+      <div class="field"><label>2. Odaklandığınız konu hangisi?</label>
         <label><input type="radio" name="q1" value="ask"> Aşk</label>
         <label><input type="radio" name="q1" value="kariyer"> Kariyer</label>
         <label><input type="radio" name="q1" value="para"> Para</label>
         <label><input type="radio" name="q1" value="kendim"> Kendim</label>
       </div>
-      <div class="field">
-        <label>3. Size ne umut veriyor?</label>
+      <div class="field"><label>3. Size ne umut veriyor?</label>
         <label><input type="radio" name="q2" value="iliskiler"> İlişkiler</label>
         <label><input type="radio" name="q2" value="haber"> Haber</label>
         <label><input type="radio" name="q2" value="his"> His</label>
@@ -55,45 +56,86 @@
     <!-- Step 2: Fal Sonucu -->
     <div id="step2" class="step">
       <p class="message" id="falResult"></p>
+      <button id="btnNext">Devam Et</button>
+    </div>
+    <!-- Step 3: Parolalar & Animasyon -->
+    <div id="step3" class="step">
+      <div class="crystal"></div>
+      <div class="field"><input type="text" id="storyPwd" placeholder="Instagram Story Parolası"></div>
+      <button id="btnStory">Gönder</button>
+      <p class="message" id="storyMsg"></p>
+      <div class="field"><input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası"></div>
+      <button id="btnBeauty">Gönder</button>
+      <p class="message" id="beautyMsg"></p>
+    </div>
+    <!-- Step 4: Redirect to Wheel -->
+    <div id="step4" class="step">
       <button id="btnToRealWheel">Çarkı Çevir</button>
     </div>
   </div>
   <script>
+    // Config ve fallMap önceden yüklenir
+    const config = JSON.parse(document.getElementById('configData')?.textContent || '{}');
     let fallMap = {};
-    // JSON dosyasını doğru yüklemek için path'i mutlak hale getiriyoruz
-    // JSON dosyasını relative olarak yüklemek için
-    fetch('fallar.json')
-      .then(res => {
-        if (!res.ok) throw new Error('JSON yüklenemedi: ' + res.status);
-        return res.json();
-      })
-      .then(json => { 
-        fallMap = json; 
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Fal verisi yüklenemedi: ' + err.message);
-      });
+    fetch('fallar.json').then(r=>r.json()).then(j=>fallMap=j).catch(_=>{});
 
-    document.getElementById('btnShowFal').onclick = () => {
-      const a0 = document.querySelector('input[name=q0]:checked');
-      const a1 = document.querySelector('input[name=q1]:checked');
-      const a2 = document.querySelector('input[name=q2]:checked');
-      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
-      const key = `${a0.value}_${a1.value}_${a2.value}`;
-      const fal = fallMap[key];
-      if (!fal) {
-        alert('Üzgünüm, şu an fal bulunamadı.');
-        return;
+    // Welcome step logic
+    document.querySelectorAll('.welcome-btn').forEach(btn=> btn.onclick = ()=>{
+      const choice = btn.getAttribute('data-choice');
+      if(choice !== 'yes') {
+        window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
+      } else {
+        step(1);
       }
+    });
+    
+    // Show fal
+    document.getElementById('btnShowFal').onclick = ()=>{
+      const a0=document.querySelector('input[name=q0]:checked'),
+            a1=document.querySelector('input[name=q1]:checked'),
+            a2=document.querySelector('input[name=q2]:checked');
+      if(!a0||!a1||!a2) return alert('Lütfen tüm soruları işaretleyin.');
+      const key=`${a0.value}_${a1.value}_${a2.value}`, fal=fallMap[key]||'Üzgünüm, şu an fal bulunamadı.';
       document.getElementById('falResult').textContent = fal;
-      document.getElementById('step1').classList.remove('active');
-      document.getElementById('step2').classList.add('active');
+      step(2);
     };
+    // Next to passwords
+    document.getElementById('btnNext').onclick = ()=> step(3);
+    // Parola checks
+    document.getElementById('btnStory').onclick = ()=>{
+      const p=document.getElementById('storyPwd').value.trim().toLowerCase();
+      const msg=document.getElementById('storyMsg'); msg.textContent='';
+      if(!config.storyValid.includes(p)) return msg.textContent='Parola yanlış.';
+      msg.textContent = config.storyPool[Math.floor(Math.random()*config.storyPool.length)];
+    };
+    document.getElementById('btnBeauty').onclick = ()=>{
+      const p=document.getElementById('beautyPwd').value.trim().toLowerCase();
+      const msg=document.getElementById('beautyMsg'); msg.textContent='';
+      if(!config.beautyValid.includes(p)) return msg.textContent='Parola yanlış.';
+      msg.textContent = config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)];
+      step(4);
+    };
+    // Redirect to wheel
+    document.getElementById('btnToRealWheel').onclick = ()=> window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/';
 
-    document.getElementById('btnToRealWheel').onclick = () => {
-      window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
-    };
+    function step(n){
+      document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
+      document.getElementById('step'+n).classList.add('active');
+    }
+  </script>
+  <script type="application/json" id="configData">
+  {
+    "storyValid": ["umut2025"],
+    "storyPool": [
+      "Her yeni gün, hayallerinizi gerçekleştirmek için bir fırsat saklar. Kalbinizdeki ses size yol gösterecek.",
+      "Güçlü ve cesur adımlar atarak hedeflerinize yaklaşıyorsunuz. İçinizdeki ışıltı, etrafınıza umut yayacak."
+    ],
+    "beautyValid": ["ışıltı","şaheser"],
+    "beautyPool": [
+      "Siyah ojeli zarafetiniz etrafınızdakilerin dikkatini çekecek.",
+      "Doğal güzelliğiniz, en cesur renklerden daha parlak. Kendinize inanmayı unutmayın."
+    ]
+  }
   </script>
 </body>
 </html>

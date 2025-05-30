@@ -80,23 +80,23 @@
     const cooldownTime = 3600000;
 
     const moodPool = {
-      harika: ["Bugün senin için yıldızlar bile sıraya girmiş gibi. Enerjin etrafa yayılıyor."],
-      yorgun: ["Yorgunluğun geçici, içindeki ışık ise kalıcı. Dinlenmeye zaman ayır."],
-      duygusal: ["Kalbinin sesi bugün biraz daha güçlü. Hislerine güven."],
-      karmasik: ["Zihnindeki karmaşa, yakında berraklaşacak. Biraz sabır yeter."]
-    };
+  harika: ["Bugün senin için yıldızlar bile sıraya girmiş gibi. Enerjin etrafa yayılıyor. Bu özel enerji seni bekleyen fırsatları çekiyor. Karşılaştığın her insan üzerinde pozitif bir etki bırakacaksın. Bugün kararların cesur, kalbin aydınlık olsun."],
+  yorgun: ["Yorgunluğun geçici, içindeki ışık ise kalıcı. Dinlenmeye zaman ayır. Çünkü bedenin kadar ruhun da huzura ihtiyaç duyar. Kendine gösterdiğin şefkat seni yeniden canlandıracak. Sabret, bu sessizlik bir yenilenmenin habercisi."],
+  duygusal: ["Kalbinin sesi bugün biraz daha güçlü. Hislerine güven. Geçmişin izleri sana yön göstermeye çalışıyor olabilir. Bu dönemde içgüdülerine kulak vermek sana beklenmedik bir açıklık kazandıracak. Duyguların seni iyileştirecek."],
+  karmasik: ["Zihnindeki karmaşa, yakında berraklaşacak. Biraz sabır yeter. Kendini dinlemeye vakit ayırdığında, aslında tüm yanıtların sende olduğunu göreceksin. Bu karmaşadan bir yön doğacak ve seni ileriye taşıyacak."],
+};
     const topicPool = {
-      ask: ["Aşk konusunda beklenmedik bir gelişme seni şaşırtabilir."],
-      kariyer: ["Kariyer yolunda yeni bir fırsat kapını çalmak üzere."],
-      para: ["Maddi konularda şans senden yana olacak."],
-      kendim: ["Kendine zaman ayırmak, sana tahmin ettiğinden daha iyi gelecek."]
-    };
+  ask: ["Aşk konusunda beklenmedik bir gelişme seni şaşırtabilir. Kalbinde filizlenen bir his, hayatına yön verebilir. Karşına çıkan kişilerde sana aynalık eden detaylara dikkat et. İçtenliğinle bağ kurduğunda güzel kapılar açılacak."],
+  kariyer: ["Kariyer yolunda yeni bir fırsat kapını çalmak üzere. Ancak bu fırsatı fark etmek senin hazır oluş seviyene bağlı. Yeni bir proje, teklif ya da tanıdık biri seni ileriye taşıyabilir. Yeter ki özgüvenin senden önce konuşsun."],
+  para: ["Maddi konularda şans senden yana olacak. Ancak kazanç, sadece gelen değil, doğru yönetilen şeydir. Harcamalarında dikkatli olur ve sezgilerine güvenirsen, finansal anlamda rahat bir dönem seni bekliyor."],
+  kendim: ["Kendine zaman ayırmak, sana tahmin ettiğinden daha iyi gelecek. İçsel dönüşümün başladığı bir evredesin. Biraz yalnızlık, biraz sessizlik sana büyüme alanı yaratacak. Bugün attığın adımlar, yarının gücünü şekillendirecek."],
+};
     const hopePool = {
-      iliskiler: ["Yakın ilişkilerden alacağın destek seni mutlu edecek."],
-      haber: ["Beklediğin güzel bir haber kapıda."],
-      his: ["İç sesin seni doğru yöne yönlendirecek."],
-      surpriz: ["Hiç beklemediğin birinden gelen sürpriz moralini yükseltecek."]
-    };
+  iliskiler: ["Yakın ilişkilerden alacağın destek seni mutlu edecek. Seni gerçekten anlayan ve yargılamayan biriyle yapacağın bir konuşma, içini ferahlatacak. Güven bağlarını güçlendirmeye odaklan. Sevgi, senin ana pusulan olacak."],
+  haber: ["Beklediğin güzel bir haber kapıda. Ama bu haberle birlikte sorumluluk da gelecek. Hazırlıklı ol, çünkü bu gelişme seni yeni bir düzene davet edebilir. Kalbinin ışığında ilerlersen, bu yenilik sana çok iyi gelecek."],
+  his: ["İç sesin seni doğru yöne yönlendirecek. Zihnini susturup kalbinin fısıltısına kulak verdiğinde, gerçek niyetin ortaya çıkacak. Bu sezgi dolu yönlendirme sayesinde önündeki engeller kalkmaya başlayacak."],
+  surpriz: ["Hiç beklemediğin birinden gelen sürpriz moralini yükseltecek. Bu küçük ama anlamlı jest, seni ne kadar değerli hissettirecek. Hayatın bazen plan dışı gelişmelerle güzelleştiğini unutma. Kabulde kal."],
+};
 
     function isCooldownOver(key) {
       const last = localStorage.getItem(key);

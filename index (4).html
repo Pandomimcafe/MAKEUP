@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pandomim Dünyası</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to right, #ffe3e3, #ffd6a5);
+      padding: 30px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff7f50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎭 Pandomim Dünyasına Hoş Geldin!</h2>
+    <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+
+    <div class="box">
+      <h3>🧠 Gününü güzelleştir!</h3>
+      <p>Instagram story’deki parolayı gir:</p>
+      <input type="text" id="gunlukParolaInput" placeholder="Günün parolası" />
+      <button onclick="kontrolEtGunlukParola()">Parolayı Göster</button>
+      <p class="result" id="gunlukSonuc"></p>
+    </div>
+
+    <div class="box">
+      <h3>🔒 Make-up Odası Parolası</h3>
+      <input type="text" id="makeupParolaInput" placeholder="Makeup parolası" />
+      <button onclick="kontrolEtMakeupParola()">Güzelliğini Onayla</button>
+      <p class="result" id="makeupSonucu"></p>
+    </div>
+  </div>
+
+  <script>
+    async function kontrolEtGunlukParola() {
+      const parola = document.getElementById("gunlukParolaInput").value.trim().toLowerCase();
+      const sonuc = document.getElementById("gunlukSonuc");
+
+      try {
+        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/parola.json");
+        const data = await res.json();
+        const gecerli = data.parola.toLowerCase();
+        if (parola === gecerli) {
+          const iltifatlar = data.iltifatlar;
+          const random = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
+          sonuc.innerText = `💌 ${random}`;
+          sonuc.style.color = "green";
+        } else {
+          sonuc.innerText = "❌ Parola yanlış.";
+          sonuc.style.color = "red";
+        }
+      } catch (e) {
+        sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
+        sonuc.style.color = "orange";
+      }
+    }
+
+    async function kontrolEtMakeupParola() {
+      const parola = document.getElementById("makeupParolaInput").value.trim().toLowerCase();
+      const sonuc = document.getElementById("makeupSonucu");
+
+      try {
+        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/makeup_parola.json");
+        const data = await res.json();
+        const gecerli = data.parola.toLowerCase();
+        if (parola === gecerli) {
+          const iltifatlar = data.iltifatlar;
+          const random = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
+          sonuc.innerText = `💖 ${random}`;
+          sonuc.style.color = "green";
+        } else {
+          sonuc.innerText = "❌ Parola yanlış.";
+          sonuc.style.color = "red";
+        }
+      } catch (e) {
+        sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
+        sonuc.style.color = "orange";
+      }
+    }
+  </script>
+</body>
+</html>

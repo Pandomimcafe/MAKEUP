@@ -23,11 +23,11 @@
 <body>
   <div class="container">
     <div class="notice">
-      ⚠️ Lütfen bu sayfayı ChatGPT içindeki önizlemede değil, gerçek tarayıcınızda <br>
+      ⚠️ Bu sayfayı gerçek tarayıcınızda <br>
       https://pandomimcafe.github.io/MAKEUP/ adresinden açarak test edin.
     </div>
     <header><h1>🔮 Pandomim Cafe Fal Deneyimi</h1></header>
-    <!-- Step 1: Questions -->
+    <!-- Step 1: Sorular -->
     <div id="step1" class="step active">
       <div class="field">
         <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
@@ -52,16 +52,28 @@
       </div>
       <button id="btnShowFal">Falımı Göster</button>
     </div>
-    <!-- Step 2: Fal Result -->
+    <!-- Step 2: Fal Sonucu -->
     <div id="step2" class="step">
       <p class="message" id="falResult"></p>
       <button id="btnToRealWheel">Çarkı Çevir</button>
     </div>
   </div>
   <script>
-    // Tüm kombinasyonlar inline olarak eklenmiştir
-    const fallMap = { /* ... */ };
-    const realWheelUrl = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
+    let fallMap = {};
+    // JSON dosyasını doğru yüklemek için path'i mutlak hale getiriyoruz
+    // JSON dosyasını relative olarak yüklemek için
+    fetch('fallar.json')
+      .then(res => {
+        if (!res.ok) throw new Error('JSON yüklenemedi: ' + res.status);
+        return res.json();
+      })
+      .then(json => { 
+        fallMap = json; 
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Fal verisi yüklenemedi: ' + err.message);
+      });
 
     document.getElementById('btnShowFal').onclick = () => {
       const a0 = document.querySelector('input[name=q0]:checked');
@@ -69,13 +81,18 @@
       const a2 = document.querySelector('input[name=q2]:checked');
       if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
       const key = `${a0.value}_${a1.value}_${a2.value}`;
-      const fal = fallMap[key] || 'Üzgünüm, şu an fal bulunamadı.';
+      const fal = fallMap[key];
+      if (!fal) {
+        alert('Üzgünüm, şu an fal bulunamadı.');
+        return;
+      }
       document.getElementById('falResult').textContent = fal;
       document.getElementById('step1').classList.remove('active');
       document.getElementById('step2').classList.add('active');
     };
+
     document.getElementById('btnToRealWheel').onclick = () => {
-      window.location.href = realWheelUrl;
+      window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
     };
   </script>
 </body>

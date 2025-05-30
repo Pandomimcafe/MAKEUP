@@ -15,12 +15,26 @@
     label { display:block; margin-bottom:8px; font-weight:bold; }
     input[type="radio"], input[type="text"] { margin-right:8px; }
     input[type="text"] { width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; }
-    button { width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; }
+    button { width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin-top:12px; }
     button:hover { opacity:0.9; }
     .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
     .crystal { width:150px; height:150px; margin:20px auto; border-radius:50%; background:radial-gradient(circle at 30% 30%, #eef, #445); animation: glow 2s infinite alternate; }
     @keyframes glow { from { box-shadow:0 0 10px rgba(255,255,255,0.5); } to { box-shadow:0 0 30px rgba(255,255,255,1); }}
   </style>
+  <script type="application/json" id="configData">
+  {
+    "storyValid": ["umut2025"],
+    "storyPool": [
+      "Her yeni gün, hayallerinizi gerçekleştirmek için bir fırsat saklar. Kalbinizdeki ses size yol gösterecek.",
+      "Güçlü ve cesur adımlar atarak hedeflerinize yaklaşıyorsunuz. İçinizdeki ışıltı, etrafınıza umut yayacak."
+    ],
+    "beautyValid": ["ışıltı","şaheser"],
+    "beautyPool": [
+      "Siyah ojeli zarafetiniz etrafınızdakilerin dikkatini çekecek.",
+      "Doğal güzelliğiniz, en cesur renklerden daha parlak. Kendinize inanmayı unutmayın."
+    ]
+  }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -58,7 +72,7 @@
       <p class="message" id="falResult"></p>
       <button id="btnNext">Devam Et</button>
     </div>
-    <!-- Step 3: Parolalar & Animasyon -->
+    <!-- Step 3: Parolalar, Animasyon ve İltifat -->
     <div id="step3" class="step">
       <div class="crystal"></div>
       <div class="field"><input type="text" id="storyPwd" placeholder="Instagram Story Parolası"></div>
@@ -67,75 +81,65 @@
       <div class="field"><input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası"></div>
       <button id="btnBeauty">Gönder</button>
       <p class="message" id="beautyMsg"></p>
+      <!-- İltifattan sonra tatlı emojiler ve paylaşım çağrısı -->
+      <div id="afterBeauty" style="display:none; text-align:center; margin-top:16px;">
+        <p style="font-size:1.5rem;">😘 😘 😘</p>
+        <p style="font-size:1rem;">Bu deneyimden memnun kaldıysanız bizi Instagram’da paylaşın!</p>
+      </div>
     </div>
-    <!-- Step 4: Redirect to Wheel -->
-    <div id="step4" class="step">
-      <button id="btnToRealWheel">Çarkı Çevir</button>
+      <div class="field"><input type="text" id="storyPwd" placeholder="Instagram Story Parolası"></div>
+      <button id="btnStory">Gönder</button>
+      <p class="message" id="storyMsg"></p>
+      <div class="field"><input type="text" id="beautyPwd" placeholder="Makeup Odası Parolası"></div>
+      <button id="btnBeauty">Gönder</button>
+      <p class="message" id="beautyMsg"></p>
+      <div id="afterBeauty" style="display:none; text-align:center; margin-top:16px;">
+        <p style="font-size:1.2rem;">😘 😘 😘</p>
+        <p style="font-size:1rem;">Bu deneyimden memnun kaldıysanız bizi Instagram’da paylaşın!</p>
+        <button id="btnToRealWheel" style="margin-top:12px;">Çarkı Çevir</button>
+      </div>
+      <button id="btnToRealWheel" style="display:none; margin-top:20px;">Çarkı Çevir</button>
     </div>
   </div>
   <script>
-    // Config ve fallMap önceden yüklenir
-    const config = JSON.parse(document.getElementById('configData')?.textContent || '{}');
+    const config = JSON.parse(document.getElementById('configData').textContent);
     let fallMap = {};
     fetch('fallar.json').then(r=>r.json()).then(j=>fallMap=j).catch(_=>{});
 
-    // Welcome step logic
-    document.querySelectorAll('.welcome-btn').forEach(btn=> btn.onclick = ()=>{
-      const choice = btn.getAttribute('data-choice');
-      if(choice !== 'yes') {
-        window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
-      } else {
-        step(1);
-      }
-    });
-    
-    // Show fal
-    document.getElementById('btnShowFal').onclick = ()=>{
-      const a0=document.querySelector('input[name=q0]:checked'),
-            a1=document.querySelector('input[name=q1]:checked'),
-            a2=document.querySelector('input[name=q2]:checked');
+    document.querySelectorAll('.welcome-btn').forEach(btn=> btn.addEventListener('click', ()=>{
+      if(btn.dataset.choice !== 'yes') window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/';
+      else step(1);
+    }));
+
+    document.getElementById('btnShowFal').addEventListener('click', ()=>{
+      const a0=document.querySelector('input[name=q0]:checked'), a1=document.querySelector('input[name=q1]:checked'), a2=document.querySelector('input[name=q2]:checked');
       if(!a0||!a1||!a2) return alert('Lütfen tüm soruları işaretleyin.');
-      const key=`${a0.value}_${a1.value}_${a2.value}`, fal=fallMap[key]||'Üzgünüm, şu an fal bulunamadı.';
+      const fal=fallMap[`${a0.value}_${a1.value}_${a2.value}`] || 'Üzgünüm, şu an fal bulunamadı.';
       document.getElementById('falResult').textContent = fal;
       step(2);
-    };
-    // Next to passwords
-    document.getElementById('btnNext').onclick = ()=> step(3);
-    // Parola checks
-    document.getElementById('btnStory').onclick = ()=>{
-      const p=document.getElementById('storyPwd').value.trim().toLowerCase();
-      const msg=document.getElementById('storyMsg'); msg.textContent='';
-      if(!config.storyValid.includes(p)) return msg.textContent='Parola yanlış.';
-      msg.textContent = config.storyPool[Math.floor(Math.random()*config.storyPool.length)];
-    };
-    document.getElementById('btnBeauty').onclick = ()=>{
-      const p=document.getElementById('beautyPwd').value.trim().toLowerCase();
-      const msg=document.getElementById('beautyMsg'); msg.textContent='';
-      if(!config.beautyValid.includes(p)) return msg.textContent='Parola yanlış.';
-      msg.textContent = config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)];
-      step(4);
-    };
-    // Redirect to wheel
-    document.getElementById('btnToRealWheel').onclick = ()=> window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/';
+    });
 
-    function step(n){
-      document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
-      document.getElementById('step'+n).classList.add('active');
-    }
-  </script>
-  <script type="application/json" id="configData">
-  {
-    "storyValid": ["umut2025"],
-    "storyPool": [
-      "Her yeni gün, hayallerinizi gerçekleştirmek için bir fırsat saklar. Kalbinizdeki ses size yol gösterecek.",
-      "Güçlü ve cesur adımlar atarak hedeflerinize yaklaşıyorsunuz. İçinizdeki ışıltı, etrafınıza umut yayacak."
-    ],
-    "beautyValid": ["ışıltı","şaheser"],
-    "beautyPool": [
-      "Siyah ojeli zarafetiniz etrafınızdakilerin dikkatini çekecek.",
-      "Doğal güzelliğiniz, en cesur renklerden daha parlak. Kendinize inanmayı unutmayın."
-    ]
-  }
+    document.getElementById('btnNext').addEventListener('click', ()=> step(3));
+
+    document.getElementById('btnStory').addEventListener('click', ()=>{
+      const p=document.getElementById('storyPwd').value.trim().toLowerCase(), msg=document.getElementById('storyMsg'); msg.textContent='';
+      if(!config.storyValid.includes(p)) msg.textContent='Parola yanlış.';
+      else msg.textContent = config.storyPool[Math.floor(Math.random()*config.storyPool.length)];
+    });
+
+    document.getElementById('btnBeauty').addEventListener('click', ()=>{
+      const p=document.getElementById('beautyPwd').value.trim().toLowerCase(), msg=document.getElementById('beautyMsg'); msg.textContent='';
+      if(!config.beautyValid.includes(p)) msg.textContent='Parola yanlış.';
+      else {
+        msg.textContent = config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)];
+        // İltifattan sonra çark butonunu göster
+        document.getElementById('btnToRealWheel').style.display = 'block';
+      }
+    });
+
+    document.getElementById('btnToRealWheel').addEventListener('click', ()=> window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/');
+
+    function step(n){ document.querySelectorAll('.step').forEach(el=>el.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
   </script>
 </body>
 </html>

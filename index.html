@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,24 +11,22 @@
       padding: 30px;
       text-align: center;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-    }
-    .box {
-      background: white;
-      padding: 20px;
-      margin: 20px 0;
+    .kutucuk {
+      display: none;
+      margin: 20px auto;
+      max-width: 500px;
+      background: #fff;
+      padding: 15px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input {
-      padding: 10px;
-      font-size: 16px;
-      width: 80%;
-      margin-bottom: 10px;
+    #sonuc, #makeupSonucu {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
     }
     button {
+      margin-top: 15px;
       padding: 10px 20px;
       font-size: 16px;
       background-color: #ff7f50;
@@ -38,46 +35,116 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .result {
-      margin-top: 10px;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>🎭 Pandomim Dünyasına Hoş Geldin!</h2>
-    <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+  <h2>🎭 Pandomim Dünyasına Hoş Geldin!</h2>
+  <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
 
-    <div class="box">
-      <h3>🧠 Gününü güzelleştir!</h3>
-      <p>Instagram story’deki parolayı gir:</p>
-      <input type="text" id="gunlukParolaInput" placeholder="Günün parolası" />
-      <button onclick="kontrolEtGunlukParola()">Parolayı Göster</button>
-      <p class="result" id="gunlukSonuc"></p>
-    </div>
+  <!-- Giriş ekranı -->
+  <div id="girisEkrani">
+    <h3>Pandomim Cafe'yi biliyor musun?</h3>
+    <label><input type="radio" name="giris" value="hayir" /> Hayır</label><br/>
+    <label><input type="radio" name="giris" value="duydum" /> Duymuştum ama gitmedim</label><br/>
+    <label><input type="radio" name="giris" value="gittim" /> Gittim tabii ki fal bakmaya geldim :)</label><br/>
+    <button onclick="baslat()">Devam Et</button>
+  </div>
 
-    <div class="box">
-      <h3>🔒 Make-up Odası Parolası</h3>
-      <input type="text" id="makeupParolaInput" placeholder="Makeup parolası" />
-      <button onclick="kontrolEtMakeupParola()">Güzelliğini Onayla</button>
-      <p class="result" id="makeupSonucu"></p>
-    </div>
+  <!-- Fal bölümü -->
+  <div id="falBolumu" class="kutucuk">
+    <h3>Bugün kendini nasıl hissediyorsun?</h3>
+    <label><input type="radio" name="q1" value="iyi" /> Harika</label><br/>
+    <label><input type="radio" name="q1" value="yorgun" /> Yorgun</label><br/>
+
+    <h3>Aklında en çok ne var?</h3>
+    <label><input type="radio" name="q2" value="ask" /> Aşk</label><br/>
+    <label><input type="radio" name="q2" value="kariyer" /> Kariyer</label><br/>
+
+    <h3>En çok neyi diliyorsun?</h3>
+    <label><input type="radio" name="q3" value="surpriz" /> Sürpriz</label><br/>
+    <label><input type="radio" name="q3" value="huzur" /> Huzur</label><br/>
+    <button onclick="getFal()">Falımı Göster</button>
+  </div>
+
+  <!-- Sonuç -->
+  <div id="sonuc"></div>
+
+  <!-- Günün parolası -->
+  <div id="gunlukParola" class="kutucuk">
+    <h3>🧠 Gününü güzelleştir!</h3>
+    <p>Instagram story’deki parolayı gir:</p>
+    <input type="text" id="parolaInput" placeholder="Günün parolası" />
+    <button onclick="kontrolEtParola()">Parolayı Göster</button>
+    <p id="parolaSonucu"></p>
+  </div>
+
+  <!-- Makeup parolası -->
+  <div id="makeupParola" class="kutucuk">
+    <h3>🔒 Make-up Odası Parolası</h3>
+    <input type="text" id="makeupParolaInput" placeholder="Makeup parolası" />
+    <button onclick="kontrolEtMakeupParola()">Güzelliğini Onayla</button>
+    <p id="makeupSonucu"></p>
   </div>
 
   <script>
-    async function kontrolEtGunlukParola() {
-      const parola = document.getElementById("gunlukParolaInput").value.trim().toLowerCase();
-      const sonuc = document.getElementById("gunlukSonuc");
+    function baslat() {
+      const secim = document.querySelector('input[name="giris"]:checked');
+      if (!secim) {
+        alert("Lütfen bir seçenek seçin.");
+        return;
+      }
+      if (secim.value === "gittim") {
+        document.getElementById("girisEkrani").style.display = "none";
+        document.getElementById("falBolumu").style.display = "block";
+      } else {
+        window.location.href = "https://pandomimcafe.github.io/PANDOM-MCAFE/";
+      }
+    }
+
+    async function getFal() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        alert("Tüm soruları yanıtla.");
+        return;
+      }
 
       try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/parola.json");
+        const res = await fetch("https://pandomimcafe.github.io/fallar.json");
+        const data = await res.json();
+        const key = `${q1.value}_${q2.value}_${q3.value}`;
+        const olasiFallar = data[key];
+
+        let fal = "Bugün kalbinin sesi sana rehberlik edecek.";
+        if (olasiFallar && olasiFallar.length > 0) {
+          fal = olasiFallar[Math.floor(Math.random() * olasiFallar.length)];
+        }
+
+        document.getElementById("falBolumu").style.display = "none";
+        document.getElementById("sonuc").innerText = fal;
+        document.getElementById("sonuc").style.display = "block";
+
+        document.getElementById("gunlukParola").style.display = "block";
+        document.getElementById("makeupParola").style.display = "block";
+
+      } catch (e) {
+        alert("Fal verisi alınamadı.");
+      }
+    }
+
+    async function kontrolEtParola() {
+      const parola = document.getElementById("parolaInput").value.trim().toLowerCase();
+      const sonuc = document.getElementById("parolaSonucu");
+
+      try {
+        const res = await fetch("https://pandomimcafe.github.io/parola.json");
         const data = await res.json();
         const gecerli = data.parola.toLowerCase();
         if (parola === gecerli) {
-          const iltifatlar = data.iltifatlar;
-          const random = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
-          sonuc.innerText = `💌 ${random}`;
+          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
+          sonuc.innerText = `💖 ${rastgele}`;
           sonuc.style.color = "green";
         } else {
           sonuc.innerText = "❌ Parola yanlış.";
@@ -94,13 +161,12 @@
       const sonuc = document.getElementById("makeupSonucu");
 
       try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/makeup_parola.json");
+        const res = await fetch("https://pandomimcafe.github.io/makeup_parola.json");
         const data = await res.json();
         const gecerli = data.parola.toLowerCase();
         if (parola === gecerli) {
-          const iltifatlar = data.iltifatlar;
-          const random = iltifatlar[Math.floor(Math.random() * iltifatlar.length)];
-          sonuc.innerText = `💖 ${random}`;
+          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
+          sonuc.innerText = `💘 ${rastgele}`;
           sonuc.style.color = "green";
         } else {
           sonuc.innerText = "❌ Parola yanlış.";

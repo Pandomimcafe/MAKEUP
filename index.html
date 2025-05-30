@@ -83,65 +83,83 @@
   </div>
 
   <script>
-    // Tüm kombinasyonları inline ekleyin
-    const fallMap = {
-      "harika_ask_iliskiler": "Bugün harika hissediyorsun...",
-      "harika_ask_haber": "Bugün harika hissediyorsun...",
-      // ... diğer anahtarlar ...
-    };
-    const config = {
-      storyValid: ["umut2025"], storyPool: [
-        "Her yeni gün, hayallerinizi gerçekleştirmek için bir fırsat saklar.",
-        "Güçlü ve cesur adımlar atarak hedeflerinize yaklaşıyorsunuz."
+    // Havuz tanımlamaları
+    const moodPool = {
+      harika: [
+        "Bugün içindeki enerji adeta taşmak üzere. Girdiğin her ortamda dikkatleri üzerine çekiyorsun. İnsanlar seninle vakit geçirmekten keyif alacak, çünkü sen ışık saçıyorsun. Bu pozitifliğin etkisi sadece bugünü değil, önümüzdeki günleri de etkileyecek. Yeni bir adım atmak, bir başlangıç yapmak için harika bir gündesin. Evren senin yanında, içgüdülerini takip et. Unutma, böyle hissettiğin günlerde hayaller bir adım daha yakındır."
       ],
-      beautyValid: ["ışıltı","şaheser"], beautyPool: [
-        "Siyah ojeli zarafetiniz etrafınızdakilerin dikkatini çekecek.",
-        "Doğal güzelliğiniz, en cesur renklerden daha parlak."
+      yorgun: [
+        "Kendini biraz tükenmiş gibi hissediyor olabilirsin. Son zamanlarda yüklerini fazlasıyla omuzladın. Ama bu yorgunluk, aslında ne kadar emek verdiğinin sessiz kanıtı. Bugün dinlenmek için kendine izin ver, çünkü ruhun bunu fazlasıyla hak etti. Her şeyden bir adım geri çekilmek, aslında ilerlemek için zemin hazırlar. Sessizlik bazen en yüksek sesle konuşur. Dinlen, toparlan, çünkü yakında yeniden parlayacaksın."
+      ],
+      duygusal: [
+        "Kalbinin derinliklerinden gelen duygular bugün yüzeye çıkmış gibi. Belki eski bir anı, belki beklenmedik bir kelime seni etkiledi. Ama bil ki bu hassasiyet seni zayıf değil, daha da derin bir insan yapar. Her gözyaşı yeni bir anlayış doğurur. Hissettiğin her şeyin bir anlamı var ve seni daha güçlü kılıyor. Bugün duygularına direnme, aksine onları kabul et. Bu içsel farkındalık seni ruhsal olarak dönüştürüyor."
+      ],
+      karmasik: [
+        "Zihninde onlarca düşünce birbiriyle yarışıyor olabilir. Bir karar verememek seni yıpratmış olabilir ama bu aslında değişimin eşiğinde olduğunu gösterir. Her karmaşa bir çözüm doğurur. Belki de henüz görmediğin bir ihtimal seni bekliyor. Bugün her şeyi çözmek zorunda değilsin, sadece iç sesini duymaya çalış. Kendine karşı anlayışlı ol. Bu belirsizlik, seni bambaşka bir netliğe götürecek."
       ]
     };
+    const topicPool = {
+      ask: [
+        "Aşk hayatında beklenmedik bir kıvılcım yanabilir. Kalbin kapalıysa aç, açıksa daha da derinleşmeye hazır ol.",
+        "Bir bakış, bir mesaj, ya da bir an... Aşkta yeni bir sayfa seni bekliyor olabilir. Geçmişe takılma, bugünü yaşa."
+      ],
+      kariyer: [
+        "Kariyerinle ilgili bir dönüm noktasına yaklaşıyorsun. Belki de risk almadan büyüme olmaz, düşün taşın ama cesur ol.",
+        "İş hayatında gösterdiğin sabır ve özveri yakında karşılığını verecek. Kendini gösterme zamanı geliyor."
+      ],
+      para: [
+        "Maddi konularda biraz daha dikkatli olmak sana iyi gelecek. Küçük adımlar, büyük farklar yaratabilir.",
+        "Beklenmedik bir fırsat ya da ödeme haberi seni sevindirebilir. Parayla ilişkin değişiyor, buna açık ol."
+      ],
+      kendim: [
+        "Kendinle ilgili farkındalıkların artıyor. İçsel yolculuğun seni şaşırtacak kapılar açabilir.",
+        "Bu dönem kendine dönmek için harika bir zaman. Ne istediğini bilmek, her şeyin anahtarı olabilir."
+      ]
+    };
+    const hopePool = {
+      iliskiler: [
+        "Yakın çevrende seni gerçekten seven insanlar var. Ancak bazen duygularını göstermekte çekimser olabiliyorlar. Bugün bir dostun ya da yakının sana küçük ama anlamlı bir jest yapabilir. Bu bağlar seni düşündüğünden çok daha fazla besliyor. Belki sen de bir mesaj atarak ya da sesini duyurarak bir bağı yeniden canlandırabilirsin. İlişkiler emek ister ama sonuçları da kalbe iyi gelir. Sevildiğini bilmek sana güç verecek."
+      ],
+      haber: [
+        "Bugün ya da çok yakında alacağın bir haber ruh halini değiştirebilir. Beklediğin bir dönüş, bir sonuç ya da bir itiraf seni bulabilir. Bu haber başlangıçta seni şaşırtabilir ama zamanla yüzünde bir gülümseme oluşturacak. Uzaklardan gelen bir ses, iç dünyanda yeni bir pencere açacak. Bil ki, bazen en güzel haberler tam da unuttuğunda gelir. Kulaklarını ve kalbini açık tut. Hayat sürprizlerle dolu."
+      ],
+      his: [
+        "İçine doğan duygulara kulak ver, çünkü bugün sezgilerin oldukça güçlü. Bir olayın perde arkasını fark edebilir ya da bir kişinin gerçek niyetini anlayabilirsin. Hislerin seni yanıltmayacak. Gözünle göremediğin şeyleri kalbinle fark edebilirsin. Bugün aldığın içsel sinyalleri hafife alma. Onlar sana doğru yolu göstermek için oradalar. Ruhsal bir uyanış kapıda olabilir."
+      ],
+      surpriz: [
+        "Hayat bazen en beklenmedik anlarda hediyesini sunar. Bugün sana sürpriz bir gelişme yaşatabilir. Belki küçük bir hediye, belki ani bir buluşma ya da içini ısıtan bir söz... Bu olay, moralini yerine getirecek. Sen planlar yaparken evren başka planlar kurar ve bu plan seni gülümsetebilir. Açık fikirli ve hazır ol. Güzel şeyler tam köşeyi dönerken gelir."
+      ]
+    };
+    const config = { storyValid: ["umut2025"], storyPool: ["Her yeni gün, hayallerinizi gerçekleştirmek için bir fırsat saklar.", "Güçlü ve cesur adımlar atarak hedeflerinize yaklaşıyorsunuz."], beautyValid: ["ışıltı","şaheser"], beautyPool: ["Siyah ojeli zarafetiniz etrafınızdakilerin dikkatini çekecek.", "Doğal güzelliğiniz, en cesur renklerden daha parlak."] };
 
-    // Adım geçiş fonksiyonu
     function step(n) {
       document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
       document.getElementById('step'+n).classList.add('active');
     }
 
-    // Welcome butonları
-    document.querySelectorAll('.welcome-btn').forEach(btn => btn.addEventListener('click', () => {
-      if (btn.dataset.choice === 'yes') step(1);
-      else window.location.href = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
-    }));
+    document.querySelectorAll('.welcome-btn').forEach(btn => btn.addEventListener('click', ()=> btn.dataset.choice==='yes'? step(1): window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'));
 
-    // Fal gösterme
-    document.getElementById('btnShowFal').addEventListener('click', () => {
-      const a0 = document.querySelector('input[name=q0]:checked');
-      const a1 = document.querySelector('input[name=q1]:checked');
-      const a2 = document.querySelector('input[name=q2]:checked');
-      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
-      const key = `${a0.value}_${a1.value}_${a2.value}`;
-      document.getElementById('falResult').textContent = fallMap[key] || 'Üzgünüm, şu an fal bulunamadı.';
+    document.getElementById('btnShowFal').addEventListener('click', ()=>{
+      const a0 = document.querySelector('input[name=q0]:checked').value;
+      const a1 = document.querySelector('input[name=q1]:checked').value;
+      const a2 = document.querySelector('input[name=q2]:checked').value;
+      const part1 = moodPool[a0][Math.floor(Math.random()*moodPool[a0].length)];
+      const part2 = topicPool[a1][Math.floor(Math.random()*topicPool[a1].length)];
+      const part3 = hopePool[a2][Math.floor(Math.random()*hopePool[a2].length)];
+      document.getElementById('falResult').textContent = part1 + ' ' + part2 + ' ' + part3;
       step(2);
     });
 
-    // Devam et
-    document.getElementById('btnNext').addEventListener('click', () => step(3));
+    document.getElementById('btnNext').addEventListener('click', ()=> step(3));
 
-    // Story parola kontrolü
-    document.getElementById('btnStory').addEventListener('click', () => {
+    document.getElementById('btnStory').addEventListener('click', ()=>{
       const p = document.getElementById('storyPwd').value.trim().toLowerCase();
-      const msg = document.getElementById('storyMsg');
-      msg.textContent = config.storyValid.includes(p)
-        ? config.storyPool[Math.floor(Math.random() * config.storyPool.length)]
-        : 'Parola yanlış.';
+      const msg = document.getElementById('storyMsg'); msg.textContent = config.storyValid.includes(p)? config.storyPool[Math.floor(Math.random()*config.storyPool.length)] : 'Parola yanlış.';
     });
 
-    // Beauty parola kontrolü
-    document.getElementById('btnBeauty').addEventListener('click', () => {
+    document.getElementById('btnBeauty').addEventListener('click', ()=>{
       const p = document.getElementById('beautyPwd').value.trim().toLowerCase();
-      const msg = document.getElementById('beautyMsg');
-      msg.textContent = config.beautyValid.includes(p)
-        ? config.beautyPool[Math.floor(Math.random() * config.beautyPool.length)]
-        : 'Parola yanlış.';
+      const msg = document.getElementById('beautyMsg'); msg.textContent = config.beautyValid.includes(p)? config.beautyPool[Math.floor(Math.random()*config.beautyPool.length)] : 'Parola yanlış.';
     });
   </script>
 </body>

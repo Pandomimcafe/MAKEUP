@@ -1,293 +1,150 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pandomim Dünyası</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pandomim Cafe - Birleşik Deneyim</title>
   <style>
-    body {
-      font-family: sans-serif;
-      background: linear-gradient(to right, #ffe3e3, #ffd6a5);
-      padding: 30px;
-      text-align: center;
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; }
+    .container { max-width:600px; margin:40px auto; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); overflow:hidden; padding-bottom:20px; }
+    header { text-align:center; padding:40px 20px 20px; }
+    header h1 { font-size:2rem; margin:0; }
+    header p { font-size:1.1rem; color:#555; margin:8px 0 0; }
+    .step { display:none; padding:0 20px; }
+    .step.active { display:block; }
+    button { background:#ff7f50; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-size:1rem; margin-top:10px; }
+    button:hover { opacity:0.9; }
+
+    /* Spin Wheel */
+    #wheel { width:280px; height:280px; margin:20px auto; background: conic-gradient(
+        #f44336 0 36deg, #4caf50 36deg 72deg, #2196f3 72deg 108deg, #ffeb3b 108deg 144deg,
+        #00bcd4 144deg 180deg, #9c27b0 180deg 216deg, #ff9800 216deg 252deg, #607d8b 252deg 288deg,
+        #8bc34a 288deg 324deg, #e91e63 324deg 360deg);
+      border-radius:50%; position:relative; transition:transform 4s cubic-bezier(0.33,1,0.68,1); }
+    #pointer { width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:32px solid #333; position:absolute; top:-32px; left:calc(50% - 16px);}    
+
+    /* Muazzam crystal ball illustration */
+    .illustration { text-align:center; margin:20px auto; }
+    .illustration img {
+      width:240px;
+      opacity:0;
+      animation: fadeIn 1s ease-out forwards;
     }
-    .question, .fal-bolumu, .parola-bolumu, .makeup-parola-bolumu, #result {
-      display: none;
-      margin: 20px auto;
-      max-width: 500px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    @keyframes fadeIn {
+      to { opacity:1; }
     }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #ff7f50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #falKure {
-      display: none;
-      margin: 20px auto;
-      width: 200px;
-    }
-    #falKure img {
-      width: 100%;
-      animation: spin 2s linear infinite;
-    }
-    @keyframes spin {
-      0% {transform: rotate(0deg);}
-      100% {transform: rotate(360deg);}
-    }
+
+    /* Inputs & messages */
+    .field { margin:16px 0; }
+    .field input { width:100%; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:1rem; }
+    .message { text-align:center; margin-top:12px; font-size:1rem; }
+    .error { color:#e53935; }
+
   </style>
+  <!-- Kolay güncelleme için JSON config -->
+  <script type="application/json" id="configData">
+  {
+    "valid1": ["umut2025"],
+    "pool1": [
+      "Gülüşünüz, bir güneş ışığı kadar sıcacık.",
+      "Bugün her adımınızda mutluluk saklı.",
+      "Kalbinizin sesini dinleyin, size rehberlik edecek."
+    ],
+    "valid2": ["ışıltı","şaheser"],
+    "pool2": [
+      "Elleriniz sanata dokunuyor.",
+      "Siyah ojeli zarafetiniz göz kamaştırıyor.",
+      "Güzelliğiniz, kendinize duyduğunuz saygının eseri."
+    ]
+  }
+  </script>
 </head>
 <body>
-  <h2>📲 Pandomim Dünyasına Hoş Geldin!</h2>
+  <div class="container">
+    <header>
+      <h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1>
+      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
+    </header>
 
-  <div class="question" id="ilkSoru">
-    <h3>Pandomim Cafe'yi biliyor musun?</h3>
-    <label><input type="radio" name="q4" value="duymadim" /> Hayır</label><br/>
-    <label><input type="radio" name="q4" value="duydum" /> Duymuştum ama gitmedim</label><br/>
-    <label><input type="radio" name="q4" value="gittim" /> Gittim tabii ki fal bakmaya geldim :)</label><br/>
-    <button onclick="degerlendir()">Devam Et</button>
-  </div>
+    <!-- Step 1: Tanıma -->
+    <div id="step1" class="step active">
+      <p style="text-align:center; font-weight:bold;">Pandomim Cafe’yi biliyor musun?</p>
+      <div class="field"><label><input type="radio" name="know" value="no"> Gitmedim</label></div>
+      <div class="field"><label><input type="radio" name="know" value="heard"> Duydum ama gitmedim</label></div>
+      <div class="field"><label><input type="radio" name="know" value="yes"> Gittim tabii ki fal bakmaya geldim :)</label></div>
+      <button id="btnStep1">Devam Et</button>
+    </div>
 
-  <div class="fal-bolumu" id="falBolumu">
-    <h3>Bugün kendini nasıl hissediyorsun?</h3>
-    <label><input type="radio" name="q1" value="iyi" /> Harika</label><br/>
-    <label><input type="radio" name="q1" value="yorgun" /> Yorgun</label><br/>
+    <!-- Step 2: Çark -->
+    <div id="step2" class="step">
+      <p style="text-align:center; font-weight:bold;">Hediye çarkını çevir ve şansını dene!</p>
+      <div id="wheel"><div id="pointer"></div></div>
+      <button id="btnSpin">Çevir</button>
+      <p id="spinResult" class="message"></p>
+    </div>
 
-    <h3>Aklında en çok ne var?</h3>
-    <label><input type="radio" name="q2" value="ask" /> Aşk</label><br/>
-    <label><input type="radio" name="q2" value="kariyer" /> Kariyer</label><br/>
-
-    <h3>En çok neyi diliyorsun?</h3>
-    <label><input type="radio" name="q3" value="surpriz" /> Sürpriz</label><br/>
-    <label><input type="radio" name="q3" value="huzur" /> Huzur</label><br/>
-    <button onclick="getFal()">Falımı Göster</button>
-  </div>
-
-  <div id="falKure">
-    <img src="https://pandomimcafe.github.io/falkure.gif" alt="Küre Dönüyor">
-  </div>
-
-  <div id="result"></div>
-
-  <div class="parola-bolumu" id="parolaBolumu">
-    <h3>🧠 Gününü güzelleştirecek özel iltifatı görmek ister misin?</h3>
-    <input type="text" id="parolaInput" placeholder="Story'deki parolayı gir" />
-    <button onclick="kontrolEtParola()">Gönder</button>
-    <p id="parolaSonucu"></p>
-  </div>
-
-  <div class="makeup-parola-bolumu" id="makeupParolaBolumu">
-    <h3>💄 Makeup Odası Parolası</h3>
-    <input type="text" id="makeupInput" placeholder="Odada yazan parolayı gir" />
-    <button onclick="kontrolEtMakeup()">Gönder</button>
-    <p id="makeupSonucu"></p>
+    <!-- Step 3: Crystal Ball -->
+    <div id="step3" class="step">
+      <p style="text-align:center; font-weight:bold;">Gününüzü güzelleştirecek özel iltifatı görmek ister misiniz?</p>
+      <div class="illustration">
+        <!-- Replace 'muazzam.png' with your actual illustration file -->
+        <img src="muazzam.png" alt="Crystal ball and hands illustration">
+      </div>
+      <div class="field"><input type="text" id="parola1" placeholder="Günün parolası"></div>
+      <button id="btnParola1">Gönder</button>
+      <p id="msg1" class="message"></p>
+      <div class="field"><input type="text" id="parola2" placeholder="Makeup odası parolası"></div>
+      <button id="btnParola2">Gönder</button>
+      <p id="msg2" class="message"></p>
+    </div>
   </div>
 
   <script>
-    document.getElementById("ilkSoru").style.display = "block";
+    const config = JSON.parse(document.getElementById('configData').textContent);
 
-    function degerlendir() {
-      const q4 = document.querySelector('input[name="q4"]:checked');
-      if (!q4) {
-        alert("Lütfen bir seçenek seç.");
-        return;
+    // Adım geçişleri
+    document.getElementById('btnStep1').onclick = () => {
+      const sel = document.querySelector('input[name=know]:checked');
+      if (!sel) return alert('Lütfen bir seçenek işaretleyin.');
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById(sel.value === 'yes' ? 'step3' : 'step2').classList.add('active');
+    };
+
+    // Çark dönüşü
+    document.getElementById('btnSpin').onclick = () => {
+      const angle = Math.floor(Math.random() * 360) + 720;
+      const wheel = document.getElementById('wheel');
+      wheel.style.transform = `rotate(${angle}deg)`;
+      setTimeout(() => {
+        const segment = Math.floor((angle % 360) / 36);
+        document.getElementById('spinResult').textContent = ['2 bira alana 1 cips','Nargile','Sürpriz görev','Sürpriz görev','Ücretsiz kahve','%10 indirim','%20 indirim','Ücretsiz tatlı','%5 indirim','Ücretsiz çay'][segment];
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step3').classList.add('active');
+      }, 4000);
+    };
+
+    // Parola 1 kontrolü
+    document.getElementById('btnParola1').onclick = () => {
+      const p = document.getElementById('parola1').value.trim().toLowerCase();
+      const msg1 = document.getElementById('msg1'); msg1.textContent = '';
+      if (!config.valid1.includes(p)) {
+        return msg1.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
       }
-      if (q4.value === "gittim") {
-        document.getElementById("ilkSoru").style.display = "none";
-        document.getElementById("falBolumu").style.display = "block";
-      } else {
-        alert("🎁 Hediye çarkına yönlendiriliyorsun!");
-        if (!localStorage.getItem("cakir_kullanildi")) {
-          localStorage.setItem("cakir_kullanildi", new Date().toDateString());
-          window.location.href = "https://pandomimcafe.github.io/PANDOM-MCAFE/";
-        } else {
-          alert("Bugün çarkı zaten kullandın, yarın tekrar gel :)");
-        }
+      // İltifat
+      setTimeout(() => {
+        msg1.textContent = config.pool1[Math.floor(Math.random() * config.pool1.length)];
+      }, 500);
+    };
+
+    // Parola 2 kontrolü
+    document.getElementById('btnParola2').onclick = () => {
+      const p = document.getElementById('parola2').value.trim().toLowerCase();
+      const msg2 = document.getElementById('msg2'); msg2.textContent = '';
+      if (!config.valid2.includes(p)) {
+        return msg2.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
       }
-    }
-
-    async function getFal() {
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-
-      if (!q1 || !q2 || !q3) {
-        alert("Tüm soruları yanıtla.");
-        return;
-      }
-
-      document.getElementById("falBolumu").style.display = "none";
-      document.getElementById("falKure").style.display = "block";
-
-      setTimeout(async () => {
-        try {
-          const res = await fetch("https://pandomimcafe.github.io/fallar.json");
-          const data = await res.json();
-          const anahtar = `${q1.value}_${q2.value}_${q3.value}`;
-          const olasiFallar = data[anahtar];
-          let fal = "Bugün kalbinin sesi sana rehberlik edecek.";
-          if (olasiFallar && olasiFallar.length > 0) {
-            fal = olasiFallar[Math.floor(Math.random() * olasiFallar.length)];
-          }
-          document.getElementById("falKure").style.display = "none";
-          document.getElementById("result").innerText = fal;
-          document.getElementById("result").style.display = "block";
-          document.getElementById("parolaBolumu").style.display = "block";
-          document.getElementById("makeupParolaBolumu").style.display = "block";
-        } catch (e) {
-          alert("Fal verisi alınamadı.");
-        }
-      }, 3000); // 3 saniye küre dönsün
-    }
-
-    async function kontrolEtParola() {
-      const parola = document.getElementById("parolaInput").value.trim().toLowerCase();
-      const sonuc = document.getElementById("parolaSonucu");
-      try {
-        const res = await fetch("https://pandomimcafe.github.io/parola.json");
-        const data = await res.json();
-        const gecerli = data.parola.toLowerCase();
-        if (parola === gecerli) {
-          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
-          sonuc.innerText = "💌 " + rastgele;
-          sonuc.style.color = "green";
-        } else {
-          sonuc.innerText = "❌ Parola yanlış.";
-          sonuc.style.color = "red";
-        }
-      } catch (e) {
-        sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
-        sonuc.style.color = "orange";
-      }
-    }
-
-    async function kontrolEtMakeup() {
-      const parola = document.getElementById("makeupInput").value.trim().toLowerCase();
-      const sonuc = document.getElementById("makeupSonucu");
-      try {
-        const res = await fetch("https://pandomimcafe.github.io/makeupparola.json");
-        const data = await res.json();
-        const gecerli = data.parola.toLowerCase();
-        if (parola === gecerli) {
-          const rastgele = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
-          sonuc.innerText = "💄 " + rastgele;
-          sonuc.style.color = "purple";
-        } else {
-          sonuc.innerText = "❌ Parola yanlış.";
-          sonuc.style.color = "red";
-        }
-      } catch (e) {
-        sonuc.innerText = "⚠️ Parola kontrol edilemedi.";
-        sonuc.style.color = "orange";
-      }
-    }
-  </script>  <!-- JavaScript Başlangıcı -->
-  <script>
-    // “Devam Et” butonuna basınca
-    function degerlendir() {
-      const secim = document.querySelector('input[name="q4"]:checked');
-      if (!secim) return alert("Lütfen bir seçenek seç.");
-      if (secim.value === "gittim") {
-        document.getElementById("ilkSoru").style.display = "none";
-        document.getElementById("falBolumu").style.display = "block";
-      } else {
-        if (!localStorage.getItem("cakir_kullanildi")) {
-          localStorage.setItem("cakir_kullanildi", new Date().toDateString());
-          window.location.href = "https://pandomimcafe.github.io/PANDOM-MCAFE/";
-        } else {
-          alert("🎡 Çarkı zaten çevirdin, yarın tekrar dene!");
-        }
-      }
-    }
-
-    // Fal sorularını yanıtlayıp küre animasyonu gösterme ve sonucu getirme
-    async function getFal() {
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      if (!q1 || !q2 || !q3) return alert("Lütfen tüm soruları yanıtla.");
-
-      document.getElementById("falBolumu").style.display = "none";
-      document.getElementById("loading").style.display = "block";  // küre div’in id’si “loading”
-
-      setTimeout(async () => {
-        document.getElementById("loading").style.display = "none";
-        try {
-          const res = await fetch("https://pandomimcafe.github.io/MAKEUP/fallar.json");
-          const data = await res.json();
-          const key = `${q1.value}_${q2.value}_${q3.value}`;
-          const pool = data[key] || ["Bugün kalbinin sesi sana rehberlik edecek."];
-          const fal = pool[Math.floor(Math.random() * pool.length)];
-
-          document.getElementById("result").innerText = fal;
-          document.getElementById("result").style.display = "block";
-          document.getElementById("parolaBolumu").style.display = "block";
-          document.getElementById("makeupBolumu").style.display = "block";
-        } catch {
-          alert("⚠️ Fal verisi alınamadı.");
-        }
-      }, 3000);
-    }
-
-    // Günlük parola kontrolü
-    async function kontrolEtParola() {
-      const p = document.getElementById("parolaInput").value.trim().toLowerCase();
-      const el = document.getElementById("parolaSonucu");
-      try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/parola.json");
-        const data = await res.json();
-        if (p === data.parola.toLowerCase()) {
-          const rnd = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
-          el.innerText = "💖 " + rnd;
-          el.style.color = "green";
-        } else {
-          el.innerText = "❌ Parola yanlış.";
-          el.style.color = "red";
-        }
-      } catch {
-        el.innerText = "⚠️ Parola kontrol edilemedi.";
-        el.style.color = "orange";
-      }
-      el.style.display = "block";
-    }
-
-    // Make-up parolası kontrolü
-    async function kontrolEtMakeup() {
-      const p = document.getElementById("makeupInput").value.trim().toLowerCase();
-      const el = document.getElementById("makeupSonucu");
-      try {
-        const res = await fetch("https://pandomimcafe.github.io/MAKEUP/makeup_parola.json");
-        const data = await res.json();
-        if (p === data.parola.toLowerCase()) {
-          const rnd = data.iltifatlar[Math.floor(Math.random() * data.iltifatlar.length)];
-          el.innerText = "💄 " + rnd;
-          el.style.color = "purple";
-        } else {
-          el.innerText = "❌ Parola yanlış.";
-          el.style.color = "red";
-        }
-      } catch {
-        el.innerText = "⚠️ Parola kontrol edilemedi.";
-        el.style.color = "orange";
-      }
-      el.style.display = "block";
-    }
-
-    // Sayfa yüklendiğinde ilk soruyu göster
-    document.getElementById("ilkSoru").style.display = "block";
+      msg2.textContent = config.pool2[Math.floor(Math.random() * config.pool2.length)];
+    };
   </script>
-  <!-- JavaScript Sonu -->
-
-</body>
-</html>
-
 </body>
 </html>

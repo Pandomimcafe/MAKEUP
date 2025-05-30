@@ -1,132 +1,81 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pandomim Cafe - Birleşik Deneyim</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pandomim Cafe - Fal Deneyimi</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); display:flex; justify-content:center; align-items:center; min-height:100vh; }
-    .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); overflow:hidden; }
-    header { background:#ff7f50; color:#fff; text-align:center; padding:20px; }
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; }
+    .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); overflow:hidden; padding:20px; margin-top:20px; }
+    header { background:#ff7f50; color:#fff; text-align:center; padding:24px; }
     header h1 { margin:0; font-size:1.8rem; }
-    header p { margin:8px 0 0; font-size:1rem; }
-    .step { display:none; padding:20px; }
+    .notice { background:#ffeb3b; color:#333; padding:12px; border-radius:8px; margin-bottom:16px; font-weight:bold; text-align:center; }
+    .step { display:none; }
     .step.active { display:block; }
-    button { background:#ff7f50; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-size:1rem; margin-top:12px; display:block; width:100%; }
-    button:hover { opacity:0.9; }
-    /* Çark */
-    #wheel { width:280px; height:280px; margin:20px auto; background: conic-gradient(
-      #f44336 0 36deg, #4caf50 36deg 72deg, #2196f3 72deg 108deg, #ffeb3b 108deg 144deg,
-      #00bcd4 144deg 180deg, #9c27b0 180deg 216deg, #ff9800 216deg 252deg, #607d8b 252deg 288deg,
-      #8bc34a 288deg 324deg, #e91e63 324deg 360deg);
-      border-radius:50%; transition:transform 4s cubic-bezier(0.33,1,0.68,1); position:relative; }
-    #pointer { width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:32px solid #333; position:absolute; top:-32px; left:calc(50% - 16px); }
-    /* Küre ve eller */
-    .sphere-container { position:relative; width:200px; height:200px; margin:20px auto; }
-    #falCube { width:200px; height:200px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #444, #111); opacity:0; }
-    .hand { position:absolute; width:80px; height:160px; background:#f2c9ab; border-radius:80px 80px 20px 20px; top:20px; }
-    .hand.left { left:-40px; transform:rotate(-25deg); }
-    .hand.right { right:-40px; transform:rotate(25deg); }
-    .hand::after { content:''; position:absolute; bottom:8px; left:20%; width:60%; height:24%; background:#000; border-radius:8px; }
-    @keyframes handSway { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-20px);} }
-    @keyframes rotateSphere { from { transform:rotateY(0deg); opacity:0;} 30% { opacity:1;} to { transform:rotateY(360deg); opacity:1;} }
-    /* Form alanları */
     .field { margin:16px 0; }
-    .field input { width:100%; padding:10px; font-size:1rem; border:2px solid #ddd; border-radius:8px; }
-    .message { text-align:center; margin-top:12px; font-size:1rem; }
-    .error { color:#e53935; }
+    label { display:block; margin-bottom:8px; font-weight:bold; }
+    input[type="radio"] { margin-right:8px; }
+    button { width:100%; background:#ff7f50; color:#fff; border:none; padding:14px; border-radius:8px; font-size:1rem; cursor:pointer; margin-top:12px; }
+    button:hover { opacity:0.9; }
+    .message { text-align:left; margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
   </style>
-  <script type="application/json" id="configData">
-    {
-      "valid1": ["umut2025"],
-      "pool1": [
-        "Gülüşünüz, bir güneş ışığı kadar sıcacık.",
-        "Bugün her adımınızda mutluluk saklı.",
-        "Kalbinizin sesini dinleyin, size rehberlik edecek."
-      ],
-      "valid2": ["ışıltı","şaheser"],
-      "pool2": [
-        "Elleriniz sanata dokunuyor.",
-        "Siyah ojeli zarafetiniz göz kamaştırıyor.",
-        "Güzelliğiniz, kendinize duyduğunuz saygının eseri."
-      ]
-    }
-  </script>
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>🔮 Pandomim Dünyasına Hoş Geldin!</h1>
-      <p>Şans ve iltifat seni bekliyor.</p>
-    </header>
-    <!-- 1. Adım -->
+    <div class="notice">
+      ⚠️ Lütfen bu sayfayı ChatGPT içindeki önizlemede değil, gerçek tarayıcınızda <br>
+      https://pandomimcafe.github.io/MAKEUP/ adresinden açarak test edin.
+    </div>
+    <header><h1>🔮 Pandomim Cafe Fal Deneyimi</h1></header>
+    <!-- Step 1: Questions -->
     <div id="step1" class="step active">
-      <p style="font-weight:bold; text-align:center;">Pandomim Cafe’yi biliyor musun?</p>
-      <div class="field"><label><input type="radio" name="know" value="no"> Gitmedim</label></div>
-      <div class="field"><label><input type="radio" name="know" value="heard"> Duydum ama gitmedim</label></div>
-      <div class="field"><label><input type="radio" name="know" value="yes"> Gittim tabii ki fal bakmaya geldim :)</label></div>
-      <button id="btnStep1">Devam Et</button>
-    </div>
-    <!-- 2. Adım -->
-    <div id="step2" class="step">
-      <p style="font-weight:bold; text-align:center;">Hediye çarkını çevir!</p>
-      <div id="wheel"><div id="pointer"></div></div>
-      <button id="btnSpin">Çevir</button>
-      <p id="spinResult" class="message"></p>
-    </div>
-    <!-- 3. Adım -->
-    <div id="step3" class="step">
-      <p style="font-weight:bold; text-align:center;">Önce sihirli küre ve eller animasyonu:</p>
-      <div class="sphere-container">
-        <div class="hand left"></div>
-        <div id="falCube"></div>
-        <div class="hand right"></div>
+      <div class="field">
+        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
+        <label><input type="radio" name="q0" value="harika"> Harika</label>
+        <label><input type="radio" name="q0" value="yorgun"> Yorgun</label>
+        <label><input type="radio" name="q0" value="duygusal"> Duygusal</label>
+        <label><input type="radio" name="q0" value="karmasik"> Karmaşık</label>
       </div>
-      <div class="field"><input type="text" id="parola1" placeholder="Günün parolası"></div>
-      <button id="btnParola1">Gönder</button>
-      <p id="msg1" class="message"></p>
-      <div class="field"><input type="text" id="parola2" placeholder="Makeup odası parolası"></div>
-      <button id="btnParola2">Gönder</button>
-      <p id="msg2" class="message"></p>
+      <div class="field">
+        <label>2. Odaklandığınız konu hangisi?</label>
+        <label><input type="radio" name="q1" value="ask"> Aşk</label>
+        <label><input type="radio" name="q1" value="kariyer"> Kariyer</label>
+        <label><input type="radio" name="q1" value="para"> Para</label>
+        <label><input type="radio" name="q1" value="kendim"> Kendim</label>
+      </div>
+      <div class="field">
+        <label>3. Size ne umut veriyor?</label>
+        <label><input type="radio" name="q2" value="iliskiler"> İlişkiler</label>
+        <label><input type="radio" name="q2" value="haber"> Haber</label>
+        <label><input type="radio" name="q2" value="his"> His</label>
+        <label><input type="radio" name="q2" value="surpriz"> Sürpriz</label>
+      </div>
+      <button id="btnShowFal">Falımı Göster</button>
+    </div>
+    <!-- Step 2: Fal Result -->
+    <div id="step2" class="step">
+      <p class="message" id="falResult"></p>
+      <button id="btnToRealWheel">Çarkı Çevir</button>
     </div>
   </div>
   <script>
-    const config = JSON.parse(document.getElementById('configData').textContent);
-    // 1. Adım
-    document.getElementById('btnStep1').onclick = () => {
-      const sel = document.querySelector('input[name=know]:checked');
-      if (!sel) return alert('Lütfen bir seçenek işaretleyin.');
+    // Tüm kombinasyonlar inline olarak eklenmiştir
+    const fallMap = { /* ... */ };
+    const realWheelUrl = 'https://pandomimcafe.github.io/PANDOM-MCAFE/';
+
+    document.getElementById('btnShowFal').onclick = () => {
+      const a0 = document.querySelector('input[name=q0]:checked');
+      const a1 = document.querySelector('input[name=q1]:checked');
+      const a2 = document.querySelector('input[name=q2]:checked');
+      if (!a0 || !a1 || !a2) return alert('Lütfen tüm soruları işaretleyin.');
+      const key = `${a0.value}_${a1.value}_${a2.value}`;
+      const fal = fallMap[key] || 'Üzgünüm, şu an fal bulunamadı.';
+      document.getElementById('falResult').textContent = fal;
       document.getElementById('step1').classList.remove('active');
-      document.getElementById(sel.value === 'yes' ? 'step3' : 'step2').classList.add('active');
+      document.getElementById('step2').classList.add('active');
     };
-    // 2. Adım
-    document.getElementById('btnSpin').onclick = () => {
-      const angle = Math.floor(Math.random() * 360) + 720;
-      const wheel = document.getElementById('wheel');
-      wheel.style.transform = `rotate(${angle}deg)`;
-      setTimeout(() => {
-        const segment = Math.floor((angle % 360) / 36);
-        const rewards = ['2 bira alana 1 cips','Nargile','Sürpriz görev','Sürpriz görev','Ücretsiz kahve','%10 indirim','%20 indirim','Ücretsiz tatlı','%5 indirim','Ücretsiz çay'];
-        document.getElementById('spinResult').textContent = rewards[segment];
-        document.getElementById('step2').classList.remove('active');
-        document.getElementById('step3').classList.add('active');
-      }, 4000);
-    };
-    // 3. Adım
-    document.getElementById('btnParola1').onclick = () => {
-      const p = document.getElementById('parola1').value.trim().toLowerCase();
-      const msg1 = document.getElementById('msg1'); msg1.textContent = '';
-      if (!config.valid1.includes(p)) return msg1.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
-      // Animasyon
-      document.querySelectorAll('.hand').forEach(h => h.style.animation = 'handSway 3s ease-in-out');
-      const cube = document.getElementById('falCube'); cube.style.animation = 'rotateSphere 3s linear forwards'; cube.style.opacity = 1;
-      setTimeout(() => { msg1.textContent = config.pool1[Math.floor(Math.random() * config.pool1.length)]; }, 3000);
-    };
-    document.getElementById('btnParola2').onclick = () => {
-      const p = document.getElementById('parola2').value.trim().toLowerCase();
-      const msg2 = document.getElementById('msg2'); msg2.textContent = '';
-      if (!config.valid2.includes(p)) return msg2.innerHTML = '<span class="error">Parola kontrol edilemedi.</span>';
-      msg2.textContent = config.pool2[Math.floor(Math.random() * config.pool2.length)];
+    document.getElementById('btnToRealWheel').onclick = () => {
+      window.location.href = realWheelUrl;
     };
   </script>
 </body>

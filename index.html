@@ -73,101 +73,58 @@
   </div>
 
   <script>
+    const unlimitedAccess = true; // 🟢 Bu cihaz sınırsız erişim aldı
+
     const cooldownKeys = { story: "lastUseStory", makeup: "lastUseMakeup" };
     const cooldownTime = 3600000;
 
     const moodPool = {
-      harika: [
-        "Enerjin yıldızları bile kıskandırıyor.",
-        "Bugün ışığın her yere yayılıyor.",
-        "Gülüşün bile umut taşıyor. Her şey senin yanında."
-      ],
-      yorgun: [
-        "Yorgunluk geçici, iç huzurun kalıcı.",
-        "Dinlenmek de üretmektir. Kendine şefkat göster.",
-        "Bugün yavaşla. Yarın bambaşka bir enerjiyle uyanacaksın."
-      ],
-      duygusal: [
-        "Kalbinin sesi seni koruyor. Hislerine güven.",
-        "Duygular seni güçsüz değil, derin biri yapar.",
-        "Kırılganlık bir eksik değil, güzelliktir."
-      ],
-      karmasik: [
-        "Her karmaşa yeni bir yön getirir.",
-        "Zihin bulanık olsa da içindeki ses net.",
-        "Kendine zaman tanı, cevaplar içinden çıkacak."
-      ],
+      harika: ["Bugün harika şeyler seni bekliyor.", "Gülüşün güneşi kıskandırıyor.", "Enerjin çevrendekileri büyülüyor."],
+      yorgun: ["Dinlenmek en büyük ilerlemedir.", "Yorgunluğun geçici, sen kalıcısın.", "Kendine sarıl, yeniden başla."],
+      duygusal: ["Kalbin dolu, ama güzelliklerle.", "Duyguların seni özel yapıyor.", "Bir gözyaşı, bin umut taşıyor."],
+      karmasik: ["Karmaşa, dönüşümün başlangıcıdır.", "Zihin dalgalı ama yön doğru.", "Sabırla berraklık gelir."]
     };
 
     const topicPool = {
-      ask: [
-        "Aşkta yeni bir başlangıç yakın.",
-        "Bir bakış, tüm dengeni değiştirebilir.",
-        "Kalbini aç, karşılığı gecikmeyecek."
-      ],
-      kariyer: [
-        "Kariyerinde bir dönemeçtesin, cesur ol.",
-        "Küçük adımlar büyük başarıya götürür.",
-        "Yeni bir teklif kulağını çınlatacak."
-      ],
-      para: [
-        "Finansal rahatlama görünüyor.",
-        "Küçük kazançlar büyük fırsatlara dönüşecek.",
-        "Parayla ilgili kararlarında sezgilerin seni şaşırtacak."
-      ],
-      kendim: [
-        "Kendine döndüğün bu yolculuk kıymetli.",
-        "İç dünyanı onardıkça dışarıdaki dünya güzelleşiyor.",
-        "Bugün kendini alkışlamayı unutma."
-      ],
+      ask: ["Kalbin yeni bir hikâyeye hazır.", "Aşk, sana gülümsüyor olabilir.", "Bir dokunuş çok şeyi başlatabilir."],
+      kariyer: ["Bir fırsat çok yakında belirebilir.", "İçindeki lider uyanıyor.", "Yeni bir görev seni bekliyor."],
+      para: ["Bereket enerjini takip ediyor.", "Doğru kararlar seni zenginleştirir.", "Küçük bir fikir büyük kazanç getirebilir."],
+      kendim: ["Kendini bulduğun yerdesin.", "İç huzurun dışını parlatır.", "Sen değişiyorsun, her şey seninle."]
     };
 
     const hopePool = {
-      iliskiler: [
-        "Sana iyi gelen insanlar yanında olacak.",
-        "Güven bağı kurduğun biri sana yol gösterecek.",
-        "Bir dost eli ruhunu şifalandıracak."
-      ],
-      haber: [
-        "Beklediğin haber sana doğru geliyor.",
-        "Gözün kulağın açık olsun, sürpriz gelişme yolda.",
-        "Telefonun çalarsa, kalbin kıpır kıpır olabilir."
-      ],
-      his: [
-        "İç sesin şaşmaz bir pusula olacak.",
-        "Kalbin seni en doğru yola yönlendirecek.",
-        "Bugün sezgilerin seni yanıltmayacak."
-      ],
-      surpriz: [
-        "Planlanmamış bir sürpriz günü güzelleştirecek.",
-        "Hiç beklemediğin birinin adımına hazır ol.",
-        "Hayat küçük mucizelerle dolu, biri kapında olabilir."
-      ],
+      iliskiler: ["Dostluklar bugün daha kıymetli olacak.", "Kalpten kalbe yollar açılacak.", "Sıcak bir sohbet ilaç gibi gelecek."],
+      haber: ["Bir mesaj tüm günü güzelleştirecek.", "Sürpriz bir haber kapıda.", "Beklemediğin biri senden bahsediyor."],
+      his: ["İç sesin seni şaşırtacak kadar isabetli.", "Sezgilerine güven, seni koruyacak.", "Bir his, seni harekete geçirecek."],
+      surpriz: ["Bugün bir sürpriz seni gülümsetecek.", "Aniden karşına çıkan şeylere dikkat et.", "Plansız güzellikler kapını çalacak."]
     };
 
     const storyComplimentPool = [
-      "Senin varlığın, gökyüzüne yazılmış bir şiir gibi. İç güzelliğin çevrene huzur yayıyor. Bugün seni gören herkes biraz daha mutlu olacak.",
-      "Zekân, nezaketin ve özgün tarzın bir araya gelince ortaya gerçek bir sanat eseri çıkıyor. Sen, bulunduğun ortama anlam katan nadir insanlardansın.",
-      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor."
+      "Senin varlığın bir şiir gibi.",
+      "Zekân ve nezaketin harika bir karışım.",
+      "Gülümsemen ışık gibi yayılıyor."
     ];
 
     const makeupComplimentPool = [
-      "Tenin kadar zarif bir ruhun var. Gözlerinle değil kalbinle etkiliyorsun insanları.",
-      "Güzelliğin sadece dış görünüşünde değil, iç dünyanda da saklı. İçten bir gülümsemen, tüm günün rengini değiştirebilir.",
-      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun."
+      "Tenin kadar zarif bir ruhun var.",
+      "Güzelliğin içten geliyor.",
+      "Enerjin ortamı değiştiriyor."
     ];
 
     const dogruStoryParola = "umut2025";
     const dogruMakeupParola = "pandomim";
 
     function isCooldownOver(key) {
+      if (unlimitedAccess) return true;
       const last = localStorage.getItem(key);
       if (!last) return true;
       return Date.now() - parseInt(last) > cooldownTime;
     }
 
     function setCooldown(key) {
-      localStorage.setItem(key, Date.now().toString());
+      if (!unlimitedAccess) {
+        localStorage.setItem(key, Date.now().toString());
+      }
     }
 
     function getRemainingTime(key) {
@@ -197,13 +154,9 @@
         return;
       }
 
-      const p1List = moodPool[a0.value];
-      const p2List = topicPool[a1.value];
-      const p3List = hopePool[a2.value];
-
-      const p1 = p1List[Math.floor(Math.random() * p1List.length)];
-      const p2 = p2List[Math.floor(Math.random() * p2List.length)];
-      const p3 = p3List[Math.floor(Math.random() * p3List.length)];
+      const p1 = moodPool[a0.value][Math.floor(Math.random() * moodPool[a0.value].length)];
+      const p2 = topicPool[a1.value][Math.floor(Math.random() * topicPool[a1.value].length)];
+      const p3 = hopePool[a2.value][Math.floor(Math.random() * hopePool[a2.value].length)];
 
       msg.innerText = `${p1}\n\n${p2}\n\n${p3} \n✨`;
       setCooldown(key);

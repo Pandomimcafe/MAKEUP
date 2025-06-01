@@ -73,30 +73,92 @@
   </div>
 
   <script>
-    const cooldownKeys = {
-      story: "lastUseStory",
-      makeup: "lastUseMakeup"
-    };
+    const cooldownKeys = { story: "lastUseStory", makeup: "lastUseMakeup" };
     const cooldownTime = 3600000;
 
     const moodPool = {
-  harika: ["Bugün senin için yıldızlar bile sıraya girmiş gibi. Enerjin etrafa yayılıyor. Bu özel enerji seni bekleyen fırsatları çekiyor. Karşılaştığın her insan üzerinde pozitif bir etki bırakacaksın. Bugün kararların cesur, kalbin aydınlık olsun."],
-  yorgun: ["Yorgunluğun geçici, içindeki ışık ise kalıcı. Dinlenmeye zaman ayır. Çünkü bedenin kadar ruhun da huzura ihtiyaç duyar. Kendine gösterdiğin şefkat seni yeniden canlandıracak. Sabret, bu sessizlik bir yenilenmenin habercisi."],
-  duygusal: ["Kalbinin sesi bugün biraz daha güçlü. Hislerine güven. Geçmişin izleri sana yön göstermeye çalışıyor olabilir. Bu dönemde içgüdülerine kulak vermek sana beklenmedik bir açıklık kazandıracak. Duyguların seni iyileştirecek."],
-  karmasik: ["Zihnindeki karmaşa, yakında berraklaşacak. Biraz sabır yeter. Kendini dinlemeye vakit ayırdığında, aslında tüm yanıtların sende olduğunu göreceksin. Bu karmaşadan bir yön doğacak ve seni ileriye taşıyacak."],
-};
+      harika: [
+        "Enerjin yıldızları bile kıskandırıyor.",
+        "Bugün ışığın her yere yayılıyor.",
+        "Gülüşün bile umut taşıyor. Her şey senin yanında."
+      ],
+      yorgun: [
+        "Yorgunluk geçici, iç huzurun kalıcı.",
+        "Dinlenmek de üretmektir. Kendine şefkat göster.",
+        "Bugün yavaşla. Yarın bambaşka bir enerjiyle uyanacaksın."
+      ],
+      duygusal: [
+        "Kalbinin sesi seni koruyor. Hislerine güven.",
+        "Duygular seni güçsüz değil, derin biri yapar.",
+        "Kırılganlık bir eksik değil, güzelliktir."
+      ],
+      karmasik: [
+        "Her karmaşa yeni bir yön getirir.",
+        "Zihin bulanık olsa da içindeki ses net.",
+        "Kendine zaman tanı, cevaplar içinden çıkacak."
+      ],
+    };
+
     const topicPool = {
-  ask: ["Aşk konusunda beklenmedik bir gelişme seni şaşırtabilir. Kalbinde filizlenen bir his, hayatına yön verebilir. Karşına çıkan kişilerde sana aynalık eden detaylara dikkat et. İçtenliğinle bağ kurduğunda güzel kapılar açılacak."],
-  kariyer: ["Kariyer yolunda yeni bir fırsat kapını çalmak üzere. Ancak bu fırsatı fark etmek senin hazır oluş seviyene bağlı. Yeni bir proje, teklif ya da tanıdık biri seni ileriye taşıyabilir. Yeter ki özgüvenin senden önce konuşsun."],
-  para: ["Maddi konularda şans senden yana olacak. Ancak kazanç, sadece gelen değil, doğru yönetilen şeydir. Harcamalarında dikkatli olur ve sezgilerine güvenirsen, finansal anlamda rahat bir dönem seni bekliyor."],
-  kendim: ["Kendine zaman ayırmak, sana tahmin ettiğinden daha iyi gelecek. İçsel dönüşümün başladığı bir evredesin. Biraz yalnızlık, biraz sessizlik sana büyüme alanı yaratacak. Bugün attığın adımlar, yarının gücünü şekillendirecek."],
-};
+      ask: [
+        "Aşkta yeni bir başlangıç yakın.",
+        "Bir bakış, tüm dengeni değiştirebilir.",
+        "Kalbini aç, karşılığı gecikmeyecek."
+      ],
+      kariyer: [
+        "Kariyerinde bir dönemeçtesin, cesur ol.",
+        "Küçük adımlar büyük başarıya götürür.",
+        "Yeni bir teklif kulağını çınlatacak."
+      ],
+      para: [
+        "Finansal rahatlama görünüyor.",
+        "Küçük kazançlar büyük fırsatlara dönüşecek.",
+        "Parayla ilgili kararlarında sezgilerin seni şaşırtacak."
+      ],
+      kendim: [
+        "Kendine döndüğün bu yolculuk kıymetli.",
+        "İç dünyanı onardıkça dışarıdaki dünya güzelleşiyor.",
+        "Bugün kendini alkışlamayı unutma."
+      ],
+    };
+
     const hopePool = {
-  iliskiler: ["Yakın ilişkilerden alacağın destek seni mutlu edecek. Seni gerçekten anlayan ve yargılamayan biriyle yapacağın bir konuşma, içini ferahlatacak. Güven bağlarını güçlendirmeye odaklan. Sevgi, senin ana pusulan olacak."],
-  haber: ["Beklediğin güzel bir haber kapıda. Ama bu haberle birlikte sorumluluk da gelecek. Hazırlıklı ol, çünkü bu gelişme seni yeni bir düzene davet edebilir. Kalbinin ışığında ilerlersen, bu yenilik sana çok iyi gelecek."],
-  his: ["İç sesin seni doğru yöne yönlendirecek. Zihnini susturup kalbinin fısıltısına kulak verdiğinde, gerçek niyetin ortaya çıkacak. Bu sezgi dolu yönlendirme sayesinde önündeki engeller kalkmaya başlayacak."],
-  surpriz: ["Hiç beklemediğin birinden gelen sürpriz moralini yükseltecek. Bu küçük ama anlamlı jest, seni ne kadar değerli hissettirecek. Hayatın bazen plan dışı gelişmelerle güzelleştiğini unutma. Kabulde kal."],
-};
+      iliskiler: [
+        "Sana iyi gelen insanlar yanında olacak.",
+        "Güven bağı kurduğun biri sana yol gösterecek.",
+        "Bir dost eli ruhunu şifalandıracak."
+      ],
+      haber: [
+        "Beklediğin haber sana doğru geliyor.",
+        "Gözün kulağın açık olsun, sürpriz gelişme yolda.",
+        "Telefonun çalarsa, kalbin kıpır kıpır olabilir."
+      ],
+      his: [
+        "İç sesin şaşmaz bir pusula olacak.",
+        "Kalbin seni en doğru yola yönlendirecek.",
+        "Bugün sezgilerin seni yanıltmayacak."
+      ],
+      surpriz: [
+        "Planlanmamış bir sürpriz günü güzelleştirecek.",
+        "Hiç beklemediğin birinin adımına hazır ol.",
+        "Hayat küçük mucizelerle dolu, biri kapında olabilir."
+      ],
+    };
+
+    const storyComplimentPool = [
+      "Senin varlığın, gökyüzüne yazılmış bir şiir gibi. İç güzelliğin çevrene huzur yayıyor. Bugün seni gören herkes biraz daha mutlu olacak.",
+      "Zekân, nezaketin ve özgün tarzın bir araya gelince ortaya gerçek bir sanat eseri çıkıyor. Sen, bulunduğun ortama anlam katan nadir insanlardansın.",
+      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor."
+    ];
+
+    const makeupComplimentPool = [
+      "Tenin kadar zarif bir ruhun var. Gözlerinle değil kalbinle etkiliyorsun insanları.",
+      "Güzelliğin sadece dış görünüşünde değil, iç dünyanda da saklı. İçten bir gülümsemen, tüm günün rengini değiştirebilir.",
+      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun."
+    ];
+
+    const dogruStoryParola = "umut2025";
+    const dogruMakeupParola = "pandomim";
 
     function isCooldownOver(key) {
       const last = localStorage.getItem(key);
@@ -135,27 +197,17 @@
         return;
       }
 
-      const p1 = moodPool[a0.value][0];
-      const p2 = topicPool[a1.value][0];
-      const p3 = hopePool[a2.value][0];
+      const p1List = moodPool[a0.value];
+      const p2List = topicPool[a1.value];
+      const p3List = hopePool[a2.value];
+
+      const p1 = p1List[Math.floor(Math.random() * p1List.length)];
+      const p2 = p2List[Math.floor(Math.random() * p2List.length)];
+      const p3 = p3List[Math.floor(Math.random() * p3List.length)];
+
       msg.innerText = `${p1}\n\n${p2}\n\n${p3} \n✨`;
       setCooldown(key);
     }
-
-    const storyComplimentPool = [
-      "Senin varlığın, gökyüzüne yazılmış bir şiir gibi. İç güzelliğin çevrene huzur yayıyor. Bugün seni gören herkes biraz daha mutlu olacak.",
-      "Zekân, nezaketin ve özgün tarzın bir araya gelince ortaya gerçek bir sanat eseri çıkıyor. Sen, bulunduğun ortama anlam katan nadir insanlardansın.",
-      "Senin gülümsemen, karanlık bir odayı bile aydınlatabilir. İyilik hâlin bulaşıcı, senin gibi insanlar dünyaya umut veriyor."
-    ];
-
-    const makeupComplimentPool = [
-      "Tenin kadar zarif bir ruhun var. Gözlerinle değil kalbinle etkiliyorsun insanları.",
-      "Güzelliğin sadece dış görünüşünde değil, iç dünyanda da saklı. İçten bir gülümsemen, tüm günün rengini değiştirebilir.",
-      "Senin enerjin etrafındakileri de güzelleştiriyor. Kendin olmak bile yeterli, çünkü bu dünyaya renk katıyorsun."
-    ];
-
-    const dogruStoryParola = "umut2025";
-    const dogruMakeupParola = "pandomim";
 
     function checkPassword(type) {
       const input = document.getElementById(type + 'Password').value.trim().toLowerCase();
@@ -183,9 +235,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("btnFal").addEventListener("click", () => {
-    document.getElementById("falStep").style.display = "block";
-  });
+      document.getElementById("btnFal").addEventListener("click", () => {
+        document.getElementById("falStep").style.display = "block";
+      });
       document.getElementById("btnStory").addEventListener("click", () => checkPassword('story'));
       document.getElementById("btnMakeup").addEventListener("click", () => checkPassword('makeup'));
     });

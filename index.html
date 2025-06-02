@@ -3,196 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pandomim Cafe - Fal Sistemi</title>
+  <title>Pandomim Cafe - Fal & Çark & İltifat</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(120deg, #ffe3e3, #ffd9a8); margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; }
-    .container { width:100%; max-width:600px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); padding:20px; margin-top:20px; }
-    header { background:#ff7f50; color:#fff; text-align:center; padding:20px; border-radius:12px 12px 0 0; }
-    header h1 { margin:0; font-size:1.8rem; }
-    header p { margin:8px 0 0; font-size:1rem; }
-    .welcome-btn { display:block; width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin:12px 0; }
-    .welcome-btn:hover { opacity:0.9; }
-    .field { margin:16px 0; }
-    label { display:block; margin-bottom:8px; font-weight:bold; }
-    input[type="radio"] { margin-right:8px; }
-    input[type="text"] { display:block; width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; margin-bottom:12px; }
-    button { display:block; width:100%; padding:14px; background:#ff7f50; color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; margin:12px 0; }
-    button:hover { opacity:0.9; }
-    .message { margin-top:20px; font-size:1.1rem; line-height:1.6; white-space:pre-wrap; }
-    .footer-note { text-align:center; margin-top:40px; font-size:0.9rem; color:#333; }
+    body { font-family: sans-serif; text-align: center; background: #f9f4f1; margin: 0; padding: 20px; }
+    h1 { font-size: 28px; margin-bottom: 20px; }
+    button, input { padding: 10px 15px; margin: 8px; border: none; border-radius: 6px; font-size: 16px; }
+    .hidden { display: none; }
+    #falText { font-size: 18px; font-weight: 500; padding: 15px; white-space: pre-line; }
+    .message { font-size: 20px; font-style: italic; margin-top: 15px; white-space: pre-line; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🔮 Pandomim Dünyasına Hoş Geldiniz!</h1>
-      <p>Bugün kalbinin sesi sana rehberlik edecek.</p>
-    </header>
-
-    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">1. Pandomim Cafe’yi bilmiyorum</button>
-    <button class="welcome-btn" onclick="window.location.href='https://pandomimcafe.github.io/PANDOM-MCAFE/'">2. Duydum ama bakmaya gitmedim</button>
-    <button class="welcome-btn" id="btnFal">3. Biliyorum, fal bakmaya geldim :)</button>
-
-    <div id="falStep" style="display:none">
-      <div class="field">
-        <label>1. Bugünkü hâlinizi nasıl tanımlarsınız?</label>
-        <label><input type="radio" name="q0" value="harika">Harika</label>
-        <label><input type="radio" name="q0" value="yorgun">Yorgun</label>
-        <label><input type="radio" name="q0" value="duygusal">Duygusal</label>
-        <label><input type="radio" name="q0" value="karmasik">Karmaşık</label>
-      </div>
-      <div class="field">
-        <label>2. Odaklandığınız konu?</label>
-        <label><input type="radio" name="q1" value="ask">Aşk</label>
-        <label><input type="radio" name="q1" value="kariyer">Kariyer</label>
-        <label><input type="radio" name="q1" value="para">Para</label>
-        <label><input type="radio" name="q1" value="kendim">Kendim</label>
-      </div>
-      <div class="field">
-        <label>3. Size ne umut veriyor?</label>
-        <label><input type="radio" name="q2" value="iliskiler">İlişkiler</label>
-        <label><input type="radio" name="q2" value="haber">Haber</label>
-        <label><input type="radio" name="q2" value="his">His</label>
-        <label><input type="radio" name="q2" value="surpriz">Sürpriz</label>
-      </div>
-      <button onclick="showFal()">Falımı Göster</button>
-      <p class="message" id="falMsg"></p>
-    </div>
-
-    <div class="field">
-      <input type="text" id="storyPassword" placeholder="Günün Parolası" />
-      <button id="btnStory" type="button">Gönder</button>
-      <p class="message" id="storyMsg"></p>
-    </div>
-    <div class="field">
-      <input type="text" id="makeupPassword" placeholder="Makeup Odası Parolası" />
-      <button id="btnMakeup" type="button">Gönder</button>
-      <p class="message" id="makeupMsg"></p>
-    </div>
-    <div class="footer-note">💌 Bu uygulamamızı beğendiysen Instagram'da paylaşarak destek olabilirsin: <strong>@pandomimcafe</strong></div>
+  <div id="girisEkrani">
+    <h1>Pandomim Cafe'yi biliyor musun?</h1>
+    <button id="btnGittim">Gittim tabii ki fal bakmaya geldim :)</button>
+    <button id="btnGitmedim">Gitmedim</button>
+    <button id="btnDuymadim">Duymadım</button>
   </div>
 
+  <div id="falEkrani" class="hidden">
+    <img src="https://i.gifer.com/XOsX.gif" width="280" alt="Fal Küresi" />
+    <p id="falText"></p>
+    <div style="margin-top:20px">
+      <input id="storyPassword" placeholder="Günün Parolası" />
+      <button onclick="checkStoryPassword()">Gönder</button>
+      <p id="storyComplimentText" class="message"></p>
+      <input id="makeupPassword" placeholder="Makeup Odası Parolası" />
+      <button onclick="checkMakeupPassword()">Gönder</button>
+      <p id="makeupComplimentText" class="message"></p>
+    </div>
+  </div>
+
+  <p style="margin-top: 50px; font-size: 14px; color: #777;">Bu uygulamamızı beğendiysen Instagram’da paylaşarak destek olabilirsin 💜</p>
+
   <script>
-    const unlimitedAccess = true; // 🟢 Bu cihaz sınırsız erişim aldı
+    const userKey = localStorage.getItem("userKey") || "";
+    const adminKey = "0000";
 
-    const cooldownKeys = { story: "lastUseStory", makeup: "lastUseMakeup" };
-    const cooldownTime = 3600000;
-
-    const moodPool = {
-      harika: ["Bugün harika şeyler seni bekliyor.", "Gülüşün güneşi kıskandırıyor.", "Enerjin çevrendekileri büyülüyor."],
-      yorgun: ["Dinlenmek en büyük ilerlemedir.", "Yorgunluğun geçici, sen kalıcısın.", "Kendine sarıl, yeniden başla."],
-      duygusal: ["Kalbin dolu, ama güzelliklerle.", "Duyguların seni özel yapıyor.", "Bir gözyaşı, bin umut taşıyor."],
-      karmasik: ["Karmaşa, dönüşümün başlangıcıdır.", "Zihin dalgalı ama yön doğru.", "Sabırla berraklık gelir."]
-    };
-
-    const topicPool = {
-      ask: ["Kalbin yeni bir hikâyeye hazır.", "Aşk, sana gülümsüyor olabilir.", "Bir dokunuş çok şeyi başlatabilir."],
-      kariyer: ["Bir fırsat çok yakında belirebilir.", "İçindeki lider uyanıyor.", "Yeni bir görev seni bekliyor."],
-      para: ["Bereket enerjini takip ediyor.", "Doğru kararlar seni zenginleştirir.", "Küçük bir fikir büyük kazanç getirebilir."],
-      kendim: ["Kendini bulduğun yerdesin.", "İç huzurun dışını parlatır.", "Sen değişiyorsun, her şey seninle."]
-    };
-
-    const hopePool = {
-      iliskiler: ["Dostluklar bugün daha kıymetli olacak.", "Kalpten kalbe yollar açılacak.", "Sıcak bir sohbet ilaç gibi gelecek."],
-      haber: ["Bir mesaj tüm günü güzelleştirecek.", "Sürpriz bir haber kapıda.", "Beklemediğin biri senden bahsediyor."],
-      his: ["İç sesin seni şaşırtacak kadar isabetli.", "Sezgilerine güven, seni koruyacak.", "Bir his, seni harekete geçirecek."],
-      surpriz: ["Bugün bir sürpriz seni gülümsetecek.", "Aniden karşına çıkan şeylere dikkat et.", "Plansız güzellikler kapını çalacak."]
-    };
-
-    const storyComplimentPool = [
-      "Senin varlığın bir şiir gibi.",
-      "Zekân ve nezaketin harika bir karışım.",
-      "Gülümsemen ışık gibi yayılıyor."
+    const fallar = [
+      ...Array.from({ length: 50 }, (_, i) => `✨ ${i + 1}. Fal: Bu hafta içsel yolculuğunda önemli bir durakta olabilirsin. Kalbindeki sorular cevaplarını bulacak, sezgilerin seni doğru yöne götürecek. Geçmişin gölgeleri geride kalırken, yeni bir umut parlıyor. İçsel sesine güvenmeyi unutma.`)
     ];
 
-    const makeupComplimentPool = [
-      "Tenin kadar zarif bir ruhun var.",
-      "Güzelliğin içten geliyor.",
-      "Enerjin ortamı değiştiriyor."
+    const storyCompliments = [
+      "🌟 Senin enerjin, bulunduğun ortama neşe ve canlılık katıyor.",
+      "💫 Varlığın, bir gülümseme kadar sade ama etkili.",
+      "🌈 Bugün senin günün, içindeki ışık herkesi etkileyecek.",
+      "✨ Sen farkında olmasan da, birçok kişinin gününü güzelleştiriyorsun.",
+      "🦋 Ruhundaki zarafet çevrene ilham veriyor.",
+      "☀️ Gülüşün, gri bir günü bile aydınlatabilir.",
+      "🌻 Pozitifliğin, karanlıkları delip geçen bir ışık gibi.",
+      "🍀 Şans seninle yürür çünkü sen inançla yol alıyorsun.",
+      "💎 Eşsizliğin, seni seni yapan en güzel özellik.",
+      "🌺 Nazik bir kelimen, birinin tüm gününü kurtarabilir."
     ];
 
-    const dogruStoryParola = "umut2025";
-    const dogruMakeupParola = "pandomim";
-
-    function isCooldownOver(key) {
-      if (unlimitedAccess) return true;
-      const last = localStorage.getItem(key);
-      if (!last) return true;
-      return Date.now() - parseInt(last) > cooldownTime;
-    }
-
-    function setCooldown(key) {
-      if (!unlimitedAccess) {
-        localStorage.setItem(key, Date.now().toString());
-      }
-    }
-
-    function getRemainingTime(key) {
-      const last = localStorage.getItem(key);
-      if (!last) return 0;
-      const diff = cooldownTime - (Date.now() - parseInt(last));
-      return diff > 0 ? diff : 0;
-    }
-
-    function formatTime(ms) {
-      const totalSeconds = Math.floor(ms / 1000);
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return `${minutes} dk ${seconds} sn`;
-    }
+    const makeupCompliments = [
+      "💄 Güzelliğin sadece dış görünüşünde değil, iç dünyanda da parlıyor.",
+      "👑 Kendine olan güvenin, seni çok daha çekici kılıyor.",
+      "🌹 Sen doğal halinle bile ışıldıyorsun.",
+      "💋 Her gülümsemen, bir tabloyu andırıyor.",
+      "💐 Bugün aynaya baktığında gördüğün güzellik, sadece bir başlangıç.",
+      "✨ Zarafetin, herkese ilham veriyor.",
+      "🌷 Bakışlarınla bile kalplere dokunuyorsun.",
+      "🎀 Seninle aynı ortamda olmak bile iyi hissettiriyor.",
+      "👠 Duruşun, bir kraliçeyi andırıyor.",
+      "🧴 Güzelliğin, sadece estetik değil; bir tavır, bir duruş."
+    ];
 
     function showFal() {
-      const a0 = document.querySelector('input[name=q0]:checked');
-      const a1 = document.querySelector('input[name=q1]:checked');
-      const a2 = document.querySelector('input[name=q2]:checked');
-      const msg = document.getElementById('falMsg');
-      if (!a0 || !a1 || !a2) return alert("Lütfen tüm soruları yanıtlayın.");
-
-      const key = "lastUseFal";
-      if (!isCooldownOver(key)) {
-        msg.innerText = `⏳ Fal hakkınız doldu. Lütfen ${formatTime(getRemainingTime(key))} sonra tekrar deneyin.`;
-        return;
-      }
-
-      const p1 = moodPool[a0.value][Math.floor(Math.random() * moodPool[a0.value].length)];
-      const p2 = topicPool[a1.value][Math.floor(Math.random() * topicPool[a1.value].length)];
-      const p3 = hopePool[a2.value][Math.floor(Math.random() * hopePool[a2.value].length)];
-
-      msg.innerText = `${p1}\n\n${p2}\n\n${p3} \n✨`;
-      setCooldown(key);
+      setTimeout(() => {
+        const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
+        const falTextElement = document.getElementById("falText");
+        falTextElement.textContent = "";
+        falTextElement.style.opacity = 0;
+        let index = 0;
+        const yazdir = () => {
+          if (index < falMetni.length) {
+            falTextElement.textContent += falMetni.charAt(index);
+            index++;
+            setTimeout(yazdir, 30);
+          }
+        };
+        yazdir();
+        falTextElement.style.transition = "opacity 1s ease-in";
+        falTextElement.style.opacity = 1;
+      }, 3000);
     }
 
-    function checkPassword(type) {
-      const input = document.getElementById(type + 'Password').value.trim().toLowerCase();
-      const output = document.getElementById(type + 'Msg');
-      const key = cooldownKeys[type];
-      if (!isCooldownOver(key)) {
-        output.innerText = `⏳ İltifat hakkınız doldu. Lütfen ${formatTime(getRemainingTime(key))} sonra tekrar deneyin.`;
-        return;
-      }
-      output.innerText = '';
-      const correctPassword = type === 'story' ? dogruStoryParola : dogruMakeupParola;
-      const compliments = type === 'story' ? storyComplimentPool : makeupComplimentPool;
-      if (input === correctPassword) {
-        const selected = [];
-        const pool = [...compliments];
-        for (let i = 0; i < 3 && pool.length; i++) {
-          const idx = Math.floor(Math.random() * pool.length);
-          selected.push(pool.splice(idx, 1)[0]);
-        }
-        output.innerText = selected.join("\n\n") + (type === 'story' ? "\n❤️🌟" : "\n💄💖");
-        setCooldown(key);
+    function checkStoryPassword() {
+      const pass = document.getElementById("storyPassword").value;
+      const output = document.getElementById("storyComplimentText");
+      if (pass === "2025" || userKey === adminKey) {
+        const c1 = storyCompliments[Math.floor(Math.random() * storyCompliments.length)];
+        const c2 = storyCompliments[Math.floor(Math.random() * storyCompliments.length)];
+        output.textContent = `${c1}\n${c2}`;
       } else {
-        output.innerText = 'Parola yanlış.';
+        output.textContent = "❌ Parola yanlış";
       }
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("btnFal").addEventListener("click", () => {
-        document.getElementById("falStep").style.display = "block";
+    function checkMakeupPassword() {
+      const pass = document.getElementById("makeupPassword").value;
+      const output = document.getElementById("makeupComplimentText");
+      if (pass === "kalp" || userKey === adminKey) {
+        const c1 = makeupCompliments[Math.floor(Math.random() * makeupCompliments.length)];
+        const c2 = makeupCompliments[Math.floor(Math.random() * makeupCompliments.length)];
+        output.textContent = `${c1}\n${c2}`;
+      } else {
+        output.textContent = "❌ Parola yanlış";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("btnGittim").addEventListener("click", () => {
+        document.getElementById("girisEkrani").classList.add("hidden");
+        document.getElementById("falEkrani").classList.remove("hidden");
+        showFal();
       });
-      document.getElementById("btnStory").addEventListener("click", () => checkPassword('story'));
-      document.getElementById("btnMakeup").addEventListener("click", () => checkPassword('makeup'));
+
+      const handleCarkYonlendirme = () => {
+        const visited = localStorage.getItem("visitedWheel");
+        const currentKey = localStorage.getItem("userKey") || "";
+        if (currentKey !== adminKey && visited === "true") {
+          alert("🎯 Çark sadece bir kez çevrilebilir. Yarın yine bekleriz!");
+        } else {
+          localStorage.setItem("visitedWheel", "true");
+          window.open("https://pandomimcafe.github.io/PANDOM-MCAFE/", "_self");
+        }
+      };
+
+      document.getElementById("btnGitmedim").addEventListener("click", handleCarkYonlendirme);
+      document.getElementById("btnDuymadim").addEventListener("click", handleCarkYonlendirme);
     });
   </script>
 </body>

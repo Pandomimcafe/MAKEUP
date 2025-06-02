@@ -5,12 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pandomim Cafe - Fal & Çark & İltifat</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #f9f4f1; margin: 0; padding: 20px; }
-    h1 { font-size: 28px; margin-bottom: 20px; }
-    button, input { padding: 10px 15px; margin: 8px; border: none; border-radius: 6px; font-size: 16px; }
-    .hidden { display: none; }
-    #falText { font-size: 18px; font-weight: 500; padding: 15px; white-space: pre-line; }
-    .message { font-size: 20px; font-style: italic; margin-top: 15px; white-space: pre-line; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #e8dff5, #fef6f9);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 25px;
+      color: #5c3d99;
+    }
+    button, input {
+      padding: 12px 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    button {
+      background-color: #5c3d99;
+      color: white;
+      cursor: pointer;
+    }
+    input {
+      border: 1px solid #ccc;
+    }
+    .hidden {
+      display: none;
+    }
+    #falText {
+      font-size: 20px;
+      font-weight: 500;
+      padding: 20px;
+      white-space: pre-line;
+      background-color: #ffffffd8;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 20px auto 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .message {
+      font-size: 18px;
+      font-style: italic;
+      margin-top: 20px;
+      white-space: pre-line;
+      color: #5c3d99;
+    }
+    .butonlar-container {
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
@@ -22,84 +69,59 @@
   </div>
 
   <div id="falEkrani" class="hidden">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdG1uY2tmaWx1eXdjYXdlZzRqbTJyd2F5dXRmYTU4bWJkd2VybzB5eiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l0HU7CS2j4d7jDgUE/giphy.gif" width="280" alt="Büyücü Cadı" />
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzdzMHg1dmJnYmJ2anFndXJjMjlweW5vZXJlZ2pudXFnbXlneXhubyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wMhe3bzsa1I40/giphy.gif" width="280" alt="Büyücü Cadı" style="display:block; margin: 0 auto;" />
     <p id="falText"></p>
-    <div style="margin-top:20px">
-      <input id="storyPassword" placeholder="Günün Parolası" />
-      <button onclick="checkStoryPassword()">Gönder</button>
-      <p id="storyComplimentText" class="message"></p>
-      <input id="makeupPassword" placeholder="Makeup Odası Parolası" />
-      <button onclick="checkMakeupPassword()">Gönder</button>
-      <p id="makeupComplimentText" class="message"></p>
+    <div class="butonlar-container">
+      <button id="btnGunlukIltifat">🎁 Günlük İltifat Al</button>
+      <p id="iltifatMesaji" class="message"></p>
+      <button id="btnMakeupIltifat">💄 Makeup Odası İltifatı</button>
+      <p id="makeupMesaji" class="message"></p>
     </div>
   </div>
 
   <p style="margin-top: 50px; font-size: 14px; color: #777;">Bu uygulamamızı beğendiysen Instagram’da paylaşarak destek olabilirsin 💜</p>
 
   <script>
-    const userKey = localStorage.getItem("userKey") || "";
-    const adminKey = "0000";
+    const fallar = [
+      `✨ Bugün hislerine kulak ver. İç sesin seni doğru yola yönlendirecek.
+🌙 Rüyaların mesaj dolu. Onlara dikkat et, bilinçaltın konuşuyor olabilir.
+🌟 Geçmişin yüklerini bırakma zamanı geldi. Hafifle ve ileriye yürü.
+🦋 Hayatında yeni bir sayfa açılıyor. Cesaretinle fark yaratacaksın.
+🔥 İçindeki güç seni hayal bile edemeyeceğin yerlere taşıyabilir.
+🍃 Doğayla olan bağını güçlendir, huzur orada gizli olabilir.
+💫 Hayal ettiğin şeyler, düşündüğünden daha yakın olabilir.`,
 
-    const fallar = [...Array.from({ length: 50 }, (_, i) => `✨ ${i + 1}. Fal: Bu hafta içsel yolculuğundan yeni bir aşama geçiyorsun. Kalbindeki sorular cevaplarını bulacak, sezgilerin seni doğru yöne yönlendirecek. Geçmişin yüklerinden kurtuldukça geleceğe daha umutla bakacaksın.`)];
+      `💌 Bugün birinden beklemediğin güzel bir söz duyabilirsin.
+🎈 Küçük sürprizler seni mutlu etmeye geliyor.
+☕ Sessiz bir an, seni içsel bir keşfe çıkaracak.
+📖 Geçmişin sana öğrettiği dersleri şimdi kullanma zamanı.
+🕊 Kendini affetmek, özgürleşmenin ilk adımıdır.
+🔮 Sezgilerine güven, onlar seni asla yarı yolda bırakmaz.
+🌸 Bu hafta yeni bir dostluk seni bekliyor olabilir.`
+    ];
 
     const storyCompliments = [
-      "🕊️ Bugün senin günün, içindeki coşku herkese yayılıyor.",
-      "💎 Kalbindeki iyilik, altın bir yıldız gibi ışıldıyor.",
-      "🧡 İçindeki şefkat, çevrene huzur yayıyor.",
-      "🔥 Senin enerjin, bulunduğun ortama ilham verici bir dokunuş katıyor.",
-      // ... kalan 356 cümle (kısaltılmıştır)
+      "🌟 Senin enerjin, bulunduğun ortama neşe ve canlılık katıyor.",
+      "💫 Varlığın, bir gülümseme kadar sade ama etkili.",
+      "🌈 Bugün senin günün, içindeki ışık herkesi etkileyecek."
     ];
 
     const makeupCompliments = [
-      "🌸 Seninle aynı ortamda olmak bile iyi hissettiriyor.",
-      "👜 Bugün aynaya baktığında gördüğün güzellik, sadece bir başlangıç.",
-      "👑 Bakışlarınla bile hayranlık yaratıyorsun.",
-      "🧴 Kendine olan güvenin, seni fark edilir kılıyor.",
-      // ... kalan 356 cümle (kısaltılmıştır)
+      "💄 Güzelliğin sadece dış görünüşünde değil, iç dünyanda da parlıyor.",
+      "👑 Kendine olan güvenin, seni çok daha çekici kılıyor.",
+      "🌹 Sen doğal halinle bile ışıldıyorsun."
     ];
 
-    function showFal() {
-      setTimeout(() => {
-        const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
-        const falTextElement = document.getElementById("falText");
-        falTextElement.textContent = "";
-        falTextElement.style.opacity = 0;
-        let index = 0;
-        const yazdir = () => {
-          if (index < falMetni.length) {
-            falTextElement.textContent += falMetni.charAt(index);
-            index++;
-            setTimeout(yazdir, 30);
-          } else {
-            falTextElement.style.transition = "opacity 1s ease-in";
-            falTextElement.style.opacity = 1;
-          }
-        };
-        yazdir();
-      }, 3000);
-    }
+    function saatlikButonKontrol(id, storageKey, compliments, targetId) {
+      const now = Date.now();
+      const last = localStorage.getItem(storageKey);
 
-    function checkStoryPassword() {
-      const pass = document.getElementById("storyPassword").value;
-      const output = document.getElementById("storyComplimentText");
-      if (pass === "2025" || userKey === adminKey) {
-        const c1 = storyCompliments[Math.floor(Math.random() * storyCompliments.length)];
-        const c2 = storyCompliments[Math.floor(Math.random() * storyCompliments.length)];
-        output.textContent = `${c1}\n${c2}`;
+      if (!last || now - parseInt(last) > 3600000) {
+        const msg = compliments[Math.floor(Math.random() * compliments.length)];
+        document.getElementById(targetId).textContent = msg;
+        localStorage.setItem(storageKey, now);
       } else {
-        output.textContent = "❌ Parola yanlış";
-      }
-    }
-
-    function checkMakeupPassword() {
-      const pass = document.getElementById("makeupPassword").value;
-      const output = document.getElementById("makeupComplimentText");
-      if (pass === "kalp" || userKey === adminKey) {
-        const c1 = makeupCompliments[Math.floor(Math.random() * makeupCompliments.length)];
-        const c2 = makeupCompliments[Math.floor(Math.random() * makeupCompliments.length)];
-        output.textContent = `${c1}\n${c2}`;
-      } else {
-        output.textContent = "❌ Parola yanlış";
+        document.getElementById(targetId).textContent = "⏳ Bu buton saatte bir kullanılabilir.";
       }
     }
 
@@ -107,13 +129,25 @@
       document.getElementById("btnGittim").addEventListener("click", () => {
         document.getElementById("girisEkrani").classList.add("hidden");
         document.getElementById("falEkrani").classList.remove("hidden");
-        showFal();
+
+        const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
+        const falTextElement = document.getElementById("falText");
+        falTextElement.textContent = "";
+        let index = 0;
+
+        function yazdir() {
+          if (index < falMetni.length) {
+            falTextElement.textContent += falMetni.charAt(index);
+            index++;
+            setTimeout(yazdir, 25);
+          }
+        }
+        yazdir();
       });
 
       const handleCarkYonlendirme = () => {
         const visited = localStorage.getItem("visitedWheel");
-        const currentKey = localStorage.getItem("userKey") || "";
-        if (currentKey !== adminKey && visited === "true") {
+        if (visited === "true") {
           alert("🎯 Çark sadece bir kez çevrilebilir. Yarın yine bekleriz!");
         } else {
           localStorage.setItem("visitedWheel", "true");
@@ -123,6 +157,14 @@
 
       document.getElementById("btnGitmedim").addEventListener("click", handleCarkYonlendirme);
       document.getElementById("btnDuymadim").addEventListener("click", handleCarkYonlendirme);
+
+      document.getElementById("btnGunlukIltifat").addEventListener("click", () => {
+        saatlikButonKontrol("btnGunlukIltifat", "gunlukIltifatTime", storyCompliments, "iltifatMesaji");
+      });
+
+      document.getElementById("btnMakeupIltifat").addEventListener("click", () => {
+        saatlikButonKontrol("btnMakeupIltifat", "makeupIltifatTime", makeupCompliments, "makeupMesaji");
+      });
     });
   </script>
 </body>

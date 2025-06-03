@@ -69,7 +69,7 @@ window.fallar = [
 🌻 Bir çiçeğin güneşe dönmesi gibi, sen de yeniden umuda yöneliyorsun.
 📩 Gelecekten gelen bir haber, seni sevindirecek ve bir dönüm noktası yaratacak.
 ✨ Ve o andan sonra, içindeki yıldızlar çok daha parlak olacak.`
-     `🪬 Bu aralar içinde kıpırdayan bir şey var, fark ettin mi?  
+  `🪬 Bu aralar içinde kıpırdayan bir şey var, fark ettin mi?`
 🔍 Belirsizlikler seni korkutsa da bu, ruhunun genişlemeye başladığının işareti.  
 🫂 Yakın çevrenden biri, aslında senin düşündüğünden çok daha fazla seni düşünüyor.  
 🔄 Bir döngü kapanmak üzere ve bu kapanış sana yeni bir kapı açacak.  

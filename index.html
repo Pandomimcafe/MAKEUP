@@ -83,23 +83,12 @@
 
   <!-- JavaScript Gömülü -->
   <script>
-    // fallar değişkenini güvenli şekilde başlat
     let fallar = [];
   </script>
   <script src="fallar.js"></script>
+  <script src="storyCompliments.js"></script>
+  <script src="makeupCompliments.js"></script>
   <script>
-    const storyCompliments = [
-      "🌟 Senin enerjin, bulunduğun ortama neşe ve canlılık katıyor.",
-      "💫 Varlığın, bir gülümseme kadar sade ama etkili.",
-      "🌈 Bugün senin günün, içindeki ışık herkesi etkileyecek."
-    ];
-
-    const makeupCompliments = [
-      "💄 Güzelliğin sadece dış görünüşünde değil, iç dünyanda da parlıyor.",
-      "👑 Kendine olan güvenin, seni çok daha çekici kılıyor.",
-      "🌹 Sen doğal halinle bile ışıldıyorsun."
-    ];
-
     function saatlikButonKontrol(id, storageKey, compliments, targetId) {
       const now = Date.now();
       const last = localStorage.getItem(storageKey);
@@ -123,7 +112,22 @@
           return;
         }
 
-        const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
+        let gosterilmeyenFallar = fallar.slice();
+        let oncekiFallar = JSON.parse(localStorage.getItem("oncekiFallar") || "[]");
+
+        gosterilmeyenFallar = fallar.filter(fal => !oncekiFallar.includes(fal));
+        if (gosterilmeyenFallar.length === 0) {
+          oncekiFallar = [];
+          gosterilmeyenFallar = fallar.slice();
+        }
+
+        const falMetni = gosterilmeyenFallar[Math.floor(Math.random() * gosterilmeyenFallar.length)];
+        oncekiFallar.push(falMetni);
+        if (oncekiFallar.length > 5) {
+          oncekiFallar = oncekiFallar.slice(-5);
+        }
+        localStorage.setItem("oncekiFallar", JSON.stringify(oncekiFallar));
+
         const falTextElement = document.getElementById("falText");
         falTextElement.textContent = "";
         let index = 0;

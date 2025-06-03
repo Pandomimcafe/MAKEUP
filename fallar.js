@@ -1,4 +1,7 @@
-let fallar = [
+window.fallar = [
+  `...fal metinleri...`
+];
+ fallar = [
   `🕊 Özgürleşmenin eşiğindesin, sadece bir adım kaldı. 🌸 Sabırla beklediğin şeyler, sonunda seni bulmaya geliyor. ☀️ Güneş yeniden senin için doğuyor. 🫧 Her şey düşündüğünden daha iyi olacak, sadece biraz daha sabır. 🔥 Kalbinde taşıdığın umut, seni yeniden ayağa kaldıracak. ✨ Yenilenme konusunda seni şaşırtacak gelişmeler kapıda. 🌙 Geçmişin gölgesinden sıyrılıp yepyeni bir sayfa açıyorsun.`,
   `💌 Bugün aldığın bir mesaj seni düşündürecek. 🌸 Sabırla beklediğin şeyler, sonunda seni bulmaya geliyor. 🌙 Geçmişin gölgesinden sıyrılıp yepyeni bir sayfa açıyorsun. 🕊 Özgürleşmenin eşiğindesin, sadece bir adım kaldı. 🔮 Alacağın bir haber rotanı değiştirecek gibi görünüyor. 🫧 Her şey düşündüğünden daha iyi olacak, sadece biraz daha sabır. 💫 İç sesin bugün sana büyük bir ipucu verebilir.`,
   `🕊 Özgürleşmenin eşiğindesin, sadece bir adım kaldı. ✨ Sürpriz konusunda seni şaşırtacak gelişmeler kapıda. ☀️ Güneş yeniden senin için doğuyor. ✨ Yıldızlar senin adına hizalanıyor olabilir. 🔥 Kalbinde taşıdığın umut, seni yeniden ayağa kaldıracak. 🌸 Sabırla beklediğin şeyler, sonunda seni bulmaya geliyor. 🦋 Hiç beklemediğin bir anda yüzünü güldürecek olaylar yaşanacak.`,

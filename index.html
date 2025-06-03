@@ -82,9 +82,6 @@
   <p style="margin-top: 50px; font-size: 14px; color: #777;">Bu uygulamamızı beğendiysen Instagram’da paylaşarak destek olabilirsin 💜</p>
 
   <!-- JavaScript Gömülü -->
-  <script>
-    let fallar = [];
-  </script>
   <script src="fallar.js"></script>
   <script src="storyCompliments.js"></script>
   <script src="makeupCompliments.js"></script>
@@ -107,18 +104,18 @@
         document.getElementById("girisEkrani").classList.add("hidden");
         document.getElementById("falEkrani").classList.remove("hidden");
 
-        if (!fallar || !Array.isArray(fallar) || fallar.length === 0) {
+        if (!window.fallar || !Array.isArray(window.fallar) || window.fallar.length === 0) {
           document.getElementById("falText").textContent = "Fal verisi yüklenemedi. Lütfen sayfayı yenileyin.";
           return;
         }
 
-        let gosterilmeyenFallar = fallar.slice();
+        let gosterilmeyenFallar = window.fallar.slice();
         let oncekiFallar = JSON.parse(localStorage.getItem("oncekiFallar") || "[]");
 
-        gosterilmeyenFallar = fallar.filter(fal => !oncekiFallar.includes(fal));
+        gosterilmeyenFallar = window.fallar.filter(fal => !oncekiFallar.includes(fal));
         if (gosterilmeyenFallar.length === 0) {
           oncekiFallar = [];
-          gosterilmeyenFallar = fallar.slice();
+          gosterilmeyenFallar = window.fallar.slice();
         }
 
         const falMetni = gosterilmeyenFallar[Math.floor(Math.random() * gosterilmeyenFallar.length)];

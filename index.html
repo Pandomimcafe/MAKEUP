@@ -153,11 +153,11 @@
       document.getElementById("btnDuymadim").addEventListener("click", handleCarkYonlendirme);
 
       document.getElementById("btnGunlukIltifat").addEventListener("click", () => {
-        saatlikButonKontrol("btnGunlukIltifat", "gunlukIltifatTime", storyCompliments, "iltifatMesaji");
+        saatlikButonKontrol("btnGunlukIltifat", "gunlukIltifatTime", window.storyCompliments, "iltifatMesaji");
       });
 
       document.getElementById("btnMakeupIltifat").addEventListener("click", () => {
-        saatlikButonKontrol("btnMakeupIltifat", "makeupIltifatTime", makeupCompliments, "makeupMesaji");
+        saatlikButonKontrol("btnMakeupIltifat", "makeupIltifatTime", window.makeupCompliments, "makeupMesaji");
       });
     });
   </script>

@@ -1,0 +1,22 @@
+window.fallar = [
+  "🌟 Kendini ifade etmekten çekinme, bugün sesin yankı bulacak.",
+  "💫 Önünde açılan kapılar seni yepyeni bir hayata taşıyabilir.",
+  "🌙 Gece ne kadar karanlık olursa olsun, sabah mutlaka doğar.",
+  "🔥 İçinde bir kıvılcım var, doğru yer ve zamanda alevlenmek üzere.",
+  "🦋 Hayatındaki değişim, beklemediğin güzellikleri beraberinde getirecek.",
+  "🌈 Bugün bir tebessüm bile mucizelere kapı aralayabilir.",
+  "✨ Yıldızların senin için sıralandığı bir gün olabilir.",
+  "🕊 Hafifle, geçmişi serbest bırak, gelecek seni karşılamaya hazır.",
+  "🌻 Sabırlı ol, kök saldığın yerden çiçek açacaksın.",
+  "🔮 Sezgilerin bugün rehberin olacak, onları küçümseme.",
+  "💌 Kalbinde tuttuğun dilek, evrenin kulağına fısıldandı bile.",
+  "🌊 Dalgalara karşı yüzme, bazen akış seni doğru kıyıya taşır.",
+  "☀️ Işığını saklama, çevrendekiler seninle aydınlanıyor.",
+  "🌟 Küçük bir adım, büyük bir yolculuğun başlangıcı olabilir.",
+  "🍀 Şans senden yana; yeter ki fark etmeyi bil.",
+  "🧿 Bugün aldığın küçük işaretlere dikkat et, rastlantı değil.",
+  "🌹 Güzellik bazen detaylarda saklıdır, yavaşla ve fark et.",
+  "💭 Düşlerin seninle konuşma şekli; bugün onu iyi dinle.",
+  "🗝 Kalbinin anahtarı sende; açmaya hazır ol.",
+  "🎯 Niyetin netse, evren seninle iş birliğine girer."
+];

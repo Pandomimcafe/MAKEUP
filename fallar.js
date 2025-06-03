@@ -1,5 +1,5 @@
 window.fallar = [
-  `...fal metinleri...`
+  
 ];
  fallar = [
   `🕊 Özgürleşmenin eşiğindesin, sadece bir adım kaldı. 🌸 Sabırla beklediğin şeyler, sonunda seni bulmaya geliyor. ☀️ Güneş yeniden senin için doğuyor. 🫧 Her şey düşündüğünden daha iyi olacak, sadece biraz daha sabır. 🔥 Kalbinde taşıdığın umut, seni yeniden ayağa kaldıracak. ✨ Yenilenme konusunda seni şaşırtacak gelişmeler kapıda. 🌙 Geçmişin gölgesinden sıyrılıp yepyeni bir sayfa açıyorsun.`,

@@ -82,77 +82,83 @@
   <p style="margin-top: 50px; font-size: 14px; color: #777;">Bu uygulamamızı beğendiysen Instagram’da paylaşarak destek olabilirsin 💜</p>
 
   <!-- JavaScript Gömülü -->
+  <script>
+    // fallar değişkenini güvenli şekilde başlat
+    let fallar = [];
+  </script>
   <script src="fallar.js"></script>
-<script>
-  const fallar = [];
-// Gerçek fallar dış dosyadan yüklenecek
+  <script>
+    const storyCompliments = [
+      "🌟 Senin enerjin, bulunduğun ortama neşe ve canlılık katıyor.",
+      "💫 Varlığın, bir gülümseme kadar sade ama etkili.",
+      "🌈 Bugün senin günün, içindeki ışık herkesi etkileyecek."
+    ];
 
-const storyCompliments = [
-  "🌟 Senin enerjin, bulunduğun ortama neşe ve canlılık katıyor.",
-  "💫 Varlığın, bir gülümseme kadar sade ama etkili.",
-  "🌈 Bugün senin günün, içindeki ışık herkesi etkileyecek."
-];
+    const makeupCompliments = [
+      "💄 Güzelliğin sadece dış görünüşünde değil, iç dünyanda da parlıyor.",
+      "👑 Kendine olan güvenin, seni çok daha çekici kılıyor.",
+      "🌹 Sen doğal halinle bile ışıldıyorsun."
+    ];
 
-const makeupCompliments = [
-  "💄 Güzelliğin sadece dış görünüşünde değil, iç dünyanda da parlıyor.",
-  "👑 Kendine olan güvenin, seni çok daha çekici kılıyor.",
-  "🌹 Sen doğal halinle bile ışıldıyorsun."
-];
+    function saatlikButonKontrol(id, storageKey, compliments, targetId) {
+      const now = Date.now();
+      const last = localStorage.getItem(storageKey);
 
-function saatlikButonKontrol(id, storageKey, compliments, targetId) {
-  const now = Date.now();
-  const last = localStorage.getItem(storageKey);
-
-  if (!last || now - parseInt(last) > 3600000) {
-    const msg = compliments[Math.floor(Math.random() * compliments.length)];
-    document.getElementById(targetId).textContent = msg;
-    localStorage.setItem(storageKey, now);
-  } else {
-    document.getElementById(targetId).textContent = "⏳ Bu buton saatte bir kullanılabilir.";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("btnGittim").addEventListener("click", () => {
-    document.getElementById("girisEkrani").classList.add("hidden");
-    document.getElementById("falEkrani").classList.remove("hidden");
-
-    const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
-    const falTextElement = document.getElementById("falText");
-    falTextElement.textContent = "";
-    let index = 0;
-
-    function yazdir() {
-      if (index < falMetni.length) {
-        falTextElement.textContent += falMetni.charAt(index);
-        index++;
-        setTimeout(yazdir, 25);
+      if (!last || now - parseInt(last) > 3600000) {
+        const msg = compliments[Math.floor(Math.random() * compliments.length)];
+        document.getElementById(targetId).textContent = msg;
+        localStorage.setItem(storageKey, now);
+      } else {
+        document.getElementById(targetId).textContent = "⏳ Bu buton saatte bir kullanılabilir.";
       }
     }
-    yazdir();
-  });
 
-  const handleCarkYonlendirme = () => {
-    const visited = localStorage.getItem("visitedWheel");
-    if (visited === "true") {
-      alert("🎯 Çark sadece bir kez çevrilebilir. Yarın yine bekleriz!");
-    } else {
-      localStorage.setItem("visitedWheel", "true");
-      window.open("https://pandomimcafe.github.io/PANDOM-MCAFE/", "_self");
-    }
-  };
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("btnGittim").addEventListener("click", () => {
+        document.getElementById("girisEkrani").classList.add("hidden");
+        document.getElementById("falEkrani").classList.remove("hidden");
 
-  document.getElementById("btnGitmedim").addEventListener("click", handleCarkYonlendirme);
-  document.getElementById("btnDuymadim").addEventListener("click", handleCarkYonlendirme);
+        if (!fallar || !Array.isArray(fallar) || fallar.length === 0) {
+          document.getElementById("falText").textContent = "Fal verisi yüklenemedi. Lütfen sayfayı yenileyin.";
+          return;
+        }
 
-  document.getElementById("btnGunlukIltifat").addEventListener("click", () => {
-    saatlikButonKontrol("btnGunlukIltifat", "gunlukIltifatTime", storyCompliments, "iltifatMesaji");
-  });
+        const falMetni = fallar[Math.floor(Math.random() * fallar.length)];
+        const falTextElement = document.getElementById("falText");
+        falTextElement.textContent = "";
+        let index = 0;
 
-  document.getElementById("btnMakeupIltifat").addEventListener("click", () => {
-    saatlikButonKontrol("btnMakeupIltifat", "makeupIltifatTime", makeupCompliments, "makeupMesaji");
-  });
-});
+        function yazdir() {
+          if (index < falMetni.length) {
+            falTextElement.textContent += falMetni.charAt(index);
+            index++;
+            setTimeout(yazdir, 25);
+          }
+        }
+        yazdir();
+      });
+
+      const handleCarkYonlendirme = () => {
+        const visited = localStorage.getItem("visitedWheel");
+        if (visited === "true") {
+          alert("🎯 Çark sadece bir kez çevrilebilir. Yarın yine bekleriz!");
+        } else {
+          localStorage.setItem("visitedWheel", "true");
+          window.open("https://pandomimcafe.github.io/PANDOM-MCAFE/", "_self");
+        }
+      };
+
+      document.getElementById("btnGitmedim").addEventListener("click", handleCarkYonlendirme);
+      document.getElementById("btnDuymadim").addEventListener("click", handleCarkYonlendirme);
+
+      document.getElementById("btnGunlukIltifat").addEventListener("click", () => {
+        saatlikButonKontrol("btnGunlukIltifat", "gunlukIltifatTime", storyCompliments, "iltifatMesaji");
+      });
+
+      document.getElementById("btnMakeupIltifat").addEventListener("click", () => {
+        saatlikButonKontrol("btnMakeupIltifat", "makeupIltifatTime", makeupCompliments, "makeupMesaji");
+      });
+    });
   </script>
 </body>
 </html>

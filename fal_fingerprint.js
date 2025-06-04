@@ -30,18 +30,18 @@ function sendFalToSheet(fal) {
 }
 
 // Günlük fal kontrolü
-function checkFalHistory(fingerprint) {
+function checkFalHistory() {
   fetch("https://api.sheetbest.com/sheets/057a0181-a151-48c6-98f9-cbff6fdc4bf3")
     .then(res => res.json())
     .then(data => {
       const today = new Date().toDateString();
-      const kayitli = data.find(row =>
+      const bugunkuFal = data.find(row =>
         row.fingerprint === fingerprint &&
         new Date(row.timestamp).toDateString() === today
       );
 
-      if (kayitli) {
-        showFal(kayitli.fal);
+      if (bugunkuFal) {
+        showFal(bugunkuFal.fal);
       } else {
         const randomFal = fallar[Math.floor(Math.random() * fallar.length)];
         showFal(randomFal);
@@ -54,6 +54,6 @@ function checkFalHistory(fingerprint) {
 FingerprintJS.load().then(fp => {
   fp.get().then(result => {
     fingerprint = result.visitorId;
-    checkFalHistory(fingerprint);
+    checkFalHistory();
   });
 });

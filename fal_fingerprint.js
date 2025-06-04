@@ -1,4 +1,5 @@
-﻿let fingerprint = null;
+let fingerprint = null;
+
 let fallar = [
   "🧿 Bugün sezgilerine güven, seni doğru yola götürecek.",
   "🌙 Geçmişin yüklerinden sıyrıldıkça ruhun hafifleyecek.",
@@ -15,7 +16,7 @@ function showFal(text) {
   if (box) box.innerText = text;
 }
 
-// Falı sheet.best'e gönder
+// Falı Sheet.best'e gönder
 function sendFalToSheet(fal) {
   fetch("https://api.sheetbest.com/sheets/057a0181-a151-48c6-98f9-cbff6fdc4bf3", {
     method: "POST",
@@ -28,16 +29,17 @@ function sendFalToSheet(fal) {
   });
 }
 
-// Daha önce fal bakılmış mı?
+// Günlük fal kontrolü
 function checkFalHistory(fingerprint) {
-  const today = new Date().toISOString().split("T")[0];
-
   fetch("https://api.sheetbest.com/sheets/057a0181-a151-48c6-98f9-cbff6fdc4bf3")
     .then(res => res.json())
     .then(data => {
+      const today = new Date().toDateString();
       const kayitli = data.find(row =>
-        row.fingerprint === fingerprint && row.timestamp.startsWith(today)
+        row.fingerprint === fingerprint &&
+        new Date(row.timestamp).toDateString() === today
       );
+
       if (kayitli) {
         showFal(kayitli.fal);
       } else {
@@ -48,7 +50,7 @@ function checkFalHistory(fingerprint) {
     });
 }
 
-// FingerprintJS yükle
+// FingerprintJS başlat
 FingerprintJS.load().then(fp => {
   fp.get().then(result => {
     fingerprint = result.visitorId;

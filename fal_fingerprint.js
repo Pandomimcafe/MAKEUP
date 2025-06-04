@@ -1,5 +1,7 @@
+// Kullanıcıyı tanımlamak için fingerprint değişkeni
 let fingerprint = null;
 
+// Gösterilecek fal cümleleri
 let fallar = [
   "🧿 Bugün sezgilerine güven, seni doğru yola götürecek.",
   "🌙 Geçmişin yüklerinden sıyrıldıkça ruhun hafifleyecek.",
@@ -10,13 +12,13 @@ let fallar = [
   "🦋 Küçük bir değişiklik, büyük bir huzur getirebilir."
 ];
 
-// Falı göster
+// Fal metnini sayfada göster
 function showFal(text) {
   const box = document.getElementById("falText");
   if (box) box.innerText = text;
 }
 
-// Falı Sheet.best'e gönder
+// Fal verisini Sheet.best'e gönder
 function sendFalToSheet(fal) {
   fetch("https://api.sheetbest.com/sheets/057a0181-a151-48c6-98f9-cbff6fdc4bf3", {
     method: "POST",
@@ -29,28 +31,34 @@ function sendFalToSheet(fal) {
   });
 }
 
-// Günlük fal kontrolü
+// UTC tarih karşılaştırması için gün formatı
+function getDateKey(date) {
+  const d = new Date(date);
+  return d.getUTCFullYear() + "-" + d.getUTCMonth() + "-" + d.getUTCDate();
+}
+
+// Daha önce bugün fal alınmış mı kontrol eder
 function checkFalHistory() {
   fetch("https://api.sheetbest.com/sheets/057a0181-a151-48c6-98f9-cbff6fdc4bf3")
     .then(res => res.json())
     .then(data => {
-      const today = new Date().toDateString();
+      const todayKey = getDateKey(new Date());
       const bugunkuFal = data.find(row =>
         row.fingerprint === fingerprint &&
-        new Date(row.timestamp).toDateString() === today
+        getDateKey(row.timestamp) === todayKey
       );
 
       if (bugunkuFal) {
-        showFal(bugunkuFal.fal);
+        showFal(bugunkuFal.fal); // Daha önceki falı göster
       } else {
         const randomFal = fallar[Math.floor(Math.random() * fallar.length)];
-        showFal(randomFal);
-        sendFalToSheet(randomFal);
+        showFal(randomFal);           // Yeni fal göster
+        sendFalToSheet(randomFal);    // Ve tabloya kaydet
       }
     });
 }
 
-// FingerprintJS başlat
+// FingerprintJS yüklenip ziyaretçi tanımlandığında işlemi başlat
 FingerprintJS.load().then(fp => {
   fp.get().then(result => {
     fingerprint = result.visitorId;
